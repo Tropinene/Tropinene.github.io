@@ -162,8 +162,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="gcc指令详解"><a href="#gcc指令详解" class="headerlink" title="gcc指令详解"></a>gcc指令详解</h1>
-        
+        <a id="more"></a>
+
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc(选项)(参数)</span><br></pre></td></tr></table></figure>
+
+<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-o: 指定生成的输出文件</span><br><span class="line">-E:	仅执行编译预处理</span><br><span class="line">-S: 将c代码转换为汇编代码</span><br><span class="line">-wall: 显示警告信息</span><br><span class="line">-c: 仅执行编译操作，不进行连接操作</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ul>
+<li><pre><code class="shell">gcc test.c
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  将&#96;test.c&#96;预处理、汇编、编译并连接形成可执行文件。默认输出为&#96; a.out&#96;</span><br><span class="line"></span><br><span class="line">* &#96;&#96;&#96;shell</span><br><span class="line">  gcc test.c -o test</span><br></pre></td></tr></table></figure>
+
+将`test.c`预处理、汇编、编译并连接形成指定的可执行文件` test`
+` -o`用来指定输出文件的文件名。</code></pre>
+</li>
+<li><pre><code class="shell">gcc -E test.c -o test.i
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  将&#96; test.c&#96;仅执行预处理操作，生成&#96; test.i &#96;文件。</span><br><span class="line"></span><br><span class="line">* &#96;&#96;&#96;she</span><br><span class="line">  gcc -S test.i</span><br></pre></td></tr></table></figure>
+
+将预处理文件`  test.i `汇编成` test.s`文件。</code></pre>
+</li>
+<li><p>```she<br>gcc test.o -o test</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  将目标文件&#96; test.o &#96;连接成可执行文件&#96; test &#96;</span><br><span class="line"></span><br><span class="line">* &#96;&#96;&#96;shell</span><br><span class="line">  gcc test1.c test2.c -o test</span><br></pre></td></tr></table></figure>
+
+<p>将<code> test1.c</code>与<code>test2.c</code>分别编译后连接成可执行文件<code> test</code></p>
+<p>此命令相当于：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -c test1.c</span><br><span class="line">gcc -c test2.c</span><br><span class="line">gcc -o test1.o test2.o -o test</span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
 
       
