@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://example.com/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png">
 <meta property="og:image" content="http://example.com/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/2.png">
 <meta property="article:published_time" content="2020-11-05T05:41:21.000Z">
-<meta property="article:modified_time" content="2020-11-05T10:35:48.195Z">
+<meta property="article:modified_time" content="2020-11-05T10:37:25.584Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
@@ -196,14 +196,10 @@
 <h4 id="3-2-2-硬件中断的处理（以时钟中断为例）"><a href="#3-2-2-硬件中断的处理（以时钟中断为例）" class="headerlink" title="3.2.2 硬件中断的处理（以时钟中断为例）"></a>3.2.2 硬件中断的处理（以时钟中断为例）</h4><p>​        简单地来说，中断处理经过了三个流程，<strong>中断触发</strong>，<strong>判断可以处理还是忽略</strong>，<strong>可以处理时调用处理函数</strong>。</p>
 <ul>
 <li><p>中断触发：<br>时钟中断的触发条件是这个<strong>hart（硬件线程）的时间比较器mtimecmp小于实数计数器mtime</strong>。</p>
-<ul>
-<li><p>判断是否可处理：</p>
-<p>当时钟中断触发时，并不一定会响应中断信号。Machine mode只有在全局中断使能位<strong>mstatus[mie]置位</strong>时才会产生中断，如果在Supervisor mode下触发了Machine mode的中断，此时<strong>无视</strong>mstatus[mie]直接响应，即运行在低权限模式下，高权限模式的全局中断使能位一直是enable状态。此外，每个中断在控制状态寄存器mie中都有自己的使能位，对于特定中断来说，需要考虑自己对应的使能位，而控制状态寄存器mip中又指示目前待处理的中断。以时钟中断为例，只有当<strong>mstatus[mie]=1，mie[mtie]=1，且mip[mtip]=1</strong>时，才可以处理机器的时钟中断。其中<strong>mstatus[mie]以及mie[mtie]需要我们自己设置，而mip[mtip]在中断触发时会被硬件自动置位。</strong></p>
 </li>
-<li><p>调用处理函数：</p>
-<p>当满足对应中断的处理条件时，硬件首先会发生一些状态转换（参考中文手册10.3节），并跳转到对应的异常处理函数中，在异常处理函数中我们可以通过分析异常产生的原因判断具体为哪一种，然后执行对应的处理。为了处理异常结束后不影响hart正常的运行状态，我们首先需要保存当前的状态即上下文切换。我们可以先用栈上的一段空间来把寄存器保存，保存完之后执行到我们编写的异常处理函数主体，结束后退出。函数调用规范可以参考中文开源手册全3部.2节。</p>
+<li><p>判断是否可处理：<br>当时钟中断触发时，并不一定会响应中断信号。Machine mode只有在全局中断使能位<strong>mstatus[mie]置位</strong>时才会产生中断，如果在Supervisor mode下触发了Machine mode的中断，此时<strong>无视</strong>mstatus[mie]直接响应，即运行在低权限模式下，高权限模式的全局中断使能位一直是enable状态。此外，每个中断在控制状态寄存器mie中都有自己的使能位，对于特定中断来说，需要考虑自己对应的使能位，而控制状态寄存器mip中又指示目前待处理的中断。以时钟中断为例，只有当<strong>mstatus[mie]=1，mie[mtie]=1，且mip[mtip]=1</strong>时，才可以处理机器的时钟中断。其中<strong>mstatus[mie]以及mie[mtie]需要我们自己设置，而mip[mtip]在中断触发时会被硬件自动置位。</strong></p>
 </li>
-</ul>
+<li><p>调用处理函数：<br>当满足对应中断的处理条件时，硬件首先会发生一些状态转换（参考中文手册10.3节），并跳转到对应的异常处理函数中，在异常处理函数中我们可以通过分析异常产生的原因判断具体为哪一种，然后执行对应的处理。为了处理异常结束后不影响hart正常的运行状态，我们首先需要保存当前的状态即上下文切换。我们可以先用栈上的一段空间来把寄存器保存，保存完之后执行到我们编写的异常处理函数主体，结束后退出。函数调用规范可以参考中文开源手册全3部.2节。</p>
 </li>
 </ul>
 <h4 id="3-2-3-同步异常的处理"><a href="#3-2-3-同步异常的处理" class="headerlink" title="3.2.3  同步异常的处理"></a>3.2.3  同步异常的处理</h4><p>​        同步异常的触发条件是当前指令<strong>执行了未经定义的行为</strong>，比如Illegal instruction，也没有判断可以处理还是忽略的步骤，硬件会直接经历一些状态转换，然后跳到对应的异常处理函数。又比如环境调用同步异常ecall主要是用于低权限的mode需要高权限的mode的相关操作时使用的，比如U-mode call S-mode 通常用于使用系统调用，而S-mode call M-mode通常用于在S-mode操作某些硬件，这在本实验会用到。<br>​        需要注意的是，不管是中断还是同步异常，都会经历相似的硬件状态转换，并跳到同一个异常处理地址（<strong>由mtvec/stvec指定</strong>），再由处理函数分析异常出现原因并进行不同的处理。</p>
