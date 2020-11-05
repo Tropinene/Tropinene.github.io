@@ -6,28 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>操作系统实验---lab0 | 小歪的博客</title>
+  <title>操作系统实验---lab1 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="lab0 实验报告">
+  <meta name="description" content="lab 1：RISC-V移植 实验报告">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统实验---lab0">
-<meta property="og:url" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:title" content="操作系统实验---lab1">
+<meta property="og:url" content="http://example.com/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="lab0 实验报告">
+<meta property="og:description" content="lab 1：RISC-V移植 实验报告">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/2.jpg">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/3.jpg">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/4.jpg">
-<meta property="og:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/5.jpg">
-<meta property="article:published_time" content="2020-11-04T15:23:22.000Z">
-<meta property="article:modified_time" content="2020-11-04T17:17:32.232Z">
+<meta property="og:image" content="http://example.com/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png">
+<meta property="og:image" content="http://example.com/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png">
+<meta property="article:published_time" content="2020-11-04T17:17:57.000Z">
+<meta property="article:modified_time" content="2020-11-05T05:06:55.375Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png">
+<meta name="twitter:image" content="http://example.com/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
   
@@ -155,170 +150,158 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-lab0-实验报告" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-lab1-实验报告" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      操作系统实验---lab0
+      操作系统实验---lab1
     </h1>
   
 
         
-        <a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T15:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
+        <a href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
+  	<time datetime="2020-11-04T17:17:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="lab0-实验报告"><a href="#lab0-实验报告" class="headerlink" title="lab0 实验报告"></a>lab0 实验报告</h1><a id="more"></a>
+        <h1 id="lab-1：RISC-V移植-实验报告"><a href="#lab-1：RISC-V移植-实验报告" class="headerlink" title="lab 1：RISC-V移植 实验报告"></a>lab 1：RISC-V移植 实验报告</h1><a id="more"></a>
 
-<h1 id="4-1-搭建docker环境"><a href="#4-1-搭建docker环境" class="headerlink" title="4.1 搭建docker环境"></a>4.1 搭建docker环境</h1><p>1.从阿里云下载docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>curl用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。</p>
-<ul>
-<li><code>-f</code> ：显示错误信息而非错误页面的 HTML</li>
+<h2 id="1-实验简介"><a href="#1-实验简介" class="headerlink" title="1.实验简介"></a>1.实验简介</h2><p> 学习RISC-V相关知识，Makefile相关知识，编写head.S实现bootloader的功能，并利⽤Makefile来完成对整个⼯程的管理。</p>
+<h2 id="2-实验环境"><a href="#2-实验环境" class="headerlink" title="2.实验环境"></a>2.实验环境</h2><ul>
+<li>Docker in Lab0</li>
 </ul>
+<h2 id="3-实验基础知识介绍"><a href="#3-实验基础知识介绍" class="headerlink" title="3.实验基础知识介绍"></a>3.实验基础知识介绍</h2><h3 id="3-1-Bootloader介绍"><a href="#3-1-Bootloader介绍" class="headerlink" title="3.1 Bootloader介绍"></a>3.1 Bootloader介绍</h3><p>  BootLoader是系统加电后运⾏的第⼀段代码，它在操作系统内核运⾏之前运⾏，可以分为<strong>Booter</strong>和<strong>Loader</strong>，Booter是<strong>初始化系统硬件</strong>使之能够运⾏起来；Loader是<strong>建⽴内存空间映射图</strong>，将操作系统镜像加载到内存中，并跳转过去运⾏。经过Bootloader的引导加载后，系统就会退出bootloader程序，启动并运⾏操作系统，此后交由Linux内核接管。</p>
+<p>Bootloader启动可分为两个阶段：</p>
+<p>  第⼀阶段主要包含依赖于CPU的体系结构硬件初始化的代码，通常都⽤汇编语⾔来实现。这个阶段的任务为基本的硬件设备初始化（屏蔽所有的中断、关闭处理器内部指令/数据Cache等）、设置堆栈、跳转到第⼆阶段的C程序⼊⼝点。本实验中对应为head.S的编写，操作相关寄存器，实现模式切换、中断关闭、程序跳转等。</p>
+<p>  第⼆阶段通常⽤C语⾔完成，以便实现更复杂的功能，也使程序有更好的可读性和可移植性。这个阶段的任务有：初始化本阶段要使⽤到的硬件设备、检测系统内存映射、为内核设置启动参数等，它为内核的运⾏完成所需的初始化和准备⼯作。</p>
+<h3 id="3-2-寄存器介绍"><a href="#3-2-寄存器介绍" class="headerlink" title="3.2 寄存器介绍"></a>3.2 寄存器介绍</h3><p>  寄存器是计算机中最基本的概念，是中央处理器⽤来存放数据，地址以及指令的部件。⼀般⽽⾔，寄存器都有各⾃的功能，⽐如数据寄存器⼀般⽤来保存操作数和运算结果等，指针寄存器⼀般⽤来存放堆栈内存存储的偏移量等。⽽RISC-V中寄存器的种类以及功能详细的信息可以参考RISC-V⼿册以及The RISC-V Instruction Set Manual。接下来我们对实验中需要⽤到的⼏个寄存器进⾏介绍。</p>
+<h4 id="mstatus寄存器"><a href="#mstatus寄存器" class="headerlink" title="mstatus寄存器"></a>mstatus寄存器</h4><p>  mstatus寄存器，即Machine Status Register，是⼀种CSRs(Control and Status Registers)，其中m代表machine mode（参考3.6 Mode介绍），此寄存器中保持跟踪以及控制hart(hardware thread)的运算状态。⽐如mie和mip都对应mstatus上的某些bit位，所以通过对mstatus进⾏⼀下按位运算，可以实现对不同bit位的设置，从⽽控制不同运算状态（具体的mstatus位的布局请参考The RISC-V Instruction Set Manual 3.1.6节）。</p>
+<p>  同时注意此处的mie和mip指的是mstatus上的状态位。</p>
+<h4 id="mie以及mip寄存器"><a href="#mie以及mip寄存器" class="headerlink" title="mie以及mip寄存器"></a>mie以及mip寄存器</h4><p>  mie以及mip寄存器是Machine Interrup Registers，⽤来保存<strong>中断相关</strong>的⼀些信息，通过mstatus上mie以及mip位的设置，以及mie和mip本身两个寄存器的设置可以实现对硬件中断的控制。mie以及mip具体的布局及各个位的解释请参考The RISC-V Instruction Set Manual 3.1.9节。</p>
+<h4 id="mtvec寄存器"><a href="#mtvec寄存器" class="headerlink" title="mtvec寄存器"></a>mtvec寄存器</h4><p>  mtvec(即Machine Trap-Vector Base-Address Register)寄存器，主要保存machine mode下的<strong>trap vector</strong>（可理解为中断向量）的设置，其包含⼀个基地址以及⼀个mode。具体布局以及介绍请参考The RISC-V Instruction Set Manual 3.1.7节。</p>
+<h4 id="stvec寄存器"><a href="#stvec寄存器" class="headerlink" title="stvec寄存器"></a>stvec寄存器</h4><p>  stvec(即Supervisor Trap Vector Bass Address Register)寄存器，其作⽤与mtvec类似，区别是保存的是supervisor mode对应的base和mode。具体布局以及介绍请参考The RISC-V Instruction Set Manual 4.1.2节。</p>
+<h4 id="sp寄存器"><a href="#sp寄存器" class="headerlink" title="sp寄存器"></a>sp寄存器</h4><p>  sp寄存器即栈顶指针寄存器，栈是程序运⾏中⼀个基本概念，栈顶指针寄存器是⽤来保存当前栈的栈顶地址的寄存器。</p>
+<h3 id="3-3-Makefile介绍"><a href="#3-3-Makefile介绍" class="headerlink" title="3.3 Makefile介绍"></a>3.3 Makefile介绍</h3><p>  Makefile是⼀种实现关系<strong>整个⼯程编译规则</strong>的⽂件，在Lab0中我们已经使⽤了make⼯具利⽤Makefile⽂件来管理整个⼯程，那么什么是编译，以及Makefile的作⽤是什么，如何编写Makefile，请参考<a target="_blank" rel="noopener" href="https://seisman.github.io/how-to-write-makefile/index.html">Makefile介绍</a>进⾏学习，为之后实验步骤打好基础。</p>
+<h3 id="3-4-Linux-Basic"><a href="#3-4-Linux-Basic" class="headerlink" title="3.4 Linux Basic"></a>3.4 Linux Basic</h3><p>  仿照Linux Kernel的结构，下图是本次实验需要遵循的⽂件结构。除了3.3介绍的Makefile，图中head.S是本实验最主要的部分，承担了BootLoader的⼯作；main.c中包含了⼀个 <code>start_kernel</code> 函数，是程序最终到达的函数；test.h、test.c中包含了⼀个 <code>os_test</code> 函数，它是本实验的测试函数，会被start_kernel函数调⽤。本部分的Linux基础知识将围绕下图中其他的⽂件展开。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">lab1</span><br><span class="line">├── arch</span><br><span class="line">|    └── riscv</span><br><span class="line">|          ├── boot</span><br><span class="line">|          |     └── Image</span><br><span class="line">|          ├── include</span><br><span class="line">|          ├── kernel</span><br><span class="line">|          |      ├── head.S</span><br><span class="line">|          |      ├── Makefile</span><br><span class="line">|          |      └── vmlinux.lds</span><br><span class="line">|          └── Makefile</span><br><span class="line">├── include</span><br><span class="line">|      └── test.h</span><br><span class="line">├── init</span><br><span class="line">|     ├── main.c</span><br><span class="line">|     ├── Makefile</span><br><span class="line">|     └── test.c</span><br><span class="line">├── Makefile </span><br><span class="line">├── System.map </span><br><span class="line">└── vmlinux</span><br></pre></td></tr></table></figure>
+
+<h4 id="什么是vmlinux"><a href="#什么是vmlinux" class="headerlink" title="什么是vmlinux"></a>什么是vmlinux</h4><p>  vmlinux通常指<strong>Linux Kernel编译出的可执⾏⽂件</strong>（Executable and Linkable Format， ELF），特点是未压缩的，带调试信息和符号表的。在本实验中，vmlinux通常指将你的代码进⾏编译，链接后⽣成的可供QEMU运⾏的RISC-V 64-bit架构程序。如果对vmlinux使⽤<strong>file</strong>命令，你将看到如下信息：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file vmlinux </span></span><br><span class="line">vmlinux: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), statically linked, not stripped</span><br></pre></td></tr></table></figure>
+
+<h4 id="什么是System-map"><a href="#什么是System-map" class="headerlink" title="什么是System.map"></a>什么是System.map</h4><p>  System.map是<strong>内核符号表（Kernel Symbol Table）⽂件</strong>，是存储了所有内核符号及其地址的⼀个列表。“符号”通常指的是函数名，全局变量名等等。使⽤ <code>nm vmlinux</code> 命令即可打印vmlinux的符号表，符号表的样例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0000000000000800 A __vdso_rt_sigreturn </span><br><span class="line">ffffffe000000000 T __init_begin </span><br><span class="line">ffffffe000000000 T _sinittext </span><br><span class="line">ffffffe000000000 T _start </span><br><span class="line">ffffffe000000040 T _start_kernel </span><br><span class="line">ffffffe000000076 t clear_bss </span><br><span class="line">ffffffe000000080 t clear_bss_done </span><br><span class="line">ffffffe0000000c0 t relocate </span><br><span class="line">ffffffe00000017c t set_reset_devices </span><br><span class="line">ffffffe000000190 t debug_kernel</span><br></pre></td></tr></table></figure>
+
+<p>      使⽤System.map可以⽅便地读出函数或变量的地址，为Debug提供了⽅便。</p>
+<h4 id="什么是vmlinux-lds"><a href="#什么是vmlinux-lds" class="headerlink" title="什么是vmlinux.lds"></a>什么是vmlinux.lds</h4><p>  GNU ld即链接器，⽤于将*.o⽂件（和库⽂件）链接成可执⾏⽂件。在操作系统开发中，为了指定程序的内存布局，ld使⽤链接脚本（Linker Script）来控制，在Linux Kernel中链接脚本被命名为vmlinux.lds。更多关于ld的介绍可以使⽤ <code>man ld</code> 命令。</p>
+<p>​     下⾯给出⼀个vmlinux.lds的例⼦：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ⽬标架构 */</span></span><br><span class="line">OUTPUT_ARCH( <span class="string">&quot;riscv&quot;</span> )</span><br><span class="line"><span class="comment">/* 程序⼊⼝ */</span></span><br><span class="line">ENTRY( _start )</span><br><span class="line"><span class="comment">/* 程序起始地址 */</span>BASE_ADDR = <span class="number">0x80000000</span>; SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* . 代表当前地址 */</span></span><br><span class="line">  . = BASE_ADDR;</span><br><span class="line">  <span class="comment">/* code 段 */</span></span><br><span class="line">  .text : &#123; *(.text) &#125;</span><br><span class="line">  <span class="comment">/* data 段 */</span></span><br><span class="line">  .rodata : &#123; *(.rodata) &#125;   .data : &#123; *(.data) &#125;</span><br><span class="line">  .bss : &#123; *(.bss) &#125;</span><br><span class="line">  . += <span class="number">0x8000</span>;</span><br><span class="line">  <span class="comment">/* 栈顶 */</span></span><br><span class="line">  stack_top = .;</span><br><span class="line">  <span class="comment">/* 程序结束地址 */</span></span><br><span class="line">  _end = .;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  ⾸先我们使⽤OUTPUT_ARCH指定了架构为RISC-V，之后使⽤ENTRY指定程序⼊⼝点为<code> _start</code>函数，程序⼊⼝点即程序启动时运⾏的函数，经过这样的指定后在head.S中需要编写 <code>_start</code>函数，程序才能正常运⾏。<br>  链接脚本中有<code> .</code> <code>*</code>两个重要的符号。单独的 .在链接脚本代表当前地址，它有赋值、被赋值、⾃增等操作。⽽ <code>*</code>有两种⽤法，其⼀是 <code>*()</code> 在⼤括号中表示将所有⽂件中符合括号内要求的段放置在当前位置，其⼆是作为通配符。<br>  链接脚本的主体是SECTIONS部分，在这⾥链接脚本的⼯作是将程序的各个段按顺序放在各个地址上，在例⼦中就是从0x80000000地址开始放置了.text，.rodata，.data和.bss段。各个段的作⽤可以简要概括成：</p>
+<table>
+<thead>
+<tr>
+<th>段名</th>
+<th>主要作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.text</td>
+<td>通常存放程序执行代码。</td>
+</tr>
+<tr>
+<td>.rodata</td>
+<td>通常存放常量等只读数据。</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>通常存放已初始化的全局变量、静态变量。</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>通常存放未初始化的全局变量、静态变量。</td>
+</tr>
+</tbody></table>
+<p>  在链接脚本中可以⾃定义符号，例如<code>stack_top</code>与<code>_end</code>都是我们⾃⼰定义的，其中<code>stack_top</code>与程序调⽤栈有关。</p>
+<p>  更多有关链接脚本语法可以参考<a target="_blank" rel="noopener" href="https://sourceware.org/binutils/docs/ld/Scripts.html">这⾥</a>。</p>
+<h4 id="什么是image"><a href="#什么是image" class="headerlink" title="什么是image"></a>什么是image</h4><p>  在Linux Kernel开发中，为了对vmlinux进⾏精简，通常使⽤objcopy丢弃调试信息与符号表并⽣成⼆进制⽂件，这就是Image。Lab0中QEMU正是使⽤了Image⽽不是vmlinux运⾏。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> objcopy -O binary vmlinux Image --strip-all</span></span><br></pre></td></tr></table></figure>
+
+<p>  此时再对Image使⽤<strong>file</strong>命令时：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file Image </span></span><br><span class="line">image: data</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-Driver介绍"><a href="#3-5-Driver介绍" class="headerlink" title="3.5 Driver介绍"></a>3.5 Driver介绍</h3><p>  本部分主要是介绍QEMU模拟的 RISC-V Virt 计算机访问外设的⽅法。简要的说，RISC-V使⽤MMIO（Memory Mapped I/O）技术，将外设映射到各个物理地址，这样我们可以通过访问物理地址来操作外设。在<a target="_blank" rel="noopener" href="https://github.com/qemu/qemu/blob/master/hw/riscv/virt.c">virt.c</a>的virt_memmap[]中有各个外设的物理地址。本次实验只需要关注<strong>0x10000000</strong>地址即VIRT_UART0，它是串⼝，通过向串⼝写⼊字符我们可以将它们打印出来。</p>
+<p>  在test.c中有⼀个 <code>putChar</code> 函数使⽤了串⼝，打印所需的字符串。这只是⼀个最简单的版本，最终我们可以利⽤这个串⼝实现 <code>printf</code> 函数。</p>
+<h3 id="3-6-Mode介绍"><a href="#3-6-Mode介绍" class="headerlink" title="3.6 Mode介绍"></a>3.6 Mode介绍</h3><p>  RISC-V有三个特权模式：U（user）模式、S（supervisor）模式和M（machine）模式。它通过设置不同的特权级别模式来管理系统资源的使⽤。其中M模式是最⾼级别，该模式下的操作被认为是安全可信的，主要为对硬件的操作；U模式是最低级别，该模式主要执⾏⽤户程序，操作系统中对应于⽤户态；S模式介于M模式和U模式之间，操作系统中对应于内核态，当⽤户需要内核资源时，向内核申请，并切换到内核态进⾏处理。</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Encoding</th>
+<th>Name</th>
+<th>Abbreviation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>00</td>
+<td>User/Application</td>
+<td>U</td>
+</tr>
+<tr>
+<td>1</td>
+<td>01</td>
+<td>Supervisor</td>
+<td>S</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>Reserved</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>11</td>
+<td>Machine</td>
+<td>M</td>
+</tr>
+</tbody></table>
+<h2 id="4-实验步骤"><a href="#4-实验步骤" class="headerlink" title="4.实验步骤"></a>4.实验步骤</h2><h3 id="4-1-搭建实验环境"><a href="#4-1-搭建实验环境" class="headerlink" title="4.1 搭建实验环境"></a>4.1 搭建实验环境</h3><ul>
+<li>新建本地目录</li>
+<li>查看当前docker镜像</li>
+</ul>
+<p><img src="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png" alt="0"></p>
 <ul>
-<li>   <code>-s</code> ：不显示统计信息</li>
-<li>   <code>-S</code>：参数指定只输出错误信息，通常与 <code>-s</code>一起使用。</li>
-<li>   <code>-L</code>：参数会让 HTTP 请求跟随服务器的重定向。curl 默认不跟随重定向。</li>
+<li><p>创建新的容器，同时建⽴ volumn 映射</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -v `pwd`:/home/oslab/lab1 -u oslab -w /home/oslab 30bf /bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-v dir1 : dir2</code>:  <code>dir1</code> 是宿主机内的目录，<code>dir2</code> 是容器内的目录。比如此处宿主机内的目录为 <code>pwd=/home/sisba1by/lab1</code>，容器内的目录为 <code>/home/oslab/lab1</code></li>
 </ul>
 </li>
-<li><p><code>bash</code> , GNU Bourne-Again Shell 。此处用做启动 bash 子进程。</p>
+<li><p>测试是否建立成功</p>
 <ul>
-<li><code>-s</code> ：指定操作数从标准输入获得。这里就是获得 curl 的结果。</li>
+<li><code>touch</code> : 创建一个空的<code>testfile</code>文件。此处在容器内创建后，打开新的terminal发现宿主机内也生成了一个<code>testfile</code>文件，说明映射建立成功。</li>
 </ul>
+<p><img src="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png" alt="1"></p>
 </li>
-<li><p>此处遇到第一个问题：curl工具未装，于是我先装了curl再重新执行1的代码</p>
-</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install curl</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-编写Makefile"><a href="#4-2-编写Makefile" class="headerlink" title="4.2 编写Makefile"></a>4.2 编写Makefile</h3><h3 id="4-1-1-组织文件结构"><a href="#4-1-1-组织文件结构" class="headerlink" title="4.1.1 组织文件结构"></a>4.1.1 组织文件结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">lab1</span><br><span class="line">├── arch</span><br><span class="line">|    └── riscv</span><br><span class="line">|          ├── boot</span><br><span class="line">|          |     └── Image</span><br><span class="line">|          ├── include</span><br><span class="line">|          ├── kernel</span><br><span class="line">|          |      ├── head.S</span><br><span class="line">|          |      ├── Makefile</span><br><span class="line">|          |      └── vmlinux.lds</span><br><span class="line">|          └── Makefile</span><br><span class="line">├── include</span><br><span class="line">|      └── test.h</span><br><span class="line">├── init</span><br><span class="line">|     ├── main.c</span><br><span class="line">|     ├── Makefile</span><br><span class="line">|     └── test.c</span><br><span class="line">├── Makefile </span><br><span class="line">├── System.map </span><br><span class="line">└── vmlinux</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/0.png"></p>
-<p>2.导入docker镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat oslab.tar | docker import - oslab:2020</span><br></pre></td></tr></table></figure>
+<h4 id="4-1-2-编写各级Makefile"><a href="#4-1-2-编写各级Makefile" class="headerlink" title="4.1.2 编写各级Makefile"></a>4.1.2 编写各级Makefile</h4><h5 id="Makefile-lab1"><a href="#Makefile-lab1" class="headerlink" title="Makefile_lab1"></a>Makefile_lab1</h5><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span>                        <span class="comment"># 向下层传递变量</span></span><br><span class="line">CROSS_= riscv64-unknown-elf-  <span class="comment"># 交叉编译器</span></span><br><span class="line">AR=$&#123;CROSS_&#125;ar  </span><br><span class="line">GCC=$&#123;CROSS_&#125;gcc              <span class="comment"># 设置C语言编译器</span></span><br><span class="line">LD=$&#123;CROSS_&#125;ld</span><br><span class="line">OBJCOPY=$&#123;CROSS_&#125;objcopy</span><br><span class="line">ISA ?= rv64imafd</span><br><span class="line">ABI ?= lp64</span><br><span class="line">INCLUDE = -I ../<span class="keyword">include</span></span><br><span class="line">CF = -O3 -march=<span class="variable">$(ISA)</span> -mabi=<span class="variable">$(ABI)</span> -mcmodel=medany -ffunction-sections -fdata-sections -nostartfiles -nostdlib -nostdinc -static -lgcc -Wl,--nmagic -Wl,--gc-sections</span><br><span class="line">CFLAG = $&#123;CF&#125; $&#123;INCLUDE&#125;</span><br><span class="line">run : </span><br><span class="line"> 	make -C init               <span class="comment"># 调用init路径下的makefile</span></span><br><span class="line"> 	make -C arch/riscv         <span class="comment"># 进入arch/riscv</span></span><br><span class="line"> 	qemu-system-riscv64 -nographic -machine virt -kernel vmlinux</span><br><span class="line">debug : </span><br><span class="line">	 qemu-system-riscv64 -nographic -machine virt -kernel vmlinux -S -s</span><br><span class="line">.PHONY : clean</span><br><span class="line">clean :                       <span class="comment"># 删除.o文件</span></span><br><span class="line">	 rm init/edit init/main.o init/test.o arch/riscv/kernel/head.o \  		</span><br><span class="line">	 arch/riscv/boot/Image System.map vmlinux</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>此命令返回了一串哈希码。</li>
-<li><code>cat</code>：（英文全拼：concatenate）命令用于连接文件并打印到标准输出设备上。</li>
-</ul>
-<p>3.查看docker镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>返回<code>repository</code>, <code>tag</code>, <code>iamge ID</code>, <code>created</code>, <code>size</code>等数据，可以看得见docker镜像已经成功创建。</li>
-</ul>
-<p>4.从docker镜像创建一个容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it oslab:2020 /bin/bash</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-i</code>： 交互式操作</li>
-<li><code>-t</code>： 终端</li>
-<li><code>/bin/bash</code>：  因为docker后台必须运行一个进程，否则容器就会退出，在这里表示启动容器后启动<code>bash</code></li>
-<li>此时，提示符从<code>$</code>变成<code>#</code>，表示成功进入容器。</li>
-<li>然后输入<code>exit</code>退出容器</li>
-</ul>
-<p>5.查看当前运行的容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>ps</code> (process status)命令： 用于显示当前进程的状态。</li>
-<li>发现没有返回值，说明并无容器在运行。</li>
-</ul>
-<p>6.查看所有存在的容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>此时发现我们之前创建的容器<code>86966b010fed</code>，并且目前状态是<code>EXITED(0)</code>，而且是在16s前关闭的。</li>
-</ul>
-<p>7.启动停止了的容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start 869</span><br></pre></td></tr></table></figure>
-
-<p>8.再查看当前运行的程序</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>现在有返回值，说明已经有容器启动。</li>
-</ul>
-<p>9.进入已经运行的容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it -u root 869 /bin/bash</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>docker exec</code>： 在已经运行的容器中执行命令。<ul>
-<li><code>-i</code>：交互式操作</li>
-<li><code>-t</code>：终端。</li>
-<li><code>-u oslab</code>：设置用户名为oslab</li>
-</ul>
-</li>
-<li>可以看见提示符已经变成了<code>#</code>，说明进入容器成功。</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png"></p>
-<hr>
-<h2 id="4-2-编译Linux内核"><a href="#4-2-编译Linux内核" class="headerlink" title="4.2 编译Linux内核"></a>4.2 编译Linux内核</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export TOP=`pwd`</span><br><span class="line">export RISCV=/opt/riscv</span><br><span class="line">export PATH=$PATH:$RISCV/bin</span><br><span class="line">mkdir -p build/linux</span><br><span class="line">make -C linux O=$TOP/build/linux CROSS_COMPILE=riscv64-unknown-linux-gnu- ARCH=riscv CONFIG_DEBUG_INFO=y defconfig all -j$(nproc)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>环境变量在子进程中仍然有效，而其他变量则无法延伸到子进程中。所以通过指令 <code>export [var]=[value]</code>，使环境变量 <code>var</code> 值为 <code>value</code>。</li>
-<li><code>make</code> 的作用是根据给出文件的内容进行构建。<ul>
-<li><code>-C DIR</code> ：在读取 <code>Makefile</code> 之前，进入到目录 <code>DIR</code>，然后执行 <code>make</code></li>
-<li><code>o=DIR</code> ：规定输出路径为 <code>DIR</code>。<ul>
-<li>此处不得不说，一开始不懂指令的意思，我把O打成了0使程序一直报错，并且检查不出来，最终还是在同学的帮助下我才发现了这个错误。</li>
-</ul>
-</li>
-<li><code>CROSS_COMPILE=</code> 确定将要使用的交叉编译器。</li>
-<li><code>ARCH=</code> 确定要在哪个架构下执行。</li>
-</ul>
-</li>
-<li>第一次的时候交叉编译器写成了 <code>riscv64-unknown-linux-gnu</code>导致后面<code>qemu</code>不能使用</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png"></p>
-<hr>
-<h2 id="4-3-使用qemu运行内核"><a href="#4-3-使用qemu运行内核" class="headerlink" title="4.3 使用qemu运行内核"></a>4.3 使用qemu运行内核</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-riscv64 -nographic -machine virt -kernel </span><br><span class="line">build/linux/arch/riscv/boot/Image -device virtio-blk-device,drive=hd0 -append &quot;root=/dev/vda ro console=ttyS0&quot; -bios default -drive </span><br><span class="line">file=rootfs.ext4,format=raw,id=hd0 -netdev user,id=net0 -device virtio-net-device,netdev=net0</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>CTRL+c</code>是无法退出的，要使用<code>CTRL+a</code>才能退出</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/2.jpg"></p>
-<hr>
-<h2 id="4-4-使用gdb对内核进行调试"><a href="#4-4-使用gdb对内核进行调试" class="headerlink" title="4.4 使用gdb对内核进行调试"></a>4.4 使用gdb对内核进行调试</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-riscv64 -nographic -machine virt -kernel </span><br><span class="line">build/linux/arch/riscv/boot/Image -device virtio-blk-device,drive=hd0 -append &quot;root=/dev/vda ro console=ttyS0&quot; -bios default -drive </span><br><span class="line">file=rootfs.ext4,format=raw,id=hd0 -netdev user,id=net0 -device virtio-net-device,netdev=net0 -S -s</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-nographic</code>: 不使用图形窗口，使用命令行</li>
-<li><code>-machine</code>: 指定要emulate的机器，可以通过命令<code>qemu-system-riscv64 -machine help</code>查看可选择的机器选项</li>
-</ul>
-<ul>
-<li>   <code>-kernel</code>: 指定内核image</li>
-<li>   <code>append cmdline</code>: 使用cmdline作为内核的命令行</li>
-<li>   <code>-device</code>: 指定要模拟的设备，可以通过命令<code>qemu-system-riscv64 -device help</code>查看可选择的设备，通过命令<code>qemu-system-riscv64 -device &lt;具体的设备&gt;,help</code>查看某个设备的命令选项</li>
-<li>   <code>drive, le=&lt;le_name&gt;</code>: 使用<code>le</code>作为文件系统</li>
-<li>   <code>netdev user,id=str</code>: 指定user mode的虚拟网卡, 指定ID为str</li>
-<li>   <code>-S</code>: 启动时暂停CPU执行(使用’c’启动执行)</li>
-<li>   <code>-s</code>: -gdb tcp::1234 的简写</li>
-<li>   <code>-bios default</code>: 使用默认的OpenSBI rmware作为bootloader</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/3.jpg" alt="3"></p>
-<ul>
-<li>此处应先有两个进入docker的terminal，再令其中一个terminal进入qemu。我一开始先进了qemu，再打开的第二个terminal，结果第二个terminal无法进入docker。</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/4.jpg" alt="4"></p>
-<ul>
-<li>输入指令 <code>continue</code>以后，第一个terminal才继续执行代码。</li>
-</ul>
-<p><img src="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/5.jpg" alt="5"></p>
-<ul>
-<li><code>CTRL+A</code> 再输入x退出。</li>
-</ul>
-<hr>
-<h2 id="5-心得与体会"><a href="#5-心得与体会" class="headerlink" title="5 心得与体会"></a>5 心得与体会</h2><ul>
-<li>明白指令内容真的很重要，并且千万千万不能打错，就像之前提到的O打成0，完全检查不出语句那里出问题了。</li>
-<li>还有很多操作其实不能完全明白他的使用，只能浅显得知道在这里能干什么。做不到举一反三。并且baidu和Google得到的解释都十分的学术化，使我并没有完全吃透这些指令。还是得多多使用Linux，多使用这些操作。</li>
-<li>lab0的实验指导还是十分地详尽，基本上是靠着pdf里的步骤一步一步走的，但我还是重装了一次系统。总而言之，对于Linux的不熟悉，导致我不是很敢尝试这些陌生的代码，lab0是一次熟悉命令行指令，熟悉Linux系统的一个好机会。</li>
+<li><code>exprot</code> :  向下层传递变量。</li>
+<li><code>CROSS_= riscv64-unknown-elf-</code> :  设置交叉编译器。 </li>
+<li><code>GCC=$&#123;CROSS_&#125;gcc</code>： 设置C语言编译器。</li>
+<li><code>make -C init</code>：调用init路径下的makefile。 </li>
+<li><code>clean</code> ：删除.o文件。</li>
 </ul>
 
       
@@ -410,7 +393,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -424,18 +407,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          操作系统实验---lab1
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">GCC</div>
+    <a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">操作系统实验---lab0</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -462,7 +436,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="toc-number">1.</span> <span class="toc-text">lab0 实验报告</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-1-%E6%90%AD%E5%BB%BAdocker%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">4.1 搭建docker环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%BC%96%E8%AF%91Linux%E5%86%85%E6%A0%B8"><span class="toc-number">2.1.</span> <span class="toc-text">4.2 编译Linux内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E4%BD%BF%E7%94%A8qemu%E8%BF%90%E8%A1%8C%E5%86%85%E6%A0%B8"><span class="toc-number">2.2.</span> <span class="toc-text">4.3 使用qemu运行内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E4%BD%BF%E7%94%A8gdb%E5%AF%B9%E5%86%85%E6%A0%B8%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95"><span class="toc-number">2.3.</span> <span class="toc-text">4.4 使用gdb对内核进行调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%BF%83%E5%BE%97%E4%B8%8E%E4%BD%93%E4%BC%9A"><span class="toc-number">2.4.</span> <span class="toc-text">5 心得与体会</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lab-1%EF%BC%9ARISC-V%E7%A7%BB%E6%A4%8D-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="toc-number">1.</span> <span class="toc-text">lab 1：RISC-V移植 实验报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.实验简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.</span> <span class="toc-text">2.实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%9E%E9%AA%8C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.</span> <span class="toc-text">3.实验基础知识介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Bootloader%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 Bootloader介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%AF%84%E5%AD%98%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 寄存器介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mstatus%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">mstatus寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mie%E4%BB%A5%E5%8F%8Amip%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">mie以及mip寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mtvec%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">mtvec寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stvec%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">stvec寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sp%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">sp寄存器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Makefile%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 Makefile介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-Linux-Basic"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4 Linux Basic</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFvmlinux"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">什么是vmlinux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSystem-map"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">什么是System.map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFvmlinux-lds"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">什么是vmlinux.lds</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFimage"><span class="toc-number">1.3.4.4.</span> <span class="toc-text">什么是image</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-Driver%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.5 Driver介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-Mode%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.6.</span> <span class="toc-text">3.6 Mode介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.4.</span> <span class="toc-text">4.实验步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%90%AD%E5%BB%BA%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 搭建实验环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%BC%96%E5%86%99Makefile"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 编写Makefile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E7%BB%84%E7%BB%87%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.1.1 组织文件结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-%E7%BC%96%E5%86%99%E5%90%84%E7%BA%A7Makefile"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">4.1.2 编写各级Makefile</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Makefile-lab1"><span class="toc-number">1.4.3.1.1.</span> <span class="toc-text">Makefile_lab1</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
