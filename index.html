@@ -146,6 +146,171 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-hexo-常见指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">hexo</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2020-11-06T11:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="hexo-常用指令"><a href="#hexo-常用指令" class="headerlink" title="hexo 常用指令"></a>hexo 常用指令</h1><ul>
+<li><p><code>hexo new</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo new [layout] &lt;title&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用此指令可以新建一篇文章，可以简写成<code>hexo n</code></li>
+<li><code>layout</code> <strong>可选参数</strong>，用以指定文章类型，无指定则由<code>_config.yml</code>文件里的<code>default_layout</code>选项决定。</li>
+<li><code>title</code> <strong>必填参数</strong>，用以指定文章标题。</li>
+</ul>
+</li>
+<li><p><code>hexo generate</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo generate</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用于生成静态文件，一般可以简写成<code>hexo s</code></li>
+<li><code>-d</code>：选项，指定生成后部署。相当于<code>hexo d -g</code></li>
+</ul>
+</li>
+<li><p><code>hexo server</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo server</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用于启动本地服务器，可以简写为<code>hexo s</code></li>
+<li><code>-p</code>：指定服务器端口，默认为<code>localhost: 4000</code></li>
+<li><code>-i</code>：指定服务器ip地址，默认为<code>0.0.0.0</code></li>
+<li><code>-s</code>：静态模式，仅提供public文件夹中的文件并禁用文件监视。</li>
+</ul>
+<p><strong>注意：</strong>运行服务器前需要安装<code>hexo-server</code>插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install hexo-server --save</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><code>hexo server -p 5000</code> 更改端口为5000</p>
+</li>
+<li><p><code>hexo server -1 192.168.1.1</code> 自定义IP</p>
+</li>
+<li><p><code>hexo clean</code> 清除缓存</p>
+</li>
+<li><p><code>hexo deploy</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo deploy</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用于部署网站，可以简写为<code>hexo d</code></li>
+<li><code>-g</code>：选项，指定生成后部署，与<code>hexo g -d</code>等价</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong>部署前要修改<code>_config.yml</code>配置文件，如github</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:<span class="comment">//github.com/Tropinene/Tropinene.github.io.git</span></span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>hexo clean</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo clean</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用于清理缓存文件</li>
+<li><strong>网站显示异常时可以尝试此操作</strong></li>
+</ul>
+</li>
+<li><p><code>hexo --safe</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo --safe</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表示安全模式，用于禁用加载插件和脚本</li>
+<li><strong>安装新插件遇到问题可以尝试此操作</strong></li>
+</ul>
+</li>
+<li><p><code>hexo --debug</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo --debug</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表示调试模式，将消息详细记录到终端和<code>debug.log</code>文件</li>
+</ul>
+</li>
+<li><p><code>hexo --silent</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo --silent</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>静默模式，用于静默输出到终端</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Deployer <span class="keyword">not</span> found: git</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：<code>npm install hexo-deployer-git --save</code> </p>
+<ul>
+<li>在<code>Git Bash</code>里可能会报错找不到<code>npm</code>，这个时候用<code>cmd</code>打开，在<code>/blog</code>（根目录下）直接运行这条指令就可以调用<code>npm</code>安装。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-lab2-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -532,6 +697,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">os</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
             
             <div class="clearfix"></div>
