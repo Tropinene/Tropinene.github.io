@@ -6,20 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>lab3-实验报告 | 小歪的博客</title>
+  <title>os读书笔记2 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="实验 3：RISC-V64简单的进程调度实现">
+  <meta name="description" content="第三章 进程本章目标：  引入进程概念 讨论进程的各类特性，包括调度、创建和终止 探讨通过共享内存和消息传递的进程间通信 讨论客户机与服务器系统间的通信">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lab3-实验报告">
-<meta property="og:url" content="http://example.com/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:title" content="os读书笔记2">
+<meta property="og:url" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="实验 3：RISC-V64简单的进程调度实现">
+<meta property="og:description" content="第三章 进程本章目标：  引入进程概念 讨论进程的各类特性，包括调度、创建和终止 探讨通过共享内存和消息传递的进程间通信 讨论客户机与服务器系统间的通信">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-08T06:27:25.000Z">
-<meta property="article:modified_time" content="2020-11-08T06:30:49.002Z">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C0.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C1.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C2.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C3.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C4.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C5.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C6.png">
+<meta property="og:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C7.png">
+<meta property="article:published_time" content="2020-11-08T07:09:41.000Z">
+<meta property="article:modified_time" content="2020-11-08T08:06:53.786Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C0.png">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
   
@@ -147,169 +156,176 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-lab3-实验报告" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-os读书笔记2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      lab3-实验报告
+      os读书笔记2
     </h1>
   
 
         
-        <a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-08T06:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
+        <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
+  	<time datetime="2020-11-08T07:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="实验-3：RISC-V64简单的进程调度实现"><a href="#实验-3：RISC-V64简单的进程调度实现" class="headerlink" title="实验 3：RISC-V64简单的进程调度实现"></a>实验 3：RISC-V64简单的进程调度实现</h1><a id="more"></a>
-
-<h2 id="1-实验简介"><a href="#1-实验简介" class="headerlink" title="1. 实验简介"></a>1. 实验简介</h2><ul>
-<li>结合课堂所学习的相关内容，在上一实验实现中断的基础上进一步地实现简单的进程调度 </li>
-</ul>
-<h2 id="2-实验环境"><a href="#2-实验环境" class="headerlink" title="2. 实验环境"></a>2. 实验环境</h2><ul>
-<li>Docker Image</li>
-</ul>
-<h2 id="3-背景知识"><a href="#3-背景知识" class="headerlink" title="3. 背景知识"></a>3. 背景知识</h2><h2 id="3-1-什么是进程"><a href="#3-1-什么是进程" class="headerlink" title="3.1 什么是进程"></a>3.1 什么是进程</h2><p>&emsp;&emsp;<code>源代码</code>经编译器一系列处理（编译、链接、优化等）后得到的可执行文件，我们称之为<code>程序（Program）</code>。而通俗地说，<code>进程（Process）</code>就是<code>正在运行并使用计算机资源</code>的程序。<code>进程</code>与<code>程序</code>的不同之处在于，进程是一个动态的概念，其不仅需要将其运行的程序的代码/数据等加载到内存空间中，还需要拥有自己的<code>运行栈</code>。</p>
-<h2 id="3-2-进程的表示"><a href="#3-2-进程的表示" class="headerlink" title="3.2 进程的表示"></a>3.2 进程的表示</h2><p>&emsp;&emsp;在不同的操作系统中，为每个进程所保存的信息都不同。在这里，我们提供一种基础的实现，每个进程会包括：</p>
+        <h1 id="第三章-进程"><a href="#第三章-进程" class="headerlink" title="第三章 进程"></a>第三章 进程</h1><p><strong>本章目标：</strong></p>
 <ul>
-<li><code>进程ID</code>：用于唯一确认一个进程。</li>
-<li><code>运行时间片</code>：为每个进程分配的运行时间。</li>
-<li><code>优先级</code>：在调度时，配合调度算法，来选出下一个执行的进程。</li>
-<li><code>运行栈</code>：每个进程都必须有一个独立的运行栈，保存运行时的数据。</li>
-<li><code>执行上下文</code>：当进程不在执行状态时，我们需要保存其上下文（其实就是<code>状态寄存器</code>的值），这样之后才能够将其恢复，继续运行。</li>
+<li>引入进程概念</li>
+<li>讨论进程的各类特性，包括调度、创建和终止</li>
+<li>探讨通过共享内存和消息传递的进程间通信</li>
+<li>讨论客户机与服务器系统间的通信</li>
 </ul>
-<h2 id="3-3-进程调度与切换的过程"><a href="#3-3-进程调度与切换的过程" class="headerlink" title="3.3 进程调度与切换的过程"></a>3.3 进程调度与切换的过程</h2><ul>
-<li>在每次时钟中断处理时，操作系统首先会将当前进程的运行剩余时间减少一个单位。之后根据调度算法来确定是继续运行还是调度其他进程来执行。</li>
-<li>在进程调度时，操作系统会对所有可运行的进程进行判断，按照一定规则选出下一个执行的进程。如果没有符合条件的进程，则会对所有进程的优先级和运行剩余时间相关属性进行更新，再重新选择。最终将选择得到的进程与当前进程切换。</li>
-<li>在切换的过程中，首先我们需要保存当前进程的执行上下文，再将将要执行进程的上下文载入到相关寄存器中，至此我们完成了进程的调度与切换。</li>
-</ul>
-<h2 id="4-实验步骤"><a href="#4-实验步骤" class="headerlink" title="4. 实验步骤"></a>4. 实验步骤</h2><h3 id="4-1-环境搭建"><a href="#4-1-环境搭建" class="headerlink" title="4.1 环境搭建"></a>4.1 环境搭建</h3><h4 id="4-1-1-建立映射"><a href="#4-1-1-建立映射" class="headerlink" title="4.1.1 建立映射"></a>4.1.1 建立映射</h4><p>&emsp;&emsp;同lab2的文件夹映射方法，目录名为lab3。</p>
-<h4 id="4-1-2-组织文件结构"><a href="#4-1-2-组织文件结构" class="headerlink" title="4.1.2 组织文件结构"></a>4.1.2 组织文件结构</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">lab3</span><br><span class="line">├── arch</span><br><span class="line">│   └── riscv</span><br><span class="line">│       ├── include</span><br><span class="line">│       │   ├── put.h</span><br><span class="line">│       │   └── sched.h</span><br><span class="line">│       ├── kernel</span><br><span class="line">│       │   ├── entry.S</span><br><span class="line">│       │   ├── head.S</span><br><span class="line">│       │   ├── Makefile</span><br><span class="line">│       │   ├── sched.c</span><br><span class="line">│       │   ├── strap.c</span><br><span class="line">│       │   └── vmlinux.lds</span><br><span class="line">│       └── Makefile</span><br><span class="line">├── include</span><br><span class="line">│   ├── put.h</span><br><span class="line">│   ├── rand.h</span><br><span class="line">│   └── test.h</span><br><span class="line">├── init</span><br><span class="line">│   ├── main.c</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   └── test.c</span><br><span class="line">├── lib</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   ├── put.c</span><br><span class="line">│   └── rand.c</span><br><span class="line">└── Makefile</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 
-<p>&emsp;&emsp;在之前的实验代码的基础上，提供<code>rand.h</code>, <code>rand.c</code>, <code>sched.h</code>给同学们。将lab2中实现的Makefile放置到对应目录下，并在修改相关Makefile，将新增文件纳入到整个编译的工程管理中。</p>
-<h3 id="4-2-rand-h-rand-c介绍"><a href="#4-2-rand-h-rand-c介绍" class="headerlink" title="4.2 rand.h rand.c介绍"></a>4.2 rand.h rand.c介绍</h3><ul>
-<li><code>rand.h</code>中定义<code>SEED</code>。</li>
-<li><code>rand.c</code>中实现了一个随机数迭代器，（产生一系列随机数，用来初始化和更新进程的运行时间块与优先级。保证SEED相同时随机数序列是一样的）。</li>
+<hr>
+<h3 id="3-1-进程概念"><a href="#3-1-进程概念" class="headerlink" title="3.1 进程概念"></a>3.1 进程概念</h3><h4 id="3-1-1-进程"><a href="#3-1-1-进程" class="headerlink" title="3.1.1 进程"></a>3.1.1 进程</h4><ul>
+<li>进程是执行的程序，是活动实体<ul>
+<li>文本段（代码段）</li>
+<li>数据段（全局变量）</li>
+<li>程序计数器</li>
+<li>堆栈（包含临时数据、函数参数、返回地址、局部变量）</li>
 </ul>
-<h3 id="4-3-sched-h数据结构定义"><a href="#4-3-sched-h数据结构定义" class="headerlink" title="4.3 sched.h数据结构定义"></a>4.3 sched.h数据结构定义</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _SCHED_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _SCHED_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TASK_SIZE   (4096)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THREAD_OFFSET  (5 * 0x08)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __ASSEMBLER__</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* task的最大数量 */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NR_TASKS    64</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FIRST_TASK  (task[0])</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LAST_TASK   (task[NR_TASKS-1])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 定义task的状态，Lab3中task只需要一种状态。*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TASK_RUNNING                0</span></span><br><span class="line"><span class="comment">// #define TASK_INTERRUPTIBLE       1</span></span><br><span class="line"><span class="comment">// #define TASK_UNINTERRUPTIBLE     2</span></span><br><span class="line"><span class="comment">// #define TASK_ZOMBIE              3</span></span><br><span class="line"><span class="comment">// #define TASK_STOPPED             4</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PREEMPT_ENABLE  0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PREEMPT_DISABLE 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Lab3中进程的数量以及每个进程初始的时间片 */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LAB_TEST_NUM        4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LAB_TEST_COUNTER    5  </span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 当前进程 */</span></span><br><span class="line"><span class="keyword">extern</span> <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">current</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 进程指针数组 */</span></span><br><span class="line"><span class="keyword">extern</span> <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> * <span class="title">task</span>[<span class="title">NR_TASKS</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 进程状态段数据结构 */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">thread_struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ra;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> sp;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s0;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s1;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s2;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s3;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s4;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s5;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s6;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s7;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s8;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s9;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s10;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> s11;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 进程数据结构 */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">     <span class="keyword">long</span> state;    <span class="comment">// 进程状态 Lab3中进程初始化时置为TASK_RUNNING</span></span><br><span class="line">     <span class="keyword">long</span> counter;  <span class="comment">// 运行剩余时间 </span></span><br><span class="line">     <span class="keyword">long</span> priority; <span class="comment">// 运行优先级 1最高 5最低</span></span><br><span class="line">     <span class="keyword">long</span> blocked;</span><br><span class="line">     <span class="keyword">long</span> pid;      <span class="comment">// 进程标识符</span></span><br><span class="line">    <span class="comment">// Above Size Cost: 40 bytes</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">thread_struct</span> <span class="title">thread</span>;</span> <span class="comment">// 该进程状态段</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 进程初始化 创建四个dead_loop进程 */</span> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_init</span><span class="params">(<span class="keyword">void</span>)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">/* 在时钟中断处理中被调用 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">do_timer</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 调度程序 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">schedule</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 切换当前任务current到下一个任务next */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">switch_to</span><span class="params">(struct task_struct* next)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 死循环 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dead_loop</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-4-sched-c进程调度功能实现"><a href="#4-4-sched-c进程调度功能实现" class="headerlink" title="4.4 sched.c进程调度功能实现"></a>4.4 sched.c进程调度功能实现</h3><h4 id="4-4-1-在中断处理中添加保存epc的指令"><a href="#4-4-1-在中断处理中添加保存epc的指令" class="headerlink" title="4.4.1 在中断处理中添加保存epc的指令"></a>4.4.1 在中断处理中添加保存epc的指令</h4><p>&emsp;&emsp;当<strong>异常</strong>发生时，<strong>epc寄存器</strong>会保存当前的异常返回地址，该地址是与<strong>当前task相关</strong>的。由于task会在异常处理中发生调度，所以我们需要在中断处理时保存当前的epc，当中断处理完成之后再载入<strong>epc</strong>。</p>
-<h4 id="4-4-2-实现-task-init"><a href="#4-4-2-实现-task-init" class="headerlink" title="4.4.2 实现 task_init()"></a>4.4.2 实现 task_init()</h4><ul>
-<li>本实验中，我们使用了多个进程，需要对物理内存区域进行划分。此次实验中我们手动做内存分配，把物理地址空间划分成多个帧(frame)。即，从0x80010000地址开始，连续地给此次实验的 4 个 Task [1-4]以及内核栈 Task[0]做内存分配，我们以 4KB 为粒度，按照每个 task 一帧的形式进行分配。<strong>（请同学按照下图的内存空间分配地址，不要随意修改，否则有可能影响到最终的实验结果）</strong></li>
-<li>为方便起见，我们要求Task [1-4] 进程均为dead_loop。</li>
-<li>可将Task [1-4] 看作是从 0 号进程(Task [0] ) fork 出的子进程，后续实验的实现将主要考虑如何对这四个子进程进行调度。</li>
+</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---------------------------------------------------------------------------</span><br><span class="line">|             |   Task0   |   Task1   |   Task2   |   Task3   |   Task4   |</span><br><span class="line">|   Kernel    |           |           |           |           |           |</span><br><span class="line">|             |   Space   |   Space   |   Space   |   Space   |   Space   |</span><br><span class="line">---------------------------------------------------------------------------</span><br><span class="line">^             ^           ^           ^           ^           ^</span><br><span class="line">0x80000000    0x80010000  0x80011000  0x80012000  0x80013000  0x80014000</span><br></pre></td></tr></table></figure>
-
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C0.png"></p>
+<h4 id="3-1-2-进程状态"><a href="#3-1-2-进程状态" class="headerlink" title="3.1.2  进程状态"></a>3.1.2  进程状态</h4><ul>
+<li>new：创建进程</li>
+<li>running：指令正在执行</li>
+<li>waiting：等待发生某个事件（如I/O完成）</li>
+<li>ready：等待分配处理器</li>
+<li>terminated：完成执行</li>
+</ul>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C1.png"></p>
+<p>一次只有一个进程可在一个处理器上运行（running）；但是许多进程可以处在就绪（ready）或等待（waiting）状态。</p>
+<h4 id="3-1-3-进程控制块"><a href="#3-1-3-进程控制块" class="headerlink" title="3.1.3  进程控制块"></a>3.1.3  进程控制块</h4><ul>
+<li>进程控制块包含许多与某个特定进程相关的信息<ul>
+<li>进程状态</li>
+<li>程序计数器</li>
+<li>CPU寄存器</li>
+<li>CPU调度信息</li>
+<li>内存管理信息</li>
+<li>记账信息</li>
+<li>I/O状态信息</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C2.png"></p>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C3.png"></p>
+<h4 id="3-1-4-线程"><a href="#3-1-4-线程" class="headerlink" title="3.1.4 线程"></a>3.1.4 线程</h4><ul>
+<li>每个进程是一个只能进行单个执行线程的程序</li>
+</ul>
+<hr>
+<h3 id="3-2-进程调度"><a href="#3-2-进程调度" class="headerlink" title="3.2 进程调度"></a>3.2 进程调度</h3><p>目的：使CPU的利用率最大化，需要优化进程调度的方法</p>
+<p>进程调度程序选择一个进程到CPU上执行（一个CPU一个时间段只能执行一个程序，其余程序需要等待CPU空闲重新调度）</p>
+<h4 id="3-2-1-调度队列"><a href="#3-2-1-调度队列" class="headerlink" title="3.2.1  调度队列"></a>3.2.1  调度队列</h4><ul>
+<li>作业队列（job queue）：包含了系统中<strong>所有</strong>的进程</li>
+<li>就绪队列（ready queue）：驻留在<strong>内存</strong>中就绪的，准备运行的进程。该队列通常用链表实现，头结点指向第一个和最后一个PCB块的指针，每个PCB块包括指向下一个PCB的指针域。</li>
+<li>设备队列（device queue）：包含了等待特定IO设备的进程列表。进程可能会有IO请求，请求时可能IO设备在处理其他请求，所以该进程需要等待。</li>
+</ul>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C4.png"></p>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C5.png"></p>
+<h4 id="3-2-2-调度程序"><a href="#3-2-2-调度程序" class="headerlink" title="3.2.2 调度程序"></a>3.2.2 调度程序</h4><ul>
+<li>长期调度程序（long-term schedule） / 作业调度程序（job schedule）：负责从缓冲池中选择进程，装入内存以便执行</li>
+<li>短期调度程序（short-term schedule） / CPU调度程序（CPU schedule）：从执行的进程中选择进程，并为之分配CPU </li>
+<li><strong>各类进程调度的特点：</strong><ul>
+<li>长期调度程序执行的不频繁（进程创建期间可能间隔数分钟）</li>
+<li>短期调度程序执行的非常频繁（毫秒级），因此需要程序执行的速度非常快</li>
+<li>长期调度程序控制多道程序（multiprogramming）设计的程度，在稳定情况下，创建进程的速度应该等于进程离开系统的平均速度</li>
+</ul>
+</li>
+<li><strong>进程的类型</strong><ul>
+<li>IO为主（就是操作主要是IO传输）</li>
+<li>CPU为主（就是操作主要是各种运算）</li>
+</ul>
+</li>
+</ul>
+<p>​       有的系统，如分时系统，加入了中期调度程序（medium-term schedule），其核心思想是能将进程从内存（或CPU竞争中）移出，从而降低多道程序设计的难度，之后，进程可被重新调入内存，并从中断处执行。通过中期调度程序，进程可换出，并在之后换入，这种方案称为交换</p>
+<h4 id="3-2-3-上下文切换"><a href="#3-2-3-上下文切换" class="headerlink" title="3.2.3 上下文切换"></a>3.2.3 上下文切换</h4><ul>
+<li>中断使CPU从当前任务改变为运行内核子程序。当发生一次中断的时候，系统需要保存当前<strong>程序的上下文</strong>，在恢复程序时需要恢复程序的上下文。</li>
+<li>将CPU切换到另一个进程需要保存当前程序的状态并恢复另一个程序的状态，这个任务叫做<strong>上下文切换</strong></li>
+<li><strong>进程的上下文也就是进程的PCB</strong></li>
+<li>上下文切换<ul>
+<li><strong>状态保存</strong>（state save）：保存当前CPU的状态（不论是内核模式还是用户模式）</li>
+<li><strong>状态恢复</strong>（state restore）：重新开始之前保存的状态</li>
+</ul>
+</li>
+<li>上下文切换是额外开销，切换时系统不能做其他任何有用的工作。</li>
+</ul>
+<hr>
+<h3 id="3-3-进程操作"><a href="#3-3-进程操作" class="headerlink" title="3.3  进程操作"></a>3.3  进程操作</h3><h4 id="3-3-1-进程创建"><a href="#3-3-1-进程创建" class="headerlink" title="3.3.1  进程创建"></a>3.3.1  进程创建</h4><ul>
+<li><p>pid：进程标识符。每个进程都有唯一的pid</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 通过ps命令得到一个进程列表</span></span><br><span class="line">ps -el</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建进程的进程为<strong>父进程</strong>，被创建的进程是<strong>子进程</strong>，以此类推，形成了进程树</p>
+</li>
+<li><p>进程是需要一定的资源的（CPU时间，内存，文件，IO设备），在一个进程创建子进程的时候，<strong>在父进程和子进程之间需要分配 / 共享资源，有以下几种情况：</strong></p>
 <ul>
-<li>初始化<code>current</code>与<code>task[0]</code><ul>
-<li>设置<code>current</code>指向<code>Task0 Space</code>的基地址。</li>
-<li>设置<code>task[0]</code> 为 <code>current</code>。</li>
-<li>初始化<code>task[0]</code>中的成员变量<ul>
-<li><code>state</code> = TASK_RUNNING</li>
-<li><code>counter</code> = 0</li>
-<li><code>priority</code> = 5</li>
-<li><code>blocked</code> = 0</li>
-<li><code>pid</code> = 0</li>
+<li>从操作系统那里获取资源</li>
+<li>从父进程中获取资源（限制子进程只能从父进程中获取资源能防止创建过多的进程导致系统超载）</li>
 </ul>
 </li>
-<li>设置<code>task[0]</code>的<code>thread</code>中的<code>sp</code>指针为 Task0 Space基地址 + 4KB的偏移。</li>
-</ul>
-</li>
-<li>参照<code>task[0]</code>的设置，对<code>task[1-4]</code>完成初始化设置 <ul>
-<li>短作业优先非抢占式算法<ul>
-<li>counter = rand()（task[1-4]的初始剩余运行时间均采用rand()得到）</li>
-<li>priority = 5（task[1-4]初始优先级均为5）</li>
-</ul>
-</li>
-<li>优先级抢占式算法<ul>
-<li>counter = 7, 6, 5, 4（分别对应 task[1-4]的运行时长）</li>
-<li>priority = 5（task[1-4]初始优先级均为5）</li>
-</ul>
-</li>
-<li>在初始化时，我们可以将thread中的ra指向一个初始化函数，在函数中我们将dead_loop赋值给的epc寄存器。</li>
-</ul>
-</li>
-</ul>
-<h4 id="4-4-3-实现-do-timer"><a href="#4-4-3-实现-do-timer" class="headerlink" title="4.4.3 实现 do_timer()"></a>4.4.3 实现 do_timer()</h4><ul>
-<li>将当前所运行进程的运行剩余时间减少一个单位（<code>counter--</code>）</li>
-<li>短作业优先非抢占式<ul>
-<li>如果当前进程运行剩余时间已经用完，则进行调度，选择新的进程来运行，否则继续执行当前进程。</li>
-</ul>
-</li>
-<li>优先级抢占式算法<ul>
-<li>每次do_timer都进行一次抢占试优先级调度。当在do_timer中发现当前运行进程剩余运行时间为0（即当前进程已运行结束）时，需重新为该进程分配其对应的运行时长。相当于重启当前进程，即重新设置每个进程的运行时间长度和初始化的值一致。</li>
-</ul>
-</li>
-</ul>
-<h4 id="4-4-4-实现-schedule"><a href="#4-4-4-实现-schedule" class="headerlink" title="4.4.4 实现 schedule()"></a>4.4.4 实现 schedule()</h4><p>&emsp;&emsp;本次实验我们需要实现两种调度算法：1.短作业优先非抢占式算法，2.优先级抢占式算法。</p>
-<h5 id="4-4-4-1-短作业优先非抢占式算法"><a href="#4-4-4-1-短作业优先非抢占式算法" class="headerlink" title="4.4.4.1 短作业优先非抢占式算法"></a>4.4.4.1 短作业优先非抢占式算法</h5><ul>
-<li>当需要进行调度时按照一下规则进行调度：<ul>
-<li>遍历进程指针数组<code>task</code>，从<code>LAST_TASK</code>至<code>FIRST_TASK</code>(不包括<code>FIRST_TASK</code>，即Task[0])，在所有运行状态(TASK_RUNNING)下的进程运行剩余时间<code>最小</code>的进程作为下一个执行的进程。</li>
-<li>如果所有运行状态下的进程运行剩余时间都为0，则对这些进程的运行剩余时间重新随机赋值（<code>以模拟有新的不同运行时间长度的任务生成</code>），之后再重新进行调度。</li>
-</ul>
-</li>
-</ul>
-<h5 id="4-4-4-2-优先级抢占式算法"><a href="#4-4-4-2-优先级抢占式算法" class="headerlink" title="4.4.4.2 优先级抢占式算法"></a>4.4.4.2 优先级抢占式算法</h5><ul>
-<li>遍历进程指针数组<code>task</code>，从<code>LAST_TASK</code>至<code>FIRST_TASK</code>(不包括<code>FIRST_TASK</code>)，调度规则如下：<ul>
-<li><code>高优先级</code>的进程，优先被运行。</li>
-<li><code>优先级相同</code>，则选择<code>运行剩余时间少</code>的进程（若运行剩余时间也相同，则遍历的顺序优先选择）。</li>
-</ul>
-</li>
-<li>每次schedule，实现随机更新Task[1-4]进程的priority = rand()（<code>模拟动态优先级变化</code>）</li>
-</ul>
-<h4 id="4-4-5-实现-switch-to-struct-task-struct-next"><a href="#4-4-5-实现-switch-to-struct-task-struct-next" class="headerlink" title="4.4.5 实现 switch_to(struct task_struct* next)"></a>4.4.5 实现 switch_to(struct task_struct* next)</h4><ul>
-<li>判断下一个执行的进程<code>next</code>与当前的进程<code>current</code>是否为同一个进程，如果是同一个进程，则无需做任何处理。</li>
-<li>实现切换进程的过程<ul>
-<li>保存当前进程的<code>ra</code>, <code>sp</code>, <code>s0~s11</code>到当前进程的<code>进程状态段（thread)</code>中。</li>
-<li>将下一个进程的<code>进程状态段(thread)</code>的相关数据载入到<code>ra</code>, <code>sp</code>, <code>s0~s11</code>中。</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-5-编译及测试"><a href="#4-5-编译及测试" class="headerlink" title="4.5 编译及测试"></a>4.5 编译及测试</h3><p>&emsp;&emsp;仿照lab2进行调试，预期的实验结果如下：(请对test.c做修改，确保输出自己的组号，例第4组修改XX为04)</p>
+<li><p><strong>在进程创建时，该进程会得到：</strong></p>
 <ul>
-<li>短作业优先非抢占式</li>
+<li>各种物理和逻辑资源</li>
+<li>父进程传递来的初始化数据或输入</li>
+<li>通常子进程会返回给父进程自身的标识符（系统中唯一标识进程身份的id）</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZJU OS LAB 3             GROUP-XX</span><br><span class="line">task init...</span><br><span class="line">[PID = 1] Process Create Successfully! counter = 1</span><br><span class="line">[PID = 2] Process Create Successfully! counter = 4</span><br><span class="line">[PID = 3] Process Create Successfully! counter = 5</span><br><span class="line">[PID = 4] Process Create Successfully! counter = 4</span><br><span class="line">[PID = 0] Context Calculation: counter = 0</span><br><span class="line">[!] Switch from task 0 to task 1, prio: 5, counter: 1 // 由于task[1]的剩余运行时间最少，故选择task[1]</span><br><span class="line">[PID = 1] Context Calculation: counter = 1</span><br><span class="line">[!] Switch from task 1 to task 4, prio: 5, counter: 4 // task[1]运行完成之后，当前task[2, 4]的剩余运行时间最少，按照遍历的顺序（由后向前）选择task[4]</span><br><span class="line">[PID = 4] Context Calculation: counter = 4</span><br><span class="line">[PID = 4] Context Calculation: counter = 3</span><br><span class="line">[PID = 4] Context Calculation: counter = 2</span><br><span class="line">[PID = 4] Context Calculation: counter = 1</span><br><span class="line">[!] Switch from task 4 to task 2, prio: 5, counter: 4 // 选择task[2]</span><br><span class="line">[PID = 2] Context Calculation: counter = 4</span><br><span class="line">[PID = 2] Context Calculation: counter = 3</span><br><span class="line">[PID = 2] Context Calculation: counter = 2</span><br><span class="line">[PID = 2] Context Calculation: counter = 1</span><br><span class="line">[!] Switch from task 2 to task 3, prio: 5, counter: 5 // 选择task[3]</span><br><span class="line">[PID = 3] Context Calculation: counter = 5</span><br><span class="line">[PID = 3] Context Calculation: counter = 4</span><br><span class="line">[PID = 3] Context Calculation: counter = 3</span><br><span class="line">[PID = 3] Context Calculation: counter = 2</span><br><span class="line">[PID = 3] Context Calculation: counter = 1</span><br><span class="line">//当task[1-4]都运行完成，重置task[1-4]的counter</span><br><span class="line">[PID = 1] Reset counter = 5</span><br><span class="line">[PID = 2] Reset counter = 5</span><br><span class="line">[PID = 3] Reset counter = 5</span><br><span class="line">[PID = 4] Reset counter = 2</span><br><span class="line">[!] Switch from task 3 to task 4, prio: 5, counter: 2</span><br><span class="line">[PID = 4] Context Calculation: counter = 2</span><br><span class="line">[PID = 4] Context Calculation: counter = 1</span><br><span class="line">[!] Switch from task 4 to task 3, prio: 5, counter: 5</span><br><span class="line">[PID = 3] Context Calculation: counter = 5</span><br><span class="line">[PID = 3] Context Calculation: counter = 4</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在进程执行时，有以下几种情况：</strong></p>
+<ul>
+<li>父进程和子进程并发执行</li>
+<li>父进程等待，直到子进程执行完毕</li>
+</ul>
+</li>
+<li><p><strong>创建的新进程的地址空间有两种可能</strong>：</p>
+<ul>
+<li>子进程是父进程的复制品（有相同的程序和数据）</li>
+<li>子进程内装入另一个新程序</li>
+</ul>
+</li>
+<li><p><strong>关于fork()和exec()：</strong></p>
+<ul>
+<li>fork命令创建一个新的进程</li>
+<li>exec命令在fork命令后执行，用于将新的程序装入进程的内存空间</li>
+</ul>
+</li>
+<li><p>一个简单的例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="comment">/* fork a child process */</span></span><br><span class="line">    pid = fork();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(pid &lt; <span class="number">0</span>) <span class="comment">/* error occurred */</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Fork Failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>) <span class="comment">/* child process */</span></span><br><span class="line">    &#123;</span><br><span class="line">        execlp(<span class="string">&quot;/bin/ls&quot;</span>,<span class="string">&quot;ls&quot;</span>, <span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="comment">/* parent process */</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* parent will wait for the child to complete */</span></span><br><span class="line">        wait(<span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Child Complete&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>优先级抢占式算法</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">ZJU OS LAB 3             GROUP-XX</span><br><span class="line">[PID = 1] Process Create Successfully! counter = 7 priority = 5</span><br><span class="line">[PID = 2] Process Create Successfully! counter = 6 priority = 5</span><br><span class="line">[PID = 3] Process Create Successfully! counter = 5 priority = 5</span><br><span class="line">[PID = 4] Process Create Successfully! counter = 4 priority = 5</span><br><span class="line">[!] Switch from task 0 to task 4, prio: 5, counter: 4 // 此时所有进程的优先级相同，选择剩余运行时间最少的 task[4]</span><br><span class="line">tasks&#x27; priority changed</span><br><span class="line">[PID = 1] counter = 7 priority = 1 // 此时task[1]的优先级最高</span><br><span class="line">[PID = 2] counter = 6 priority = 4</span><br><span class="line">[PID = 3] counter = 5 priority = 5</span><br><span class="line">[PID = 4] counter = 4 priority = 4</span><br><span class="line">[!] Switch from task 4 to task 1, prio: 1, counter: 7</span><br><span class="line">tasks&#x27; priority changed</span><br><span class="line">[PID = 1] counter = 7 priority = 5</span><br><span class="line">[PID = 2] counter = 6 priority = 5</span><br><span class="line">[PID = 3] counter = 5 priority = 5</span><br><span class="line">[PID = 4] counter = 3 priority = 2 // 此时task[4]的优先级最高</span><br><span class="line">[!] Switch from task 1 to task 4, prio: 2, counter: 3</span><br><span class="line">tasks&#x27; priority changed</span><br><span class="line">[PID = 1] counter = 6 priority = 4</span><br><span class="line">[PID = 2] counter = 6 priority = 4</span><br><span class="line">[PID = 3] counter = 5 priority = 4 // 此时task[1 2 3]的优先级最高且相同，由于task[3]的剩余运行时间最少，故选择task[3] </span><br><span class="line">[PID = 4] counter = 3 priority = 5</span><br><span class="line">[!] Switch from task 4 to task 3, prio: 4, counter: 5</span><br><span class="line">tasks&#x27; priority changed</span><br><span class="line">[PID = 1] counter = 6 priority = 5</span><br><span class="line">[PID = 2] counter = 6 priority = 5</span><br><span class="line">[PID = 3] counter = 5 priority = 4</span><br><span class="line">[PID = 4] counter = 2 priority = 2</span><br><span class="line">[!] Switch from task 3 to task 4, prio: 2, counter: 2</span><br><span class="line">tasks&#x27; priority changed</span><br><span class="line">[PID = 1] counter = 6 priority = 5</span><br><span class="line">[PID = 2] counter = 6 priority = 3</span><br><span class="line">[PID = 3] counter = 4 priority = 3 // 此时task[2 3]的优先级最高且相同，由于task[3]的剩余运行时间最少，故选择task[3]</span><br><span class="line">[PID = 4] counter = 2 priority = 4</span><br><span class="line">[!] Switch from task 4 to task 3, prio: 3, counter: 4</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<h2 id="5-实验任务与要求"><a href="#5-实验任务与要求" class="headerlink" title="5. 实验任务与要求"></a>5. 实验任务与要求</h2><p>&emsp;&emsp;请仔细阅读背景知识，确保理解进程调度与进程切换过程，并按照实验步骤完成实验，撰写实验报告，需提交实验报告以及整个工程的压缩包。</p>
+
+</li>
+</ul>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C6.png"></p>
+<hr>
+<h3 id="3-4-进程间通信"><a href="#3-4-进程间通信" class="headerlink" title="3.4 进程间通信"></a>3.4 进程间通信</h3><p>并发执行的进程有两类</p>
 <ul>
-<li>由于本次实验需要完成两个调度算法，因此需要两种调度算法可以使用<code>gcc –D</code>选项进行控制。<ul>
-<li>-DSJF （短作业优先式）。</li>
-<li>-DPRIORITY （优先级抢占式）。<ul>
-<li>在sched.c中使用#<code>ifdef</code> , <code>#endif</code>语句来控制进程调度的代码实现。</li>
+<li><strong>独立进程</strong><br>不能影响其他进程并且不被其他进程影响。</li>
+<li><strong>协作进程</strong><br>能影响其他进程或被其他进程影响</li>
 </ul>
+<p><strong>允许进程协作的优点：</strong></p>
+<ul>
+<li>信息共享</li>
+<li>提高运算速度</li>
+<li>模块化</li>
+<li>方便</li>
+</ul>
+<p>因此协作进程需要一种进程间通信机制（IPC）来允许进程相互交换数据与信息。有<strong>共享内存</strong>和<strong>信息传递</strong>两种类型</p>
+<ul>
+<li><p><strong>共享内存</strong><br>建立一块供协作进程共享的内存区域，进程通过向此共享区域读出或写入数据来交换信息。</p>
 </li>
-<li>修改<code>lab3/Makefile</code>中的 <code>CFLAG = $&#123;CF&#125; $&#123;INCLUDE&#125; -DSJF / -DPRIORITY</code> (作业提交的时候这个随机确定一个即可。)</li>
-</ul>
-</li>
-<li>实验报告：<ul>
-<li>各实验步骤截图以及结果分析</li>
-<li>实验结束后心得体会</li>
-<li>对实验指导的建议（可选）</li>
-</ul>
-</li>
-<li>工程文件    <ul>
-<li>所有source code（确保make clean）</li>
-</ul>
-</li>
-<li>最终目录<ul>
-<li>将Lab3_319010XXXX目录压缩并打包（若分组，则一组只需要一位同学提交）</li>
-</ul>
+<li><p><strong>信息传递</strong><br>通过在协作进程间交换消息来实现通信。</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Lab3_319010XXXX</span><br><span class="line">├── arch</span><br><span class="line">│   └── riscv</span><br><span class="line">│       ├── include</span><br><span class="line">│       │   ├── put.h</span><br><span class="line">│       │   └── sched.h</span><br><span class="line">│       ├── kernel</span><br><span class="line">│       │   ├── entry.S</span><br><span class="line">│       │   ├── head.S</span><br><span class="line">│       │   ├── Makefile</span><br><span class="line">│       │   ├── sched.c</span><br><span class="line">│       │   ├── strap.c</span><br><span class="line">│       │   └── vmlinux.lds</span><br><span class="line">│       └── Makefile</span><br><span class="line">├── include</span><br><span class="line">│   ├── put.h</span><br><span class="line">│   ├── rand.h</span><br><span class="line">│   └── test.h</span><br><span class="line">├── init</span><br><span class="line">│   ├── main.c</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   └── test.c</span><br><span class="line">├── lib</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   ├── put.c</span><br><span class="line">│   └── rand.c</span><br><span class="line">├── Makefile</span><br><span class="line">└── report</span><br><span class="line">    └── 319010XXXX.pdf</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02%5C7.png"></p>
 
       
 
@@ -400,7 +416,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -414,18 +430,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          os读书笔记2
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">os读书笔记1</div>
+    <a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">lab3-实验报告</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -452,7 +459,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C-3%EF%BC%9ARISC-V64%E7%AE%80%E5%8D%95%E7%9A%84%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">实验 3：RISC-V64简单的进程调度实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1. 实验简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.</span> <span class="toc-text">2. 实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="toc-number">1.3.</span> <span class="toc-text">3. 背景知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">3.1 什么是进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.5.</span> <span class="toc-text">3.2 进程的表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%88%87%E6%8D%A2%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">3.3 进程调度与切换的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.7.</span> <span class="toc-text">4. 实验步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.7.1.</span> <span class="toc-text">4.1 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-%E5%BB%BA%E7%AB%8B%E6%98%A0%E5%B0%84"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">4.1.1 建立映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-%E7%BB%84%E7%BB%87%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">4.1.2 组织文件结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-rand-h-rand-c%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.7.2.</span> <span class="toc-text">4.2 rand.h rand.c介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-sched-h%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.7.3.</span> <span class="toc-text">4.3 sched.h数据结构定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-sched-c%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.7.4.</span> <span class="toc-text">4.4 sched.c进程调度功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-1-%E5%9C%A8%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E4%B8%AD%E6%B7%BB%E5%8A%A0%E4%BF%9D%E5%AD%98epc%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.4.1.</span> <span class="toc-text">4.4.1 在中断处理中添加保存epc的指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-2-%E5%AE%9E%E7%8E%B0-task-init"><span class="toc-number">1.7.4.2.</span> <span class="toc-text">4.4.2 实现 task_init()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-3-%E5%AE%9E%E7%8E%B0-do-timer"><span class="toc-number">1.7.4.3.</span> <span class="toc-text">4.4.3 实现 do_timer()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-4-%E5%AE%9E%E7%8E%B0-schedule"><span class="toc-number">1.7.4.4.</span> <span class="toc-text">4.4.4 实现 schedule()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-4-4-1-%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E9%9D%9E%E6%8A%A2%E5%8D%A0%E5%BC%8F%E7%AE%97%E6%B3%95"><span class="toc-number">1.7.4.4.1.</span> <span class="toc-text">4.4.4.1 短作业优先非抢占式算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-4-4-2-%E4%BC%98%E5%85%88%E7%BA%A7%E6%8A%A2%E5%8D%A0%E5%BC%8F%E7%AE%97%E6%B3%95"><span class="toc-number">1.7.4.4.2.</span> <span class="toc-text">4.4.4.2 优先级抢占式算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-5-%E5%AE%9E%E7%8E%B0-switch-to-struct-task-struct-next"><span class="toc-number">1.7.4.5.</span> <span class="toc-text">4.4.5 实现 switch_to(struct task_struct* next)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E7%BC%96%E8%AF%91%E5%8F%8A%E6%B5%8B%E8%AF%95"><span class="toc-number">1.7.5.</span> <span class="toc-text">4.5 编译及测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1%E4%B8%8E%E8%A6%81%E6%B1%82"><span class="toc-number">1.8.</span> <span class="toc-text">5. 实验任务与要求</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">第三章 进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%BF%9B%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.0.1.</span> <span class="toc-text">3.1 进程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">3.1.1 进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">3.1.2  进程状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3-%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">3.1.3  进程控制块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4-%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.0.1.4.</span> <span class="toc-text">3.1.4 线程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6"><span class="toc-number">1.0.2.</span> <span class="toc-text">3.2 进程调度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E8%B0%83%E5%BA%A6%E9%98%9F%E5%88%97"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">3.2.1  调度队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E8%B0%83%E5%BA%A6%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">3.2.2 调度程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">3.2.3 上下文切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E8%BF%9B%E7%A8%8B%E6%93%8D%E4%BD%9C"><span class="toc-number">1.0.3.</span> <span class="toc-text">3.3  进程操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">3.3.1  进程创建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">1.0.4.</span> <span class="toc-text">3.4 进程间通信</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
