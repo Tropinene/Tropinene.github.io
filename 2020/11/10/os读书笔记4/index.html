@@ -6,17 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/11 | 小歪的博客</title>
+  <title>os读书笔记4 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按时营业，好好吃饭。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="http://example.com/archives/2020/11/index.html">
+  <meta name="description" content="第五章 进程调度本章目标：  引入CPU调度，这是多道程序操作系统的基础 描述各种CPU调度算法 讨论为特定系统选择CPU调度算法的评估标准 分析多个操作系统的调度算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="os读书笔记4">
+<meta property="og:url" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="按时营业，好好吃饭。">
+<meta property="og:description" content="第五章 进程调度本章目标：  引入CPU调度，这是多道程序操作系统的基础 描述各种CPU调度算法 讨论为特定系统选择CPU调度算法的评估标准 分析多个操作系统的调度算法">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/0.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/1.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/2.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/3.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/4.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/5.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/6.png">
+<meta property="og:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/7.png">
+<meta property="article:published_time" content="2020-11-10T04:57:06.000Z">
+<meta property="article:modified_time" content="2020-11-10T06:43:25.867Z">
 <meta property="article:author" content="崖鸥">
+<meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/0.png">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
   
@@ -144,36 +156,275 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-os读书笔记4" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      os读书笔记4
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/" class="archive-article-date">
+
+        
+        <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/" class="archive-article-date">
   	<time datetime="2020-11-10T04:57:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/">os读书笔记4</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="第五章-进程调度"><a href="#第五章-进程调度" class="headerlink" title="第五章 进程调度"></a>第五章 进程调度</h1><p><strong>本章目标：</strong></p>
+<ul>
+<li>引入CPU调度，这是多道程序操作系统的基础</li>
+<li>描述各种CPU调度算法</li>
+<li>讨论为特定系统选择CPU调度算法的评估标准</li>
+<li>分析多个操作系统的调度算法</li>
+</ul>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h2 id="5-1-基本概念"><a href="#5-1-基本概念" class="headerlink" title="5.1 基本概念"></a>5.1 基本概念</h2><p>对于单处理器系统，同一时间只有一个进程可以运行；其它进程都应等待，直到CPU空闲并可调度为止。</p>
+<p>多道程序的目标是，始终允许某个进程运行以最大化CPU利用率。</p>
+<h3 id="5-1-1-CPU-I-O执行周期"><a href="#5-1-1-CPU-I-O执行周期" class="headerlink" title="5.1.1 CPU-I/O执行周期"></a>5.1.1 CPU-I/O执行周期</h3><p>进程执行由<strong>CPU执行周期</strong>和<strong>I/O等待周期</strong>组成。进程在这两个状态之间切换(CPU burst—I/O bust)。</p>
+<p>进程执行从CPU区间（CPU burst）开始，在这之后是I/O区间（I/O burst）。接着另外一个CPU区间，然后是另外一个I/O区间，如此进行下去，最终，最后的CPU区间通过系统请求中止执行。</p>
+<p><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/0.png"></p>
+<p>经过大量CPU区间的长度的测试。发现具有大量短CPU区间和少量长CPU区间。<strong>I/O约束程序通常具有很多短CPU区间。CPU约束程序可能有少量的长CPU区间。</strong>这种分布有助于选择合适的CPU调度算法。</p>
+<p><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/1.png"></p>
+<h3 id="5-1-2-CPU程序调度"><a href="#5-1-2-CPU程序调度" class="headerlink" title="5.1.2 CPU程序调度"></a>5.1.2 CPU程序调度</h3><p>每当CPU空闲时，操作系统就必须从<strong>就绪队列</strong>中选择一个进程来执行。进程选择由短期调度程序（short-term scheduler）或CPU调度程序执行。调度程序从内存中选择一个能够执行的进程，并为之分配CPU。</p>
+<p>就绪队列<strong>不必是先进先出（FIFO）队列</strong>，也可为优先队列、树或简单的无序链表。不过队列中所有的进程都要排队以等待在CPU上运行。队列中的记录通常为进程控制块（PCB）。</p>
+<h3 id="5-1-3-抢占调度"><a href="#5-1-3-抢占调度" class="headerlink" title="5.1.3 抢占调度"></a>5.1.3 抢占调度</h3><p>CPU调度决策可在如下4种情况环境下发生：</p>
+<p>（1）当一个进程从运行切换到等待状态（如：I/O请求，或者调用wait等待一个子进程的终止）</p>
+<p>（2）当一个进程从运行状态切换到就绪状态（如：出现中断）</p>
+<p>（3）当一个进程从等待状态切换到就绪状态（如：I/O完成）</p>
+<p>（4）当一个进程终止时</p>
+<p>对于第1和4两种情况，没有选择而只有调度。一个新进程（如果就绪队列中已有一个进程存在）必须被选择执行。对于第２和第３两种情况，可以进行选择。</p>
+<p>当调度只能发生在第1和4两种情况下时，称调度是<strong>非抢占的</strong>（nonpreemptive）或协作的（cooperative）；否则，称调度方案为<strong>抢占的</strong>（preemptive）。采用非抢占调度，一旦CPU分配给一个进程，那么该进程会<strong>一直使用CPU</strong>直到进程终止或切换到等待状态。抢占调度对访问共享数据是有代价（如加锁）的，有可能产生错误，需要新的机制（如，同步）来协调对共享数据的访问。</p>
+<h3 id="5-1-4-调度程序"><a href="#5-1-4-调度程序" class="headerlink" title="5.1.4 调度程序"></a>5.1.4 调度程序</h3><p><strong>调度程序</strong>（dispatcher）是一个模块，用来将CPU的控制交给由短期调度程序选择的进程。<br>其功能包括： </p>
+<ul>
+<li>切换上下文</li>
+<li>切换到用户模式</li>
+<li>跳转到用户程序的合适位置，以重新启动程序。</li>
+</ul>
+<p>调度程序停止一个进程而启动另一个所花的时间成为<strong>调度延迟</strong>(dispatch latency)。</p>
+<h2 id="5-2-调度准则"><a href="#5-2-调度准则" class="headerlink" title="5.2 调度准则"></a>5.2 调度准则</h2><p>为了比较CPU调度算法所提出的准则：</p>
+<ul>
+<li><strong>CPU使用率</strong> :<br>需要使CPU尽可能忙</li>
+<li><strong>吞吐量</strong> :<br>指一个时间单元内所完成进程的数量</li>
+<li><strong>周转时间 :</strong><br>从进程提交到进程完成的时间段称为周转时间，周转时间是所有时间段之和，包括等待进入内存、在就绪队列中等待、在CPU上执行和I/O执行</li>
+<li><strong>等待时间</strong> :<br>在就绪队列中等待所花费时间之和</li>
+<li><strong>响应时间</strong> :<br>从提交请求到产生第一响应的时间</li>
+</ul>
+<p>需要使CPU使用率和吞吐量最大化，而使周转时间、等待时间和响应时间最小化。绝大多数情况下需要优化平均值，有时需要优化最大值或最小值，而不是平均值。</p>
+<h2 id="5-3-调度算法"><a href="#5-3-调度算法" class="headerlink" title="5.3 调度算法"></a>5.3 调度算法</h2><h3 id="5-3-1-先到先服务调度"><a href="#5-3-1-先到先服务调度" class="headerlink" title="5.3.1 先到先服务调度"></a>5.3.1 先到先服务调度</h3><p>最简单的CPU调度算法是先到先服务（First-Come，First-Served scheduling，FCFS）调度算法。即<strong>先请求CPU的进程首先分配到CPU</strong>。</p>
+<p>例：</p>
+<table>
+<thead>
+<tr>
+<th align="center">进程</th>
+<th align="center">执行时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P1</td>
+<td align="center">24</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">P3</td>
+<td align="center">3</td>
+</tr>
+</tbody></table>
+<p>到达顺序：P1-P2-P3</p>
+<ul>
+<li><p>Gantt chart：<br><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/2.png"></p>
+</li>
+<li><p>平均等待时间：（0+24+27）/ 3 = 17</p>
+</li>
+</ul>
+<p>如果将到达顺序改成：P2-P3-P1</p>
+<ul>
+<li><p>Gantt chart：<br><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/3.png"></p>
+</li>
+<li><p>平均等待时间：（0+3+6）/ 3 = 3</p>
+</li>
+</ul>
+<p>可见，FCFS的平均等待时间并不是最优的。假设有一个CPU约束进程和许多I/O约束进程，CPU约束进程会移回到就绪队列并被分配到CPU。再次所有I/O进程会在就绪队列中等待CPU进程的完成。由于所有其他进程都等待一个大进程释放CPU，这称之为<strong>护航效果</strong>（convoy effect）。与让较短进程最先执行相比，这样会导致CPU和设备使用率变的很低。</p>
+<p><strong>允许一个进程保持CPU时间过长是个严重错误。</strong></p>
+<h3 id="5-3-2-最短作业优先调度-shortest-job-first-scheduling-SJF"><a href="#5-3-2-最短作业优先调度-shortest-job-first-scheduling-SJF" class="headerlink" title="5.3.2 最短作业优先调度(shortest-job-first scheduling,SJF)"></a>5.3.2 最短作业优先调度(shortest-job-first scheduling,SJF)</h3><p>将每个进程与下一个CPU区间段相关联。当CPU为空闲时，它会赋给具有最短CPU区间的进程。如果两个进程具有同样长度，那么可以使用FCFS调度来处理。注意，一个更为适当地表示是<strong>最短下一个CPU执行</strong>(shortest-next-CPU-burst)的算法，这是因为调度检查进程的下一个CPU区间的长度，而不是其总长度。</p>
+<table>
+<thead>
+<tr>
+<th align="center">进程</th>
+<th align="center">执行时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P1</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center">P3</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">P4</td>
+<td align="center">3</td>
+</tr>
+</tbody></table>
+<p>Gantt chart：<br><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/4.png"></p>
+<p>平均等待时间：（0+3+9+16）/ 4 = 7</p>
+<p>FCFS = （0+6+14+21）/ 4 = 10.25</p>
+<ul>
+<li>可以证明SJF调度算法是最优的</li>
+<li>SJF算法的真正困难是如何知道下次CPU执行的长度</li>
+<li>虽然SJF算法是最优的，但是它不能在短期CPU调度级别上加以实现，因为没有办法知道下次CPU执行的长度。</li>
+</ul>
+<p>抢占SJF的例子：</p>
+<table>
+<thead>
+<tr>
+<th align="center">进程</th>
+<th align="center">到达时间</th>
+<th align="center">执行时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P1</td>
+<td align="center">0</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">1</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">P3</td>
+<td align="center">2</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center">P4</td>
+<td align="center">3</td>
+<td align="center">5</td>
+</tr>
+</tbody></table>
+<p><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/5.png"></p>
+<p>[(10-1)+(1-1)+(17-2)+(5-3)] / 4 = 6.5</p>
+<h3 id="5-3-3-优先级调度-priority-scheduling-algorithm"><a href="#5-3-3-优先级调度-priority-scheduling-algorithm" class="headerlink" title="5.3.3 优先级调度(priority scheduling algorithm)"></a>5.3.3 优先级调度(priority scheduling algorithm)</h3><p>SJF算法可作为通用的优先级调度算法的一个特例。每个进程都有一个优先级与其关联，具有最高优先级的进程会分配到CPU。具有相同优先级的进程按FCFS顺序调度。</p>
+<p>例：假设数字越小优先级越高</p>
+<table>
+<thead>
+<tr>
+<th align="center">进程</th>
+<th align="center">执行时间</th>
+<th align="center">优先级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P1</td>
+<td align="center">10</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">P3</td>
+<td align="center">2</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">P4</td>
+<td align="center">1</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">P5</td>
+<td align="center">5</td>
+<td align="center">2</td>
+</tr>
+</tbody></table>
+<p>Gantt chart:</p>
+<p><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/6.png"></p>
+<p>优先级调度算法的一个重要问题是<strong>无限阻塞（indefinite blocking）或饥饿</strong>（starvation）。可以运行但缺乏CPU的进程可认为是阻塞的，它在等待CPU。优先级调度算法会使某个有低优先级无穷等待CPU。</p>
+<p>低优先级进程务求等待问题的解决之一是<strong>老化</strong>（aging）。老化是一种技术，以逐渐增加在系统中等待很长时间的进程的优先级。</p>
+<h3 id="5-3-4-轮转法调度-round-robin-RR"><a href="#5-3-4-轮转法调度-round-robin-RR" class="headerlink" title="5.3.4 轮转法调度(round-robin,RR)"></a>5.3.4 轮转法调度(round-robin,RR)</h3><p>专门为分时系统设计。它类似于FCFS调度，但是<strong>增加了抢占以切换进程</strong>。定义一个较小的时间单元，称为<strong>时间片</strong>（time quantum，or time slice）。将就绪队列作为<strong>循环队列</strong>。CPU调度程序循环就绪队列，为每个进程分配不超过一个时间片段的CPU。</p>
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>区间时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1</td>
+<td>24</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>Gantt chart :<br><img src="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/7.png"></p>
+<p>平均等待时间：[4+7+(10-4)] / 3 = 5.66</p>
+<p>RR算法的性能很大程度取决于时间片的大小。如果时间片很大，RR算法则相当于FCFS算法。<strong>如果时间片很小，那么RR算法会花大量时间在上下文切换上。</strong>因此，时间片应远大于上下文切换时间。</p>
+<h3 id="5-3-5-多级队列调度-Multilevel-Queue-Scheduling"><a href="#5-3-5-多级队列调度-Multilevel-Queue-Scheduling" class="headerlink" title="5.3.5 多级队列调度(Multilevel Queue Scheduling)"></a>5.3.5 多级队列调度(Multilevel Queue Scheduling)</h3><p>前台（交互）进程和后台（批处理）进程。这两种不同各类型的进程具有不同响应时间要求，也有不同调度需要。与后台进程相比，前台进程要有更高（或外部定义）的优先级。</p>
+<p>多级队列调度算法将就绪队列<strong>分成多个独立队列</strong>。根据进程的属性，如内存大小等，一个进程被永久地分配到一个队列(低调度开销但是不够灵活)，每个队列有自己的调度算法。前台队列可能采用RR算法调度，而后台调度可能采用FCFS算法调度。</p>
+<p>另外，队<strong>列之间必须有调度</strong>，通常采用固定优先级抢占调度，例如前台队列可以比后台队列具有绝对优先值。另一种可能在队列之间划分时间片例如，前台队列可以有80%的时间用于在进程之间进行RR调度，而后台队列可以有20%的CPU时间采用FCFS算法调度进程。</p>
+<h3 id="5-3-6-多级反馈队列调度-Multilevel-Feedback-Queue-Scheduling"><a href="#5-3-6-多级反馈队列调度-Multilevel-Feedback-Queue-Scheduling" class="headerlink" title="5.3.6 多级反馈队列调度(Multilevel Feedback-Queue Scheduling)"></a>5.3.6 多级反馈队列调度(Multilevel Feedback-Queue Scheduling)</h3><p>与多级队列调度相反，多级反馈队列调度允许进程在队列之间移动。主要思想是根据不同CPU区间的特点以区分进程。如果进程使用过多CPU时间，那么它可能被转移到较低优先级队列。这种方案将I/O约束和交互进程留在更高优先级队列。此外，在较低优先级队列中等待时间过长的进程会被转移到更高优先级队列。这种形式的老化组织饥饿的发生。</p>
+<p><strong>通常，多级反馈队列调度程序可由下列参数来定义：</strong></p>
+<ul>
+<li>  队列数量。</li>
+<li>  每个队列的调度算法。</li>
+<li>  用以确定何时升级到更高优先级队列的方法。</li>
+<li>  用以确定何时降级到更低优先级队列的方法。</li>
+<li>  用以确定进程在需要服务时应进入哪个队列的方法。</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,364 +436,118 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/" class="archive-article-date">
-  	<time datetime="2020-11-10T02:55:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">os读书笔记3</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">os读书笔记3</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">第五章 进程调度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">5.1 基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-CPU-I-O%E6%89%A7%E8%A1%8C%E5%91%A8%E6%9C%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">5.1.1 CPU-I&#x2F;O执行周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-CPU%E7%A8%8B%E5%BA%8F%E8%B0%83%E5%BA%A6"><span class="toc-number">1.1.2.</span> <span class="toc-text">5.1.2 CPU程序调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-3-%E6%8A%A2%E5%8D%A0%E8%B0%83%E5%BA%A6"><span class="toc-number">1.1.3.</span> <span class="toc-text">5.1.3 抢占调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-4-%E8%B0%83%E5%BA%A6%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">5.1.4 调度程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E8%B0%83%E5%BA%A6%E5%87%86%E5%88%99"><span class="toc-number">1.2.</span> <span class="toc-text">5.2 调度准则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">5.3 调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-1-%E5%85%88%E5%88%B0%E5%85%88%E6%9C%8D%E5%8A%A1%E8%B0%83%E5%BA%A6"><span class="toc-number">1.3.1.</span> <span class="toc-text">5.3.1 先到先服务调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-2-%E6%9C%80%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6-shortest-job-first-scheduling-SJF"><span class="toc-number">1.3.2.</span> <span class="toc-text">5.3.2 最短作业优先调度(shortest-job-first scheduling,SJF)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-3-%E4%BC%98%E5%85%88%E7%BA%A7%E8%B0%83%E5%BA%A6-priority-scheduling-algorithm"><span class="toc-number">1.3.3.</span> <span class="toc-text">5.3.3 优先级调度(priority scheduling algorithm)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-4-%E8%BD%AE%E8%BD%AC%E6%B3%95%E8%B0%83%E5%BA%A6-round-robin-RR"><span class="toc-number">1.3.4.</span> <span class="toc-text">5.3.4 轮转法调度(round-robin,RR)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-5-%E5%A4%9A%E7%BA%A7%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6-Multilevel-Queue-Scheduling"><span class="toc-number">1.3.5.</span> <span class="toc-text">5.3.5 多级队列调度(Multilevel Queue Scheduling)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-6-%E5%A4%9A%E7%BA%A7%E5%8F%8D%E9%A6%88%E9%98%9F%E5%88%97%E8%B0%83%E5%BA%A6-Multilevel-Feedback-Queue-Scheduling"><span class="toc-number">1.3.6.</span> <span class="toc-text">5.3.6 多级反馈队列调度(Multilevel Feedback-Queue Scheduling)</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
-  	<time datetime="2020-11-08T07:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">os读书笔记2</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-08T06:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">lab3-实验报告</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" class="archive-article-date">
-  	<time datetime="2020-11-07T16:11:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">os读书笔记1</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/07/ds-week7/" class="archive-article-date">
-  	<time datetime="2020-11-07T05:17:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/07/ds-week7/">ds-week7</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-06T11:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">hexo</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-05T05:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T17:17:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab1</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T15:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab0</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/11/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/11/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -566,8 +571,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
