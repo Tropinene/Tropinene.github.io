@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020 | 小歪的博客</title>
+  <title>os读书笔记5 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按时营业，好好吃饭。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="http://example.com/archives/2020/page/2/index.html">
+  <meta name="description" content="第六章 同步 引入临界区问题，他的解决方案可以用于确保共享数据的一致性。 讨论临界区问题的软件与硬件解决方案 分析进程同步的多个经典问题 探讨解决进程同步问题的多个工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="os读书笔记5">
+<meta property="og:url" content="http://example.com/2020/11/27/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B05/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="按时营业，好好吃饭。">
+<meta property="og:description" content="第六章 同步 引入临界区问题，他的解决方案可以用于确保共享数据的一致性。 讨论临界区问题的软件与硬件解决方案 分析进程同步的多个经典问题 探讨解决进程同步问题的多个工具">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-27T11:51:03.000Z">
+<meta property="article:modified_time" content="2020-11-27T16:08:03.070Z">
 <meta property="article:author" content="崖鸥">
+<meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
@@ -144,36 +147,212 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-os读书笔记5" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      os读书笔记5
+    </h1>
+  
+
+        
+        <a href="/2020/11/27/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B05/" class="archive-article-date">
+  	<time datetime="2020-11-27T11:51:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="第六章-同步"><a href="#第六章-同步" class="headerlink" title="第六章 同步"></a>第六章 同步</h1><ul>
+<li>引入临界区问题，他的解决方案可以用于确保共享数据的一致性。</li>
+<li>讨论临界区问题的软件与硬件解决方案</li>
+<li>分析进程同步的多个经典问题</li>
+<li>探讨解决进程同步问题的多个工具</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="6-1-背景"><a href="#6-1-背景" class="headerlink" title="6.1 背景"></a>6.1 背景</h2><p>多个进程并发访问和操作同一数据且执行结果与访问发生的特定顺序有关，称之为<strong>竞争条件</strong>（race condition）。为了确保一次只有一个进程可以操作变量，要求这些进程按一定方式来同步。</p>
+<h2 id="6-2-临界区问题"><a href="#6-2-临界区问题" class="headerlink" title="6.2 临界区问题"></a>6.2 临界区问题</h2><p>每个进程有一个代码段（code segment）称为<strong>临界区</strong>（critical section），在该区中进程可能改变共同变量、更新一个表或写一个文件等。这种系统的重要特征是当一个进程进入临界区，没有其他进程可被允许在临界区内执行，<strong>即没有两个进程可同时在临界区内执行。</strong></p>
+<p><strong>临界区问题（critical-section problem）</strong>是设计一个以便进程协作的协议。每个进程必须请求允许进入其临界区。实现请求的代码段称为<strong>进入区（entry section）</strong>，临界区之后可有退出区（exit section），其他代码段成为剩余区（remainder section）。</p>
+<p>通用结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">do&#123;</span><br><span class="line">进入区</span><br><span class="line">    临界区</span><br><span class="line">退出区</span><br><span class="line">    剩余区</span><br><span class="line">&#125;while(TRUE)</span><br></pre></td></tr></table></figure>
+
+<p><strong>临界区问题的解答必须满足三项要求：</strong></p>
+<ul>
+<li><p><strong>互斥</strong>（mutual exclusion）：<br>  如果进程Pi在其临界区内执行，那么其他进程都不能在其临界区内执行；</p>
+</li>
+<li><p><strong>前进</strong>（progress）：<br>  如果没有进程在其临界区内执行且有进程需进入临界区，那么只有那么不在剩余区内执行的进程可参加选择，以确定谁能下一个进入临界区，且这种选择不能无限推迟；</p>
+</li>
+<li><p><strong>有限等待</strong>（bounded waiting）：<br>  从一个进程做出进入临界区的请求，直到该请求允许为止，其他进程允许进入其临界区内的次数有上限。</p>
+</li>
+</ul>
+<p>处理操作系统内的临界区问题的两种方法：</p>
+<ul>
+<li><strong>抢占式内核（preemptive kernel）：</strong>抢占内核允许处于内核模式的进程被抢占。</li>
+<li><strong>非抢占式内核</strong>（nonpreemptive kernel）：非抢占内核不允许内核模式的进程被抢占，处于内核模式运行的进程会一直运行，直到退出。</li>
+</ul>
+<h2 id="6-3-Peterson算法"><a href="#6-3-Peterson算法" class="headerlink" title="6.3 Peterson算法"></a>6.3 Peterson算法</h2><p>Peterson算法是一种经典的基于<strong>软件</strong>的临界区问题算法，可能现代计算机体系架构基本机器语言有些不同，不能确保正确运行。</p>
+<p>Peterson算法需要在两个进程之间共享两个数据项：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> turn;</span><br><span class="line">boolean flag[<span class="number">2</span>];</span><br><span class="line"><span class="comment">//变量turn表示哪个进程可以进入其临界区，即如果turn==i，那么进程Pi允许在其临界区内执行。</span></span><br><span class="line"><span class="comment">//数组flag表示哪个进程想要进入临界区，如果flag[i]为true，即Pi想进入其临界区。</span></span><br></pre></td></tr></table></figure>
+
+<p>进程Pi的Peterson算法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line"> </span><br><span class="line">   flag[i]=TRUE;</span><br><span class="line">   turn=j;</span><br><span class="line">   <span class="keyword">while</span>(flag[j]&amp;&amp;turn==j);</span><br><span class="line"> </span><br><span class="line">       临界区</span><br><span class="line"> </span><br><span class="line">   flag[i]=FALSE;</span><br><span class="line"> </span><br><span class="line">       剩余区</span><br><span class="line"> </span><br><span class="line">&#125;<span class="keyword">while</span>(TRUE)</span><br></pre></td></tr></table></figure>
+
+<p>为了进入临界区，进程Pi首先设置flag[i]的值为true；并且设置turn的值为j，从而表示如果另一个进程Pj希望进入临界区，那么Pj能够进入。<strong>如果两个进程同时试图进入，turn值只能保留一个，决定只有一个能进入临界区。</strong></p>
+<h3 id="6-4-硬件同步"><a href="#6-4-硬件同步" class="headerlink" title="6.4 硬件同步"></a>6.4 硬件同步</h3><p>通过要求临界区用锁来防护，就可以避免竞争条件，<strong>即一个进程在进入临界区之前必须得到锁，而其退出临界区时释放锁。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">do&#123;</span><br><span class="line">请求锁</span><br><span class="line">    临界区</span><br><span class="line">释放锁</span><br><span class="line">    剩余区</span><br><span class="line">&#125;while(TRUE)</span><br></pre></td></tr></table></figure>
+
+<p>硬件特性能简化编程任务且提高系统效率。</p>
+<p>对于单处理器环境，临界区问题可简单地加以解决：在修改共享变量时要<strong>禁止中断</strong>出现。这样其他指令不可能执行，所以共享变量也不会被意外修改。这种方法通常为<strong>抢占式内核</strong>所采用。</p>
+<p>在多处理器环境下，这种解决方法是不可行的，低效且影响系统时钟。</p>
+<p>特殊硬件指令以允许能<strong>原子地（</strong>不可中断的）检查和修改字的内容或交换两个字的内容。如test_and_set()，当两个指令同时执行在不同的CPU上，那么它们会按任意顺序来顺序执行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">boolean <span class="title">test_and_set</span><span class="params">(boolean *target)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  boolean rv=*target;</span><br><span class="line">  *target=TRUE;</span><br><span class="line">  <span class="keyword">return</span> rv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>采用指令test_and_set()的互斥实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(test_and_set(&amp;lock))</span><br><span class="line">        ;<span class="comment">//do nothing</span></span><br><span class="line">        <span class="comment">//critical section</span></span><br><span class="line">    lock=FALSE;</span><br><span class="line">        <span class="comment">//remainder section</span></span><br><span class="line">&#125;<span class="keyword">while</span>(TRUE);</span><br></pre></td></tr></table></figure>
+
+<p>指令compare_and_swap():</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare_and_swap</span><span class="params">(<span class="keyword">int</span> *value, <span class="keyword">int</span> expected, <span class="keyword">int</span> new_value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = *value;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(*value == expected)</span><br><span class="line">        	*value = new_value;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>采用指令compare_and_swap()的互斥实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span>(compare_and_swap(&amp;lock, <span class="number">0</span>, <span class="number">1</span>) != <span class="number">0</span>)</span><br><span class="line">        ;<span class="comment">/* do nothing */</span></span><br><span class="line">    <span class="comment">/* critical section */</span></span><br><span class="line">    lock = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/* remainder section */</span></span><br><span class="line">&#125;<span class="keyword">while</span> (<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这些算法满足互斥要求，但是并未满足有限等待要求。</p>
+<p>下面是另一种基于test_and_set()的算法，它满足所有临界区的要求。共用的数据结构如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">boolean waiting[n];</span><br><span class="line">boolean lock;</span><br></pre></td></tr></table></figure>
+
+<p>采用test_and_set()的有界等待互斥</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">    waiting[i] = <span class="literal">true</span>;</span><br><span class="line">    key = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span>(waiting[i] &amp;&amp; key)</span><br><span class="line">        key = test_and_set(&amp;lock);</span><br><span class="line">    waiting[i] = <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* critical section */</span></span><br><span class="line">    </span><br><span class="line">    j = (i + <span class="number">1</span>) % n;</span><br><span class="line">    <span class="keyword">while</span>((j != i) &amp;&amp; !waiting[j])</span><br><span class="line">        j = (i + <span class="number">1</span>) % n;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(j == i)</span><br><span class="line">        lock = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        waiting[j] = <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">/* remainder section */</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+<p>为了满足有限等待，当一个进程退出其临界区时，它会循环地扫描数组waiting[i]并根据这一顺序而指派第一个等待进程作为下一个进入临界区的进程。因此，任何等待进入临界区的进程只需要等待n−1次。</p>
+<h3 id="6-5-互斥锁"><a href="#6-5-互斥锁" class="headerlink" title="6.5 互斥锁"></a>6.5 互斥锁</h3><p>一个进程在进入临界区时应得到锁，在退出临界区时释放锁。函数acquire()获得锁，而函数release()释放锁。</p>
+<p>通用结构：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">获得锁</span><br><span class="line">	关键区</span><br><span class="line">释放区</span><br><span class="line">	剩余区</span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+<p>每个互斥锁有一个布尔变量available，用来表示锁可用不可用。如果锁可用那么调用acquire()会成功，并且锁不再可用。如果锁不可用，则会被阻塞，直到锁被释放。</p>
+<p>acquire():</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">acquire()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span>(!available)</span><br><span class="line">        ;<span class="comment">/* busy wait */</span></span><br><span class="line">    available = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>release():</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">release()</span><br><span class="line">&#123;</span><br><span class="line">    available = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他的缺点是，需要<strong>忙等待（busy waiting）</strong>。<strong>即当有一个进程在临界区中，任何其他进程在进入临界区时必须连续循环调用acquire()。</strong></p>
+<p>优点：当进程在等待锁时，<strong>没有上下文切换。</strong></p>
+<h3 id="6-6-信号量"><a href="#6-6-信号量" class="headerlink" title="6.6 信号量"></a>6.6 信号量</h3><p>应用层面解决临界区问题：<strong>信号量</strong></p>
+<p>信号量S是个整数变量，除了初始化外，它只能通过两个标准原子操作：<strong>wait()和signal()来访问。即P和V</strong>。</p>
+<p>wait()就是等待资源的过程，定义可表示为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wait(S)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">while</span>(S &lt;= <span class="number">0</span>)</span><br><span class="line">    ;<span class="comment">//no-op</span></span><br><span class="line">  S--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>signal()就是释放资源的过程，定义可表示为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">signal(S)</span><br><span class="line">&#123;</span><br><span class="line">  S++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>信号量整数值的修改应不可分割地执行。<strong>也就是说当一个进程修改信号量值时，没有其它进程能够同时修改同一信号量的值。</strong></p>
+<h4 id="6-6-1-信号量的使用"><a href="#6-6-1-信号量的使用" class="headerlink" title="6.6.1 信号量的使用"></a>6.6.1 信号量的使用</h4><p>通常操作系统区分<strong>计数信号量</strong>和<strong>二进制信号量</strong>。计数信号量的值域不受限制，而二进制信号量的值只能为0或1,有的系统，将二进制信号量成为<strong>互斥锁</strong>。</p>
+<p>由于二进制信号量是互斥的，因而可以将其应用于处理多进程的临界区问题：这n个进程共享信号量mutex，初始值1。结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">&#123;</span><br><span class="line">  wait(mutex);</span><br><span class="line">    &#x2F;&#x2F;critical section</span><br><span class="line">  signal(mutex);</span><br><span class="line">    &#x2F;&#x2F;remainder section</span><br><span class="line">&#125;while(TRUE);</span><br></pre></td></tr></table></figure>
+
+<p>  计数信号量可以用来控制访问具有若干个实例的某种资源。该信号量初始化为可用资源的数量。<strong>当每个进程需要使用资源时，需要对该信号量执行wait()操作。当进程释放资源时，需要对该信号执行signal()操作。</strong></p>
+<p>可以用信号量来解决各种同步问题。如<strong>先执行Pi的S1语句，然后再执行Pj的S2</strong>语句，可以通向一个信号量，初始化为0。<br>进程P1中插入语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S1;</span><br><span class="line">signal(synch);</span><br></pre></td></tr></table></figure>
+
+<p>在进程P2中插入语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wait(synch);</span><br><span class="line">S2;</span><br></pre></td></tr></table></figure>
+
+<p><strong>因为初始化synch为0</strong>，P2只有在P1调用signal(synch)，即(S1)之后，才会执行S2。</p>
+<h4 id="6-6-2-信号量的实现"><a href="#6-6-2-信号量的实现" class="headerlink" title="6.6.2 信号量的实现"></a>6.6.2 信号量的实现</h4><p>信号量的主要缺点是要求<strong>忙等待</strong>（busy waiting）。即在进入代码段中连续地循环。忙等待浪费了CPU时钟，这种类型的信号量也称为<strong>自旋锁</strong>（spinlock），这是因为进程在其等待锁的时还在运行(自旋锁有其优点，进程在等待锁时不进行上下文切换，而上下文切换可能需要花费相当长的时间。因此如果锁占用的时间短，那么锁就有用了，自旋锁常用于多处理器系统中，这样一个线程在一个处理器自旋时，另一线程可在另一个处理器上在其临界区内执行).</p>
+<p>为克服这一缺点，修改wait()和signal()的定义，信号量值不为正时，不是忙等而是<strong>阻塞</strong>自己，阻塞操作将一个进程放入到与信号量相关的等待队列中，并将该进程的状态切换成等待状态，接着，控制转到CPU调度程序，以选择另一个进程来执行，从而使CPU占用率变高。</p>
+<p>被阻塞在等待信号Ｓ上的进程，可以在其他进程执行signal()的时候操作之后重新被执行，该进程的重新执行是通过wakeup()操作来进行的将进程从等待状态切换到就绪状态。接着进程被放到就绪队列中。</p>
+<p>因而将信号量定义为如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">  	int value;                  &#x2F;&#x2F;记录了这个信号量的值   </span><br><span class="line">    struct process *list;       &#x2F;&#x2F;储存正在等待这个信号量的进程（PCB链表指针）</span><br><span class="line">&#125;semaphore;</span><br></pre></td></tr></table></figure>
+
+<p>每个信号量都有一个整型值和一个进程链表，当一个进程必须等待信号量时，就加入到进程链表上，操作signal()会从等待进程链表中取一个进程以唤醒。</p>
+<p><strong>wait()实现：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wait(semaphore *S)</span><br><span class="line">&#123;</span><br><span class="line">  	S-&gt;value--;</span><br><span class="line">  	if(S-&gt;value&lt;0)                  &#x2F;&#x2F;没有资源</span><br><span class="line">  	&#123;</span><br><span class="line">  		add this process to S-&gt;list;      &#x2F;&#x2F;进入等待队列  </span><br><span class="line">  		block();                          &#x2F;&#x2F;堵塞</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>signal()实现：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">signal(semaphore *S)</span><br><span class="line">&#123;</span><br><span class="line">    S-&gt;value++;</span><br><span class="line">    if(S-&gt;value&lt;&#x3D;0)</span><br><span class="line">    &#123;                  </span><br><span class="line">    &#x2F;&#x2F;上面++后，S仍然还&lt;&#x3D;0，说明资源供不应求，等待者还有很多，于是唤醒等待队列中的一个</span><br><span class="line">        remove a process P from S-&gt;list;</span><br><span class="line">        wakeup(P);                        &#x2F;&#x2F;切换到就绪状态  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-6-3-死锁与饥饿"><a href="#6-6-3-死锁与饥饿" class="headerlink" title="6.6.3 死锁与饥饿"></a>6.6.3 死锁与饥饿</h4><p>具有等待队列的信号量的实现可能会导致这样的情况：</p>
+<p>两个或多个进程无限地等待一个事件，而该事件只能由这些等待进程之一来产生。这里的事件是signal()操作的执行。当出现这样的状态时，这些进程就称为<strong>死锁（deadlocked）</strong>。</p>
+<p>例如，一个由P1和P2组成的系统，每个都访问共享的信号量Ｓ和Ｑ，Ｓ和Ｑ初值均为１。</p>
+<p>P0:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wait(S);</span><br><span class="line">wait(Q);</span><br><span class="line">&#x2F;&#x2F;......</span><br><span class="line">signal(S);</span><br><span class="line">signal(Q);</span><br></pre></td></tr></table></figure>
+
+<p>P1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wait(Q);</span><br><span class="line">wait(S);</span><br><span class="line">&#x2F;&#x2F;......</span><br><span class="line">signal(Q);</span><br><span class="line">signal(S);</span><br></pre></td></tr></table></figure>
+
+<p>假设，P0执行wait(S)，接着P1执行wait(Q)，P0再执行wait(Q)时，必须等待，直到P1执行signal(Q)，而此时P1也在等待P0执行signal(S)，两个操作都不能进行，P0和P1就死锁了。</p>
+<p><strong>无限期阻塞（indefinite blocking）或饥饿</strong>（starvation）：即进程在信号量内无限期等待。</p>
+<p>区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">死锁(deadlock)</span><br><span class="line">指的是两个或者两个以上的进程[相互竞争系统资源]，导致进程永久阻塞。</span><br><span class="line">例如：</span><br><span class="line">1、桌子上有慢慢一桌子的美食，但是只有一双筷子。</span><br><span class="line">2、甲拿了一根，然后在找另一根。</span><br><span class="line">3、乙拿了一根，然后也在找另一根。</span><br><span class="line">4、因为他们都掌握了对方必需的资源，导致最后他们俩谁都吃不到美食。</span><br><span class="line"></span><br><span class="line">饥饿(starvation)</span><br><span class="line">指的是[等待时间已经影响到进程运行]，此时成为饥饿现象。如果等待时间过长，导致进程使命已经没有意义时，称之为“饿死”。</span><br><span class="line">例如：</span><br><span class="line">1、小明要告诉妈妈明天开家长会。</span><br><span class="line">2、小明妈妈因为工作太忙，在公司加班，没有回家。</span><br><span class="line">3、于是第二天，小明的妈妈就错过了家长会。（“饿死”）</span><br><span class="line">4、其实小明的妈妈没有出现“死锁”。只是小明的优先级过低，不如工作重要。</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-6-经典同步问题"><a href="#6-6-经典同步问题" class="headerlink" title="6.6 经典同步问题"></a>6.6 经典同步问题</h3><h4 id="6-6-1-有限缓存问题—生产者消费问题："><a href="#6-6-1-有限缓存问题—生产者消费问题：" class="headerlink" title="6.6.1 有限缓存问题—生产者消费问题："></a>6.6.1 有限缓存问题—生产者消费问题：</h4><blockquote>
+<p>生产者消费者问题（英语：Producer-consumer problem），也称有限缓冲问题（英语：Bounded-buffer problem），是一个多线程同步问题的经典案例。该问题描述了共享固定大小缓冲区的两个线程——即所谓的“生产者”和“消费者”——在实际运行时会发生的问题。生产者的主要作用是生成一定量的数据放到缓冲区中，然后重复此过程。与此同时，消费者也在缓冲区消耗这些数据。该问题的关键就是要保证生产者不会在缓冲区满时加入数据，消费者也不会在缓冲区中空时消耗数据。</p>
+<p>要解决该问题，就必须让生产者在缓冲区满时休眠（要么干脆就放弃数据），等到下次消费者消耗缓冲区中的数据的时候，生产者才能被唤醒，开始往缓冲区添加数据。同样，也可以让消费者在缓冲区空时进入休眠，等到生产者往缓冲区添加数据之后，再唤醒消费者。通常采用进程间通信的方法解决该问题。如果解决方法不够完善，则容易出现死锁的情况。出现死锁时，两个线程都会陷入休眠，等待对方唤醒自己。该问题也能被推广到多个生产者和消费者的情形。</p>
+</blockquote>
+<p>共享的数据结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int n;</span><br><span class="line">semaphore mutex &#x3D; 1;</span><br><span class="line">semaphore empty &#x3D; n; </span><br><span class="line">semaphore full &#x3D; 0;</span><br></pre></td></tr></table></figure>
+
+<p>生产者进程结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">&#123;</span><br><span class="line">	...</span><br><span class="line">  	&#x2F;&#x2F;produce an item in next p</span><br><span class="line">	...</span><br><span class="line">	wait(empty);</span><br><span class="line">	wait(mutex);</span><br><span class="line">	...</span><br><span class="line">	&#x2F;&#x2F;add next p to buffer</span><br><span class="line">	...</span><br><span class="line">	signal(mutex);</span><br><span class="line">	signal(full);</span><br><span class="line">&#125;while(TRUE);</span><br></pre></td></tr></table></figure>
+
+<p>消费者进程结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">&#123;</span><br><span class="line">    wait(full);</span><br><span class="line">    wait(mutex);</span><br><span class="line">    ...</span><br><span class="line">    &#x2F;&#x2F;remove an item from buffer to next c</span><br><span class="line">    ...</span><br><span class="line">    signal(mutex);</span><br><span class="line">    signal(empty);</span><br><span class="line">    ...</span><br><span class="line">    &#x2F;&#x2F;consume the item in next c</span><br><span class="line">    ...</span><br><span class="line">&#125;while(TRUE);</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-6-2-读者-写者问题"><a href="#6-6-2-读者-写者问题" class="headerlink" title="6.6.2 读者-写者问题"></a>6.6.2 读者-写者问题</h4><p>只读数据库的进程称为读者；更新（读和写）数据库的称为写者。</p>
+<p>第一读者-写者问题：要求没有读者需要保持等待，除非已有一个写者已获得允许已使用共享数据库。换句话说，没有读者会因为一个写者在等待而会等待其他读者的完成。</p>
+<p>第二读者-写者问题：要求一旦写者就绪，那么写者会尽可能快得执行其写操作。换句话说，如果一个写者等待访问对象，那么不会有新读者开始读操作。</p>
+<p>对于这两个问题的解答可能导致饥饿问题。对第一种情况，写者可能饥饿；对第二种情况，读者可能饥饿。</p>
+<p>对于第一读者－写者问题的解决:</p>
+<p>共享结构：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">semaphore rw_mutex = <span class="number">1</span>;</span><br><span class="line">semaphore mutex = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> read_count = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>写者进程结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">&#123;</span><br><span class="line">  	wait(rw_mutex);</span><br><span class="line">	...</span><br><span class="line">  	&#x2F;&#x2F;writing is performed</span><br><span class="line">  	...</span><br><span class="line">  	signal(rw_mutex);</span><br><span class="line">&#125;while(TRUE);</span><br></pre></td></tr></table></figure>
+
+<p>读者进程结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">&#123;</span><br><span class="line">    wait(mutex);</span><br><span class="line">    readcount++;</span><br><span class="line">    if(readcount&#x3D;&#x3D;1)</span><br><span class="line">    wait(rw_mutex);</span><br><span class="line">    signal(mutex);</span><br><span class="line">    ...</span><br><span class="line">    &#x2F;&#x2F;reading is performed</span><br><span class="line">	...</span><br><span class="line">    wait(mutex);</span><br><span class="line">    readcount--;</span><br><span class="line">    if(readcount&#x3D;&#x3D;0)</span><br><span class="line">        signal(rw_mutex);</span><br><span class="line">    signal(mutex);</span><br><span class="line">&#125;while(TRUE);</span><br></pre></td></tr></table></figure>
+
+<p>  在以下情况下最为有用：</p>
+<ul>
+<li><p>当可以区分哪些进程只需要读共享数据，哪些进程只需要写共享数据；</p>
+</li>
+<li><p>当读者进程数比写进程多时。</p>
+</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/" class="archive-article-date">
-  	<time datetime="2020-11-10T02:55:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">os读书笔记3</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,364 +364,118 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/27/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B05/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
-  	<time datetime="2020-11-08T07:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/24/ds-week8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ds-week8</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">os读书笔记2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%90%8C%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">第六章 同步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">6.1 背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E4%B8%B4%E7%95%8C%E5%8C%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">6.2 临界区问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-Peterson%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">6.3 Peterson算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E7%A1%AC%E4%BB%B6%E5%90%8C%E6%AD%A5"><span class="toc-number">1.3.1.</span> <span class="toc-text">6.4 硬件同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-%E4%BA%92%E6%96%A5%E9%94%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">6.5 互斥锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-number">1.3.3.</span> <span class="toc-text">6.6 信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-6-1-%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">6.6.1 信号量的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-6-2-%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">6.6.2 信号量的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-6-3-%E6%AD%BB%E9%94%81%E4%B8%8E%E9%A5%A5%E9%A5%BF"><span class="toc-number">1.3.3.3.</span> <span class="toc-text">6.6.3 死锁与饥饿</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E7%BB%8F%E5%85%B8%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.4.</span> <span class="toc-text">6.6 经典同步问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-6-1-%E6%9C%89%E9%99%90%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98%E2%80%94%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">6.6.1 有限缓存问题—生产者消费问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-6-2-%E8%AF%BB%E8%80%85-%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">6.6.2 读者-写者问题</span></a></li></ol></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-08T06:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab3</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" class="archive-article-date">
-  	<time datetime="2020-11-07T16:11:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">os读书笔记1</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/07/ds-week7/" class="archive-article-date">
-  	<time datetime="2020-11-07T05:17:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/07/ds-week7/">ds-week7</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-06T11:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">hexo</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-05T05:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T17:17:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab1</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T15:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab0</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-11-04T06:31:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/">GCC</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">gcc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -566,8 +499,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
