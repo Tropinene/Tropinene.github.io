@@ -6,19 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>ds-week6 | 小歪的博客</title>
+  <title>小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6-1 Percolate Up and Down (7分)Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ds-week6">
-<meta property="og:url" content="http://example.com/2020/11/12/ds-week6/index.html">
+  <meta name="description" content="按时营业，好好吃饭。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小歪的博客">
+<meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="6-1 Percolate Up and Down (7分)Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.">
+<meta property="og:description" content="按时营业，好好吃饭。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-11T16:23:41.000Z">
-<meta property="article:modified_time" content="2020-11-11T16:27:47.128Z">
 <meta property="article:author" content="崖鸥">
-<meta property="article:tag" content="PTA">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
@@ -151,82 +148,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-ds-week6" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-gcc指令详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      ds-week6
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/">GCC</a>
     </h1>
   
 
         
-        <a href="/2020/11/12/ds-week6/" class="archive-article-date">
-  	<time datetime="2020-11-11T16:23:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-12</time>
+        <a href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
+  	<time datetime="2020-11-04T06:31:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-1-Percolate-Up-and-Down-7分"><a href="#6-1-Percolate-Up-and-Down-7分" class="headerlink" title="6-1 Percolate Up and Down (7分)"></a>6-1 Percolate Up and Down (7分)</h1><p>Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.</p>
-<a id="more"></a>
-
-<h3 id="Format-of-functions"><a href="#Format-of-functions" class="headerlink" title="Format of functions:"></a>Format of functions:</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateUp</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateDown</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>where <code>int p</code> is the position of the element, and <code>PriorityQueue</code> is defined as the following:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">HeapStruct</span> *<span class="title">PriorityQueue</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">HeapStruct</span> &#123;</span></span><br><span class="line">    ElementType  *Elements;</span><br><span class="line">    <span class="keyword">int</span> Capacity;</span><br><span class="line">    <span class="keyword">int</span> Size;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Sample-program-of-judge"><a href="#Sample-program-of-judge" class="headerlink" title="Sample program of judge:"></a>Sample program of judge:</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ElementType;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MinData -1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">HeapStruct</span> *<span class="title">PriorityQueue</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">HeapStruct</span> &#123;</span></span><br><span class="line">    ElementType  *Elements;</span><br><span class="line">    <span class="keyword">int</span> Capacity;</span><br><span class="line">    <span class="keyword">int</span> Size;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">PriorityQueue <span class="title">Initialize</span><span class="params">( <span class="keyword">int</span> MaxElements )</span></span>; <span class="comment">/* details omitted */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateUp</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateDown</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">( ElementType X, PriorityQueue H )</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> p = ++H-&gt;Size;</span><br><span class="line">    H-&gt;Elements[p] = X;</span><br><span class="line">    PercolateUp( p, H );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ElementType <span class="title">DeleteMin</span><span class="params">( PriorityQueue H )</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    ElementType MinElement; </span><br><span class="line">    MinElement = H-&gt;Elements[<span class="number">1</span>];</span><br><span class="line">    H-&gt;Elements[<span class="number">1</span>] = H-&gt;Elements[H-&gt;Size--];</span><br><span class="line">    PercolateDown( <span class="number">1</span>, H );</span><br><span class="line">    <span class="keyword">return</span> MinElement; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, i, op, X;</span><br><span class="line">    PriorityQueue H;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">    H = Initialize(n);</span><br><span class="line">    <span class="keyword">for</span> ( i=<span class="number">0</span>; i&lt;n; i++ ) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;op);</span><br><span class="line">        <span class="keyword">switch</span>( op ) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;X);</span><br><span class="line">            Insert(X, H);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, DeleteMin(H));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\nInside H:&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> ( i=<span class="number">1</span>; i&lt;=H-&gt;Size; i++ )</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %d&quot;</span>, H-&gt;Elements[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Your function will be put here */</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input:"></a>Sample Input:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">9</span><br><span class="line">1 10</span><br><span class="line">1 5</span><br><span class="line">1 2</span><br><span class="line">0</span><br><span class="line">1 9</span><br><span class="line">1 1</span><br><span class="line">1 4</span><br><span class="line">0</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
-
-<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output:"></a>Sample Output:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2 1 4 </span><br><span class="line">Inside H: 5 10 9</span><br></pre></td></tr></table></figure>
-
-<h3 id="Code-C"><a href="#Code-C" class="headerlink" title="Code(C):"></a>Code(C):</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateUp</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, x;</span><br><span class="line">    x = H-&gt;Elements[p];</span><br><span class="line">    <span class="keyword">for</span>(i = p; H-&gt;Elements[i/<span class="number">2</span>] &gt; H-&gt;Elements[i]; i /= <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    	<span class="keyword">int</span> temp;</span><br><span class="line">    	temp = H-&gt;Elements[i];</span><br><span class="line">    	H-&gt;Elements[i] = H-&gt;Elements[i/<span class="number">2</span>];</span><br><span class="line">    	H-&gt;Elements[i/<span class="number">2</span>] = temp;</span><br><span class="line">    &#125;   </span><br><span class="line">    H-&gt;Elements[ i ] = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateDown</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, Child, LastElement;</span><br><span class="line">    LastElement = H-&gt;Elements[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>; i*<span class="number">2</span>&lt;=H-&gt;Size; i=Child)</span><br><span class="line">    &#123;</span><br><span class="line">        Child = i * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(Child != H-&gt;Size &amp;&amp; H-&gt;Elements[Child+<span class="number">1</span>] &lt; H-&gt;Elements[Child])</span><br><span class="line">            Child++;</span><br><span class="line">        <span class="keyword">if</span>(LastElement &gt; H-&gt;Elements[Child])</span><br><span class="line">            H-&gt;Elements[i] = H-&gt;Elements[Child];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    H-&gt;Elements[i] = LastElement;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="7-1-Complete-Binary-Search-Tree-10分"><a href="#7-1-Complete-Binary-Search-Tree-10分" class="headerlink" title="7-1 Complete Binary Search Tree (10分)"></a>7-1 Complete Binary Search Tree (10分)</h1><p>A Binary Search Tree (BST) is recursively defined as a binary tree which has the following properties:</p>
-<p>The left subtree of a node contains only nodes with keys less than the node’s key.</p>
-<p>The right subtree of a node contains only nodes with keys greater than or equal to the node’s key.</p>
-<p>Both the left and right subtrees must also be binary search trees.</p>
-<p>A Complete Binary Tree (CBT) is a tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right.</p>
-<p>Now given a sequence of distinct non-negative integer keys, a unique BST can be constructed if it is required that the tree must also be a CBT. You are supposed to output the level order traversal sequence of this BST.</p>
-<h3 id="Input-Specification"><a href="#Input-Specification" class="headerlink" title="Input Specification:"></a>Input Specification:</h3><p>Each input file contains one test case. For each case, the first line contains a positive integer <em>N</em> (≤1000). Then <em>N</em> distinct non-negative integer keys are given in the next line. All the numbers in a line are separated by a space and are no greater than 2000.</p>
-<h3 id="Output-Specification"><a href="#Output-Specification" class="headerlink" title="Output Specification:"></a>Output Specification:</h3><p>For each test case, print in one line the level order traversal sequence of the corresponding complete binary search tree. All the numbers in a line must be separated by a space, and there must be no extra space at the end of the line.</p>
-<h3 id="Sample-Input-1"><a href="#Sample-Input-1" class="headerlink" title="Sample Input:"></a>Sample Input:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10</span><br><span class="line">1 2 3 4 5 6 7 8 9 0</span><br></pre></td></tr></table></figure>
-
-<h3 id="Sample-Output-1"><a href="#Sample-Output-1" class="headerlink" title="Sample Output:"></a>Sample Output:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6 3 8 1 5 7 9 0 2 4</span><br></pre></td></tr></table></figure>
-
-<h3 id="Code-C-1"><a href="#Code-C-1" class="headerlink" title="Code(C):"></a>Code(C):</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tree</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> n, <span class="keyword">int</span> input[], <span class="keyword">int</span> result[])</span></span>;</span><br><span class="line"><span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;num);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a[num], i, result[num];</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> temp, j;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>; j&lt;num-i<span class="number">-1</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(a[j] &gt; a[j+<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                temp = a[j];</span><br><span class="line">                a[j] = a[j+<span class="number">1</span>];</span><br><span class="line">                a[j+<span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Tree(<span class="number">1</span>, num, a, result);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, result[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>; i&lt;=num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %d&quot;</span>, result[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tree</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> n, <span class="keyword">int</span> input[], <span class="keyword">int</span> result[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &gt; n)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Tree(start*<span class="number">2</span>, n, input, result);</span><br><span class="line">        result[start] = input[cnt];</span><br><span class="line">        cnt++;</span><br><span class="line">        Tree(start*<span class="number">2</span>+<span class="number">1</span>, n, input, result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+        <h1 id="GCC常用指令"><a href="#GCC常用指令" class="headerlink" title="GCC常用指令"></a>GCC常用指令</h1>
+        
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>博主太懒了，没放二维码<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -237,7 +184,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">gcc</a>
         		</li>
       		
 		</ul>
@@ -246,84 +193,16 @@
       
 
       
-
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/">展开全文 >></a>
+        </p>
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/11/12/ds-week6/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/11/12/ds%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          ds读书笔记1
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/11/12/ds-week4/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ds-week4</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -338,32 +217,17 @@
         </div>
         
         
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-1-Percolate-Up-and-Down-7%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">6-1 Percolate Up and Down (7分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.0.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.0.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C"><span class="toc-number">1.0.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-1-Complete-Binary-Search-Tree-10%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">7-1 Complete Binary Search Tree (10分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-Specification"><span class="toc-number">2.0.1.</span> <span class="toc-text">Input Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Specification"><span class="toc-number">2.0.2.</span> <span class="toc-text">Output Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">2.0.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">2.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C-1"><span class="toc-number">2.0.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
     </div>
 </aside>
 
 
 
-  
-  
-  
 
   
-
   
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
   
 
 
@@ -386,8 +250,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
