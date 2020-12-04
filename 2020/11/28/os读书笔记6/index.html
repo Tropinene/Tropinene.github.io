@@ -18,8 +18,10 @@
 <meta property="og:image" content="http://example.com/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/0.png">
 <meta property="og:image" content="http://example.com/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/1.png">
 <meta property="og:image" content="http://example.com/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/2.png">
+<meta property="og:image" content="http://example.com/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/3.png">
+<meta property="og:image" content="http://example.com/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/4.png">
 <meta property="article:published_time" content="2020-11-28T04:30:41.000Z">
-<meta property="article:modified_time" content="2020-11-28T04:52:22.948Z">
+<meta property="article:modified_time" content="2020-12-04T04:20:58.557Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
@@ -223,7 +225,7 @@
 </ul>
 <p><strong>死锁预防</strong>（deadlock prevention）是一组方法，以确保至少一个必要条件不成立。这些方法通过限制如何申请资源的方法来预防死锁。</p>
 <p><strong>死锁避免</strong>（deadlock avoidance）要求操作系统事先得到有关进程申请资源和使用资源的额外信息。有了这些额外信息，系统可以确定：对于一个申请，进程是否应等待。为了确定当前申请是允许还是延迟，系统必须考虑可用资源，已经分配给每个进程的资源，每个进程将来申请和释放的资源。</p>
-<h4 id="7-4-1-互斥"><a href="#7-4-1-互斥" class="headerlink" title="7.4.1 互斥"></a>7.4.1 互斥</h4><p>对于非共享资源，必须要有互斥条件（如打印机）。另一方面，共享资源不要求互斥访问，因此不会涉及死锁（如只读文件）。</p>
+<h3 id="7-4-死锁预防"><a href="#7-4-死锁预防" class="headerlink" title="7.4 死锁预防"></a>7.4 死锁预防</h3><h4 id="7-4-1-互斥"><a href="#7-4-1-互斥" class="headerlink" title="7.4.1 互斥"></a>7.4.1 互斥</h4><p>对于非共享资源，必须要有互斥条件（如打印机）。另一方面，共享资源不要求互斥访问，因此不会涉及死锁（如只读文件）。</p>
 <p><strong>故通常不能通过否定互斥条件来预防死锁，有的资源本身就是非共享的</strong>。</p>
 <h4 id="7-4-2-占有并等待"><a href="#7-4-2-占有并等待" class="headerlink" title="7.4.2 占有并等待"></a>7.4.2 占有并等待</h4><p>为了确保占有并等待条件不会在系统内出现，必须保证：<strong>当一个进程申请一个资源时，就不能占有其他资源。</strong></p>
 <p>  方法一：可以通过要求申请资源的系统调用在所有其使用的协议是每个进程在执行前申请并获得所有资源。他系统调用之前进行。</p>
@@ -231,6 +233,75 @@
 <p><strong>这两种协议有两个主要缺点：</strong></p>
 <p>  第一，<strong>资源利用率（resource utilization）可能比较低</strong>，因为很多资源可能已分配，但长时间没有被使用。</p>
 <p>  第二，<strong>可能发生饥饿</strong>。一个进程如需要多个常用资源，可能会永久等待，比如因为其所需要的资源中至少一个总是分配给其他的进程。</p>
+<h3 id="7-5-死锁避免"><a href="#7-5-死锁避免" class="headerlink" title="7.5 死锁避免"></a>7.5 死锁避免</h3><p>死锁预防讨论的是通过<strong>限制如何申请资源</strong>来预防死锁，但造成了设备使用率低和系统吞吐率低。避免死锁的另一种方法是<strong>获取以后如何申请资源的附加信息</strong>，构造一个算法确保系统决不会进入死锁。</p>
+<h4 id="7-5-1-安全状态"><a href="#7-5-1-安全状态" class="headerlink" title="7.5.1 安全状态"></a>7.5.1 安全状态</h4><p>如果系统能按某个顺序为每个进程分配资源（不超过其最大值）并能避免死锁，那么系统状态就是安全的。<strong>即如果存在一个安全序列，那么系统处于安全状态。如果没有这样的顺序存在，那么系统处于不安全状态。</strong></p>
+<p>进程顺序{P1,P2,…,Pn}，如果对于每个Pi，Pi仍然可以申请的资源数小于当前可用资源加上所有进程Pj（其中j小于i）所占用资源，那么这一顺序称为安全序列。</p>
+<p>不是所有不安全状态都能够导致死锁状态。</p>
+<p><img src="/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/3.png"></p>
+<p>举个例子：现有12台磁带驱动器，三个进程所需资源数如下表所示</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">最大需求</th>
+<th align="center">当前需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P0</td>
+<td align="center">10</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">P1</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">9</td>
+<td align="center">2</td>
+</tr>
+</tbody></table>
+<p>故当前可用资源还剩12-5-2-2=3，而三个进程还需资源数为</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">还需</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P0</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">P1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">7</td>
+</tr>
+</tbody></table>
+<p>故只能先满足P1，待P1结束后，可用资源变为3+2=5（或者12-5-2=5）。此时可满足P0，再满足P2，故安全队列为P1-&gt;P0-&gt;P2</p>
+<h4 id="7-5-2-资源分配图法"><a href="#7-5-2-资源分配图法" class="headerlink" title="7.5.2 资源分配图法"></a>7.5.2 资源分配图法</h4><p>利用资源分配图，引入<strong>需求边</strong>Pi→Rj<br>表示进程Pi可能在将来某个时候申请资源Rj。<strong>只有申请边变为分配边而不会导致资源分配图形成环时，才允许申请。</strong></p>
+<p>如果没有环存在，那么会使得系统处于安全状态，如果有环存在则分配会导致系统处于不安全状态。</p>
+<p><img src="/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/4.png"></p>
+<p>假如进请资源程P2申R2。虽然R2现在可用，但是不能分配给P2，因为这会创建一个环，环表示系统处于不安全状态，如果P1再申请R2就会造成死锁。</p>
+<h3 id="7-5-3-银行家算法"><a href="#7-5-3-银行家算法" class="headerlink" title="7.5.3 银行家算法"></a>7.5.3 银行家算法</h3><p><strong>银行家算法</strong>：对于每种资源类型有多个实例的资源分配系统，资源分配图就不再适用。使用银行家算法，但是效率比资源分配图方案低。</p>
+<p>实现银行家算法，必须有几个数据结构：Available，Max，Allocation，Need。</p>
+<p>这些数据结构对资源分配系统的状态进行了记录。设ｎ为系统的进程的个数，ｍ为资源类型的种类：</p>
+<ul>
+<li><p><strong>Available</strong>：长度为m的向量，表示每种资源类型的<strong>现有实例的数量</strong>。如果Available[j] = k，则说明资源类型Rj有现有ｋ个实例。</p>
+</li>
+<li><p><strong>Max</strong>：ｎ×ｍ矩阵，定义每个进程的<strong>最大需求</strong>，如果Max[ｉ][ｊ】 = k，那么进程Pi最多申请ｋ个资源类型Rj的实例。</p>
+</li>
+<li><p><strong>Allocation</strong>：ｎ×ｍ矩阵，定义每个进程<strong>现在所分配的各种资源类型的实例数量</strong>，例如Allocation[i][j】= k，那么进程Pi现在已经分配了ｋ个资源类型Rj的实例。</p>
+</li>
+<li><p><strong>Need</strong>：ｎ×ｍ矩阵，表示每个进程<strong>还需要的剩余的资源</strong>。</p>
+</li>
+</ul>
 
       
 
@@ -364,7 +435,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E6%AD%BB%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">第七章 死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.0.1.</span> <span class="toc-text">7.1 系统模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E6%AD%BB%E9%94%81%E7%89%B9%E5%BE%81"><span class="toc-number">1.0.2.</span> <span class="toc-text">7.2 死锁特征</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-1-%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">7.2.1 必要条件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-2-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE"><span class="toc-number">1.0.3.</span> <span class="toc-text">7.2.2 资源分配图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E6%AD%BB%E9%94%81%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.4.</span> <span class="toc-text">7.3 死锁处理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-1-%E4%BA%92%E6%96%A5"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">7.4.1 互斥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-2-%E5%8D%A0%E6%9C%89%E5%B9%B6%E7%AD%89%E5%BE%85"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">7.4.2 占有并等待</span></a></li></ol></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E6%AD%BB%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">第七章 死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.0.1.</span> <span class="toc-text">7.1 系统模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E6%AD%BB%E9%94%81%E7%89%B9%E5%BE%81"><span class="toc-number">1.0.2.</span> <span class="toc-text">7.2 死锁特征</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-1-%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">7.2.1 必要条件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-2-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE"><span class="toc-number">1.0.3.</span> <span class="toc-text">7.2.2 资源分配图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E6%AD%BB%E9%94%81%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.4.</span> <span class="toc-text">7.3 死锁处理方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E6%AD%BB%E9%94%81%E9%A2%84%E9%98%B2"><span class="toc-number">1.0.5.</span> <span class="toc-text">7.4 死锁预防</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-1-%E4%BA%92%E6%96%A5"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">7.4.1 互斥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-2-%E5%8D%A0%E6%9C%89%E5%B9%B6%E7%AD%89%E5%BE%85"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">7.4.2 占有并等待</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E6%AD%BB%E9%94%81%E9%81%BF%E5%85%8D"><span class="toc-number">1.0.6.</span> <span class="toc-text">7.5 死锁避免</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-1-%E5%AE%89%E5%85%A8%E7%8A%B6%E6%80%81"><span class="toc-number">1.0.6.1.</span> <span class="toc-text">7.5.1 安全状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-2-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE%E6%B3%95"><span class="toc-number">1.0.6.2.</span> <span class="toc-text">7.5.2 资源分配图法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-3-%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="toc-number">1.0.7.</span> <span class="toc-text">7.5.3 银行家算法</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
