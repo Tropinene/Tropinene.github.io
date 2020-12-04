@@ -6,17 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020 | 小歪的博客</title>
+  <title>os读书笔记7 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按时营业，好好吃饭。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="http://example.com/archives/2020/page/3/index.html">
+  <meta name="description" content="第八章 内存管理策略 详细描述内存硬件的各种组织方法 探讨进程内存分配的各种技术 详细讨论现代计算机系统的分页如何工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="os读书笔记7">
+<meta property="og:url" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="按时营业，好好吃饭。">
+<meta property="og:description" content="第八章 内存管理策略 详细描述内存硬件的各种组织方法 探讨进程内存分配的各种技术 详细讨论现代计算机系统的分页如何工作">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/5.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/6.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/7.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/0.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/1.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/2.png">
+<meta property="og:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/3.png">
+<meta property="article:published_time" content="2020-12-04T11:28:08.000Z">
+<meta property="article:modified_time" content="2020-12-04T13:10:39.882Z">
 <meta property="article:author" content="崖鸥">
+<meta property="article:tag" content="os">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/5.png">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
   
@@ -148,101 +159,229 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-os读书笔记7" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T15:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab0</a>
+    <h1 class="article-title" itemprop="name">
+      os读书笔记7
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/" class="archive-article-date">
+  	<time datetime="2020-12-04T11:28:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="第八章-内存管理策略"><a href="#第八章-内存管理策略" class="headerlink" title="第八章 内存管理策略"></a>第八章 内存管理策略</h1><ul>
+<li>详细描述内存硬件的各种组织方法</li>
+<li>探讨进程内存分配的各种技术</li>
+<li>详细讨论现代计算机系统的分页如何工作</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="8-1-背景"><a href="#8-1-背景" class="headerlink" title="8.1 背景"></a>8.1 背景</h1><p>内存是现代计算机运行的中心。</p>
+<h3 id="8-1-1-基本硬件"><a href="#8-1-1-基本硬件" class="headerlink" title="8.1.1 基本硬件"></a>8.1.1 基本硬件</h3><p>CPU所能直接访问的存储器只有<strong>内存和处理器内的寄存器</strong>。除了保证访问物理内存的相对速度之外，还要确保操作系统不会被用户进程所访问，以及确保用户进程不会被其他用户进程访问。这种保护可通过硬件来实现，硬件实现由许多方法，将在之后讨论。</p>
+<p>其中一种可能方案为：</p>
+<p>首先确保每个进程都有独立的内存空间，为此，需要确定进程<strong>可访问的合法地址的范围</strong>，并确保进程只能访问其合法地址。通过基<strong>地址寄存器（base register）和界限地址寄存器</strong>（limit register）可以实现这种保护。</p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/5.png"></p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/6.png"></p>
+<h3 id="8-1-3-逻辑地址空间和物理地址空间"><a href="#8-1-3-逻辑地址空间和物理地址空间" class="headerlink" title="8.1.3 逻辑地址空间和物理地址空间"></a>8.1.3 逻辑地址空间和物理地址空间</h3><p><strong>CPU</strong>生成的地址通常称为<strong>逻辑地址</strong>（logical address），而<strong>内存单元</strong>所看到的地址（即加载到内存地址寄存器（memory-address register）中的地址）通常称为<strong>物理地址</strong>（physical address）。</p>
+<p>运行时从<strong>虚拟地址</strong>到<strong>物理地址</strong>的映射由被称为<strong>内存管理单元</strong>（memory-management unit，<strong>MMU</strong>）的硬件设备来完成。</p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/7.png"></p>
+<h3 id="8-3-连续内存分配（contiguous-memory-allocation）"><a href="#8-3-连续内存分配（contiguous-memory-allocation）" class="headerlink" title="8.3 连续内存分配（contiguous memory allocation）"></a>8.3 连续内存分配（contiguous memory allocation）</h3><p>内存必须容纳<strong>操作系统</strong>和<strong>各种用户进程</strong>，因此应该尽可能有效地分配内存的各个部分。</p>
+<p>内存通常分为两个区域：一个用于驻留<strong>操作系统</strong>，一个用于<strong>用户进程</strong>。操作系统可以位于低内存或高内存，影响这一决定的主要因素是<strong>中断向量</strong>的位置。由于中断向量通常位于低内存，因此程序员通常将操作系统放到<strong>低内存</strong>。</p>
+<p>采用<strong>连续内存分配</strong>（contiguous memory allocation）时，每个进程位于一个连续的内存区域。</p>
+<h3 id="8-3-1-内存保护"><a href="#8-3-1-内存保护" class="headerlink" title="8.3.1 内存保护"></a>8.3.1 内存保护</h3><p>通过采用<strong>重定位寄存器</strong>和<strong>界限地址寄存器</strong>可以实现保护。</p>
+<p>重定位寄存器含有最小的物理地址值；界限地址寄存器含有逻辑地址的范围值。</p>
+<p>这样每个逻辑地址必须小于界限地址寄存器。MMU动态第将逻辑地址加上重定位寄存器的值后影射成物理地址。映射后的物理地址再送交内存单元。</p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/0.png"></p>
+<h3 id="8-3-2-内存分配"><a href="#8-3-2-内存分配" class="headerlink" title="8.3.2 内存分配"></a>8.3.2 内存分配</h3><p>最简单的内存分配方法之一是将内存分为多个<strong>固定大小</strong>的分区（partition）。每个分区只能容纳一个进程。那么多道程序的程度会受分区数限制。如果使用这种<strong>多分区方法</strong>（multiple-partition method），当一个分区空闲时，可以输入队列中选择一个进程，以调入到空闲分区。当进程终止时，其分区可以被其他进程所使用。</p>
+<p>分配方法：</p>
+<ul>
+<li><p><strong>首次适应</strong>（first-fit）：分配<strong>第一个</strong>足够大的孔，查找可以从头开始，也可以从上次首次适应结束时开始。一旦找到足够大的空闲孔，就可以停止。</p>
+</li>
+<li><p><strong>最佳适应</strong>（best-fit）：分配<strong>最小的</strong>足够大的孔。必须查找整个列表，除非列表按照大小排序。这种方法可以产生最小剩余孔。</p>
+</li>
+<li><p><strong>最差适应</strong>（worst-fit）：分配<strong>最大的</strong>孔，同样必须查找整个列表，除非列表按照大小排序。这种方法可以产生最大剩余孔。该孔可能比最佳适应方法产生的最小剩余孔更有用。</p>
+</li>
+</ul>
+<h3 id="8-3-3-碎片"><a href="#8-3-3-碎片" class="headerlink" title="8.3.3 碎片"></a>8.3.3 碎片</h3><p><strong>外部碎片</strong>：是由于大量信息由于先后写入、置换、删除而形成的空间碎片。为了便于理解，我们将信息比作货物，将存储空间比作仓库来举例子。假设，我们有编号为1、2、3、4、5、6的6间仓库库房，前天送来了一大宗货，依次装入了1、2、3、4、5号仓库，昨天又因故将4号库房的货物运走了，那么数值上说我们还有两间空仓库的空间，但是如果这时候送来两间仓库容量的货物但要求必须连续存放的话，我们实际上是装不下的。这时的4、6号仓库，就成为一种空间的碎片。由于这样的原因形成的空间碎片，我们称之为外部碎片。从上面的例子我们可以理解，外部碎片是可以通过一些措施来改善或者解决的。对于在硬盘上的外部碎片，我们通常用磁盘碎片整理来解决，对应上面的例子，就是将5号仓库的货物及时移动到新腾出的4号仓库，这样，1-4号仓库都是满的，而5、6号仓库则形成了有效的、连续的空间，能够适应新的应用要求了；对于内存中的外部碎片，我们内存管理中常用的页面管理形式，就是为了解决这个问题的。这里就不详述了。</p>
+<p><strong>内部碎片</strong>：是由于存量信息容量与最小存储空间单位不完全相符而造成的空间碎片。还是沿用上面的例子，这次我们的6间仓库目前都是空置的，但是假设我们管理仓库的最小空间单位是间，今天运来了容量为2.5间仓库的货物，那也要占用我们1-3号3间仓库，尽管3号仓库还闲置着一半的空间，但是这半间仓库已经不能再利用了（因为是以间为最小单位么）；这时，我们的仓库中就形成了半间仓库的空间碎片，仓库的有效容量只剩下3间仓库了。</p>
+<p>解决碎片的方法：</p>
+<ul>
+<li><strong>紧缩</strong>（compaction）：移动内存内容，以便所有空闲空间合并成一整块。</li>
+<li><strong>允许物理地址为非连续的</strong>：这样只要有物理内存就可以为进程分配。</li>
+</ul>
+<h3 id="8-4-分段"><a href="#8-4-分段" class="headerlink" title="8.4 分段"></a>8.4 分段</h3><p>采用分页内存管理有一个不可避免的问题，就是<strong>用户视角的内存和实际物理内存</strong>的分离。</p>
+<h3 id="8-4-1-基本方法"><a href="#8-4-1-基本方法" class="headerlink" title="8.4.1 基本方法"></a>8.4.1 基本方法</h3><p>用户通常愿意将内存看作是一组不同长度的段的集合，这些段之间并没有一定的顺序。如对象、数组、堆栈、变量等，就像汇编语言中对先对段进行定义，然后指针指向段的位置一样。</p>
+<p><strong>分段（</strong>segmentation）就是支持这种用户视角内存管理方法。逻辑地址空间由一组段组成的。每个段都有名称和长度。地址指定了段名称和段内偏移。因此用户通过两个量来指定地址：<strong>段名称(segment-number)和偏移(offset)。</strong></p>
+<h3 id="8-4-2-硬件"><a href="#8-4-2-硬件" class="headerlink" title="8.4.2 硬件"></a>8.4.2 硬件</h3><p>通过<strong>段表(segment table)**来将用户定义的二维地址映射到一维地址上。段表的每个条目都有</strong>段基地址(segment base)<strong>和</strong>段界限(segment limit)**</p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/1.png"></p>
+<h3 id="8-5-分页"><a href="#8-5-分页" class="headerlink" title="8.5 分页"></a>8.5 分页</h3><p>分页（paging）内存管理方案允许进程的物理地址空间可以使<strong>非连续的</strong>。</p>
+<h3 id="8-5-1-基本方法"><a href="#8-5-1-基本方法" class="headerlink" title="8.5.1 基本方法"></a>8.5.1 基本方法</h3><p>实现分页的基本方法设计将物理内存分为固定大小的块，称为<strong>帧</strong>（frame）；而将逻辑内存也分为<strong>同样大小</strong>的块，称为<strong>页</strong>（page）。</p>
+<p>由CPU生成个每个地址分为两个部分：<strong>页号</strong>（p）和<strong>页位移</strong>（d）</p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/2.png"></p>
+<p><img src="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/3.png"></p>
+<p>采用分页技术不会产生外部碎片：每个帧都可以分配给需要它的进程。不过分页有<strong>内部碎片。</strong></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>博主太懒了，没放二维码<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-11-04T06:31:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/28/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B06/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">os读书笔记6</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/04/gcc%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3/">GCC</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">gcc</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">第八章 内存管理策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-1-%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">8.1 背景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-1-%E5%9F%BA%E6%9C%AC%E7%A1%AC%E4%BB%B6"><span class="toc-number">2.0.1.</span> <span class="toc-text">8.1.1 基本硬件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-3-%E9%80%BB%E8%BE%91%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4%E5%92%8C%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">2.0.2.</span> <span class="toc-text">8.1.3 逻辑地址空间和物理地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E8%BF%9E%E7%BB%AD%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%EF%BC%88contiguous-memory-allocation%EF%BC%89"><span class="toc-number">2.0.3.</span> <span class="toc-text">8.3 连续内存分配（contiguous memory allocation）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-1-%E5%86%85%E5%AD%98%E4%BF%9D%E6%8A%A4"><span class="toc-number">2.0.4.</span> <span class="toc-text">8.3.1 内存保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-2-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-number">2.0.5.</span> <span class="toc-text">8.3.2 内存分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-3-%E7%A2%8E%E7%89%87"><span class="toc-number">2.0.6.</span> <span class="toc-text">8.3.3 碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E5%88%86%E6%AE%B5"><span class="toc-number">2.0.7.</span> <span class="toc-text">8.4 分段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-1-%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"><span class="toc-number">2.0.8.</span> <span class="toc-text">8.4.1 基本方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-2-%E7%A1%AC%E4%BB%B6"><span class="toc-number">2.0.9.</span> <span class="toc-text">8.4.2 硬件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-%E5%88%86%E9%A1%B5"><span class="toc-number">2.0.10.</span> <span class="toc-text">8.5 分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-1-%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"><span class="toc-number">2.0.11.</span> <span class="toc-text">8.5.1 基本方法</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><a class="page-number" href="/archives/2020/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
+  
+
   
 
 
@@ -266,8 +405,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
