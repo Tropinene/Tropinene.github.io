@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>小歪的博客</title>
+  <title>ds-week10 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按时营业，好好吃饭。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="http://example.com/page/2/index.html">
+  <meta name="description" content="7-1 Universal Travel Sites (15分)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ds-week10">
+<meta property="og:url" content="http://example.com/2020/12/06/ds-week10/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="按时营业，好好吃饭。">
+<meta property="og:description" content="7-1 Universal Travel Sites (15分)">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-06T12:32:09.000Z">
+<meta property="article:modified_time" content="2020-12-06T17:32:30.872Z">
 <meta property="article:author" content="崖鸥">
+<meta property="article:tag" content="PTA">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
@@ -148,32 +151,80 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-ds-week4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-ds-week10" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/12/ds-week4/">ds-week4</a>
+    <h1 class="article-title" itemprop="name">
+      ds-week10
     </h1>
   
 
         
-        <a href="/2020/11/12/ds-week4/" class="archive-article-date">
-  	<time datetime="2020-11-11T16:19:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-12</time>
+        <a href="/2020/12/06/ds-week10/" class="archive-article-date">
+  	<time datetime="2020-12-06T12:32:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-1-Isomorphic-9分"><a href="#6-1-Isomorphic-9分" class="headerlink" title="6-1 Isomorphic (9分)"></a>6-1 Isomorphic (9分)</h1><p>Two trees, <code>T1</code> and <code>T2</code>, are <strong>isomorphic</strong> if <code>T1</code> can be transformed into <code>T2</code> by swapping left and right children of (some of the) nodes in <code>T1</code>. For instance, the two trees in Figure 1 are isomorphic because they are the same if the children of A, B, and G, but not the other nodes, are swapped. Give a polynomial time algorithm to decide if two trees are isomorphic.</p>
-        
+        <h1 id="7-1-Universal-Travel-Sites-15分"><a href="#7-1-Universal-Travel-Sites-15分" class="headerlink" title="7-1 Universal Travel Sites (15分)"></a>7-1 Universal Travel Sites (15分)</h1><a id="more"></a>
+
+<p>After finishing her tour around the Earth, CYLL is now planning a universal travel sites development project. After a careful investigation, she has a list of capacities of all the satellite transportation stations in hand. To estimate a budget, she must know the minimum capacity that a planet station must have to guarantee that every space vessel can dock and download its passengers on arrival.</p>
+<h3 id="Input-Specification"><a href="#Input-Specification" class="headerlink" title="Input Specification:"></a>Input Specification:</h3><p>Each input file contains one test case. For each case, the first line contains the names of the source and the destination planets, and a positive integer <code>N</code> (≤500). Then <code>N</code> lines follow, each in the format: <code>source[i] destination[i] capacity[i]</code> where <code>source[i]</code> and <code>destination[i]</code> are the names of the satellites and the two involved planets, and <code>capacity[i]</code> &gt; 0 is the maximum number of passengers that can be transported at one pass from <code>source[i]</code> to <code>destination[i]</code>. Each name is a string of 3 uppercase characters chosen from {A-Z}, e.g., ZJU.</p>
+<p>Note that the satellite transportation stations have no accommodation facilities for the passengers. Therefore none of the passengers can stay. Such a station will not allow arrivals of space vessels that contain more than its own capacity. It is guaranteed that the list contains neither the routes to the source planet nor that from the destination planet.</p>
+<h3 id="Output-Specification"><a href="#Output-Specification" class="headerlink" title="Output Specification:"></a>Output Specification:</h3><p>For each test case, just print in one line the minimum capacity that a planet station must have to guarantee that every space vessel can dock and download its passengers on arrival.</p>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input:"></a>Sample Input:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">EAR MAR 11</span><br><span class="line">EAR AAA 300</span><br><span class="line">EAR BBB 400</span><br><span class="line">AAA BBB 100</span><br><span class="line">AAA CCC 400</span><br><span class="line">AAA MAR 300</span><br><span class="line">BBB DDD 400</span><br><span class="line">AAA DDD 400</span><br><span class="line">DDD AAA 100</span><br><span class="line">CCC MAR 400</span><br><span class="line">DDD CCC 200</span><br><span class="line">DDD MAR 300</span><br></pre></td></tr></table></figure>
+
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output:"></a>Sample Output:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">700</span><br></pre></td></tr></table></figure>
+
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ul>
+<li>建图<ul>
+<li>先读入起始点、终止点与边数</li>
+<li>起点，终点分别存入数组前两个，即他们的节点编号为1，2</li>
+<li>开始循环读入每条边。<ul>
+<li>遍历节点数组，寻找有无存储过的起终点。若有则返回最早的编号，若无则加入数组中，赋予编号</li>
+<li>在map邻接矩阵中赋权</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>深度优先搜索，找到一条路径<ul>
+<li>找到这条路径上的最小权（累加）</li>
+<li>给路径上每条边减去这个最小权</li>
+<li>同时要赋予反向的路径</li>
+</ul>
+</li>
+<li>重复上一步骤，直至没有路径</li>
+<li>输出累加的所有最小权，即为最大流量</li>
+</ul>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>博主太懒了，没放二维码<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -193,16 +244,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/12/ds-week4/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/12/06/ds-week10/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">os读书笔记7</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -217,705 +327,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ds-week2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/12/ds-week2/">ds-week2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/12/ds-week2/" class="archive-article-date">
-  	<time datetime="2020-11-11T16:13:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="6-1-Add-Two-Polynomials-10分"><a href="#6-1-Add-Two-Polynomials-10分" class="headerlink" title="6-1 Add Two Polynomials (10分)"></a>6-1 Add Two Polynomials (10分)</h1><p>Write a function to add two polynomials. Do not destroy the input. Use a linked list implementation with a dummy head node. Note: The zero polynomial is represented by an empty list with only the dummy head node.</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/12/ds-week2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#7-1-Universal-Travel-Sites-15%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">7-1 Universal Travel Sites (15分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-Specification"><span class="toc-number">1.0.1.</span> <span class="toc-text">Input Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Specification"><span class="toc-number">1.0.2.</span> <span class="toc-text">Output Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.0.5.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-os读书笔记4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/">os读书笔记4</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/" class="archive-article-date">
-  	<time datetime="2020-11-10T04:57:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第五章-进程调度"><a href="#第五章-进程调度" class="headerlink" title="第五章 进程调度"></a>第五章 进程调度</h1><p><strong>本章目标：</strong></p>
-<ul>
-<li>引入CPU调度，这是多道程序操作系统的基础</li>
-<li>描述各种CPU调度算法</li>
-<li>讨论为特定系统选择CPU调度算法的评估标准</li>
-<li>分析多个操作系统的调度算法</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">os读书笔记3</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/" class="archive-article-date">
-  	<time datetime="2020-11-10T02:55:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第四章-多线程编程"><a href="#第四章-多线程编程" class="headerlink" title="第四章 多线程编程"></a>第四章 多线程编程</h1><p>本章目标：</p>
-<ul>
-<li>引入线程概念，即CPU使用的基本单元。</li>
-<li>探讨多种策略以便提供隐式线程</li>
-<li>讨论多线程编程相关的问题</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">os读书笔记2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
-  	<time datetime="2020-11-08T07:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第三章-进程"><a href="#第三章-进程" class="headerlink" title="第三章 进程"></a>第三章 进程</h1><p><strong>本章目标：</strong></p>
-<ul>
-<li>引入进程概念</li>
-<li>讨论进程的各类特性，包括调度、创建和终止</li>
-<li>探讨通过共享内存和消息传递的进程间通信</li>
-<li>讨论客户机与服务器系统间的通信</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lab3-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab3</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-08T06:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="实验-3：RISC-V64简单的进程调度实现"><a href="#实验-3：RISC-V64简单的进程调度实现" class="headerlink" title="实验 3：RISC-V64简单的进程调度实现"></a>实验 3：RISC-V64简单的进程调度实现</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">os读书笔记1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" class="archive-article-date">
-  	<time datetime="2020-11-07T16:11:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第二章-操作系统结构"><a href="#第二章-操作系统结构" class="headerlink" title="第二章 操作系统结构"></a>第二章 操作系统结构</h1><p><strong>本章目标：</strong></p>
-<ul>
-<li>描述操作系统为用户、进程和其它系统提供的服务。</li>
-<li>讨论构建操作系统的各种方式。</li>
-<li>解释如何安装与定制操作系统以及如何启动操作系统。</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ds-week7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/07/ds-week7/">ds-week7</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/07/ds-week7/" class="archive-article-date">
-  	<time datetime="2020-11-07T05:17:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="7-1-File-Transfer"><a href="#7-1-File-Transfer" class="headerlink" title="7-1 File Transfer"></a><strong>7-1</strong> <strong>File Transfer</strong></h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/07/ds-week7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-常见指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">hexo</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-06T11:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="hexo-常用指令"><a href="#hexo-常用指令" class="headerlink" title="hexo 常用指令"></a>hexo 常用指令</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lab2-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-05T05:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Lab-2-RISC-V64-时钟中断处理"><a href="#Lab-2-RISC-V64-时钟中断处理" class="headerlink" title="Lab 2: RISC-V64 时钟中断处理"></a>Lab 2: RISC-V64 时钟中断处理</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -938,8 +375,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
