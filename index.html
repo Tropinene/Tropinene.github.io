@@ -150,6 +150,140 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-lab5-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/11/lab5-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验-lab5</a>
+    </h1>
+  
+
+        
+        <a href="/2020/12/11/lab5-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
+  	<time datetime="2020-12-11T01:24:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Lab-5-RISC-V-64-用户模式"><a href="#Lab-5-RISC-V-64-用户模式" class="headerlink" title="Lab 5: RISC-V 64 用户模式"></a>Lab 5: RISC-V 64 用户模式</h1><h2 id="1-实验简介"><a href="#1-实验简介" class="headerlink" title="1 实验简介"></a>1 实验简介</h2><p>进一步巩固课堂学习的页式内存管理以及虚拟内存的相关知识，在低地址空间映射用户态程序，并尝试编写简单的系统调用处理函数。</p>
+<h2 id="2-实验环境"><a href="#2-实验环境" class="headerlink" title="2 实验环境"></a>2 实验环境</h2><ul>
+<li>Docker Image</li>
+</ul>
+<h2 id="3-背景知识"><a href="#3-背景知识" class="headerlink" title="3 背景知识"></a>3 背景知识</h2><h3 id="3-1-User-模式基础介绍"><a href="#3-1-User-模式基础介绍" class="headerlink" title="3.1 User 模式基础介绍"></a>3.1 User 模式基础介绍</h3><p>处理器具有两种不同的模式：用户模式和内核模式。在内核模式下，执行代码对底层硬件具有完整且不受限制的访问权限，它可以执行任何CPU指令并引用任何内存地址。在用户模式下，执行代码无法直接访问硬件，必须委托给系统提供的接口才能访问硬件或内存。处理器根据处理器上运行的代码类型在两种模式之间切换。应用程序以用户模式运行，而核心操作系统组件以内核模式运行。</p>
+<p>当启动用户模式应用程序时，内核将为该应用程序创建一个进程，为应用程序提供了专用虚拟地址空间等资源。因为应用程序的虚拟地址空间是私有的，所以一个应用程序无法更改属于另一个应用程序的数据。每个应用程序都是独立运行的，如果一个应用程序崩溃，其他应用程序和操作系统不会受到影响。同时，用户模式应用程序可访问的虚拟地址空间也受到限制，在用户模式下无法访问操作系统的虚拟地址，可防止应用程序修改关键操作系统数据。</p>
+<h3 id="3-2-系统调用约定"><a href="#3-2-系统调用约定" class="headerlink" title="3.2 系统调用约定"></a>3.2 系统调用约定</h3><p>系统调用是用户态应用程序请求内核服务的一种方式。在RISC-V中，我们使用<code>ecall</code>指令进行系统调用。当执行这条指令时处理器会提升特权模式，跳转到异常处理函数处理这条系统调用。</p>
+<p>Linux中RISC-V相关的系统调用可以在<code>.../include/asm-generic/unistd.h</code>中找到，<a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/syscall.2.html">syscall(2)</a>手册页上对RISC-V架构上的调用说明进行了总结，系统调用参数使用a0 - a5，系统调用号使用a7，系统调用的返回值会被保存到a0, a1中。</p>
+<h2 id="4-实验步骤"><a href="#4-实验步骤" class="headerlink" title="4 实验步骤"></a>4 实验步骤</h2><h3 id="4-1-环境搭建"><a href="#4-1-环境搭建" class="headerlink" title="4.1 环境搭建"></a>4.1 环境搭建</h3><h4 id="4-1-1-建立映射"><a href="#4-1-1-建立映射" class="headerlink" title="4.1.1 建立映射"></a>4.1.1 建立映射</h4><p>同lab4的文件夹映射方法，目录名为lab5。</p>
+<h4 id="4-1-2-组织文件结构"><a href="#4-1-2-组织文件结构" class="headerlink" title="4.1.2 组织文件结构"></a>4.1.2 组织文件结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lab5</span><br><span class="line">├── arch</span><br><span class="line">│   └── riscv</span><br><span class="line">│       ├── include</span><br><span class="line">│       │   ├── put.h</span><br><span class="line">│       │   ├── sched.h</span><br><span class="line">│       │   ├── syscall.h</span><br><span class="line">│       │   └── vm.h</span><br><span class="line">│       ├── kernel</span><br><span class="line">│       │   ├── entry.S</span><br><span class="line">│       │   ├── head.S</span><br><span class="line">│       │   ├── Makefile</span><br><span class="line">│       │   ├── sched.c</span><br><span class="line">│       │   ├── strap.c</span><br><span class="line">│       │   ├── vm.c</span><br><span class="line">│       │   └── vmlinux.lds</span><br><span class="line">│       └── Makefile</span><br><span class="line">├── include</span><br><span class="line">│   └── ...</span><br><span class="line">├── init</span><br><span class="line">│   └── ...</span><br><span class="line">├── lib</span><br><span class="line">│   └── ...</span><br><span class="line">└── Makefile</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-添加系统调用处理函数"><a href="#4-2-添加系统调用处理函数" class="headerlink" title="4.2 添加系统调用处理函数"></a>4.2 添加系统调用处理函数</h3><p>本实验我们将增加对系统调用的处理。在RISC-V中系统调用通过<code>ecall</code>（environment call）来实现。在U-mode、S-mode、M-mode下执行<code>ecall</code>分别会触发environment-call-from-U-mode异常、environment-call-from-S-mode异常、environment-call-from-M-mode异常。在系统调用的实现中，我们通过在U-mode下执行<code>ecall</code>触发environment-call-from-U-mode异常，并由S-mode中运行的内核处理这个异常。</p>
+<p>在head.S中内核boot阶段时，设置 medeleg 寄存器为用户模式系统调用添加异常委托。<br>在没有设置异常委托的情况下，<code>ecall</code>指令产生的异常由M-mode来处理，而不是交由内核所在的S-mode进行处理。通过 medeleg 中设置相应的位，可以将environment-call-from-U-mode异常直接交由S-mode处理。具体设置方式参照RISC-V手册。</p>
+<p>和实验4一样，为了便于确认实验完成的正确与否，本实验对异常处理函数的命名和类型有要求，要求其函数原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handler_s(<span class="keyword">size_t</span> scause, <span class="keyword">size_t</span> sepc, <span class="keyword">uintptr_t</span> *regs);</span><br></pre></td></tr></table></figure>
+
+<p>为S模式异常处理函数添加系统调用的处理逻辑，从a7中获得当前系统调用号，从a0 - a5中获得系统调用相关的参数，本次实验中要求实现的系统调用分别为：172号系统调用<code>SYS_GETPID</code>，64号系统调用<code>SYS_WRITE</code>。<br>RISC-V中 scause 寄存器储存了中断或异常的类型（原因），通过判断scause的值来进行相应的处理，针对environment-call-from-U-mode异常，从a7中获得系统调用号实现相应的系统调用。系统调用的返回值通过a0，a1寄存器返回。</p>
+<p>本次实验要求的系统调用函数原型以及具体功能如下：</p>
+<ul>
+<li>64  号系统调用 <code>sys_write(unsigned int fd, const char* buf, size_t count)</code><br>该调用将用户态传递的字符串打印到屏幕上，此处<code>fd</code>为标准输出（1），<code>buf</code>为用户需要打印的起始地址，<code>count</code>为字符串长度，返回打印的字符数。</li>
+<li>172 号系统调用 <code>sys_getpid()</code><br>该调用从<code>current</code>中获取当前的<code>pid</code>放入<code>a0</code>中返回，无参数。</li>
+</ul>
+<h3 id="4-3-修改进程初始化以及进程调度相关逻辑"><a href="#4-3-修改进程初始化以及进程调度相关逻辑" class="headerlink" title="4.3 修改进程初始化以及进程调度相关逻辑"></a>4.3 修改进程初始化以及进程调度相关逻辑</h3><h4 id="task-struct的修改"><a href="#task-struct的修改" class="headerlink" title="task struct的修改"></a>task struct的修改</h4><p>本实验中需要为task struct增添新的变量，根据实现方式的不同，新增的方式会有所不同。举例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">size_t sepc;      &#x2F;&#x2F; 保存的sepc</span><br><span class="line">size_t sscratch;  &#x2F;&#x2F; 保存的sscratch</span><br><span class="line">mm_struct *mm;    &#x2F;&#x2F; 虚拟内存映射相关</span><br></pre></td></tr></table></figure>
+
+<p>在进程初始化时，除了之前实验所需的内容外，还需要为新进程创建页表。新进程页表首先需要把内核相关的映射建立好，这里可以选择简单地把内核页表复制一份（需要注意如何同步不同进程间内核页表的变化）。还需要建立用户程序以及用户栈的分配和映射。</p>
+<p>本实验还需要储存虚拟内存映射相关的<code>mm_struct</code>，<code>mm_struct</code>需要有进程的页表地址、虚拟地址空间的分配情况等信息。</p>
+<p>初始化进程后，需要设置好sepc、sstatus等CSR的值，并且需要修改ra使该进程启动后能进行<code>sret</code>，跳转到用户态程序入口。与进程切换不同，进程初始化后，其内核栈上并没有初始化，缺少C中的调用栈信息，因此需要实现一段汇编进行进程的返回。</p>
+<h4 id="内存空间分配"><a href="#内存空间分配" class="headerlink" title="内存空间分配"></a>内存空间分配</h4><p>由于增加了用户态支持，虚拟地址的映射方式与lab4有所不同，变化如下。虚拟地址0x0-0x80000000供用户态使用，0xffffffdf80000000-0xffffffe000000000作为设备地址（UART等）、以及内核用于进行虚拟地址映射的地址，0xffffffe000000000开始的地址直接与物理内存进行映射。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Physical Address</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">|      |UART|              |   Kernel 16MB   |</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">       ^                   ^</span><br><span class="line">    0x10000000           0x80000000</span><br><span class="line">       |                   └─────────────────────────────────────────────────────┐</span><br><span class="line">       └────────────────────────────────────────────────┐                        |</span><br><span class="line">Virtual Address                                         ↓                        ↓</span><br><span class="line">------------------------------------------------------------------------------------------------------------</span><br><span class="line">| User 2GB |                      &lt;-- User Stack |      |UART|                   |   Kernel 16MB   |</span><br><span class="line">------------------------------------------------------------------------------------------------------------</span><br><span class="line">^          ^                                     ^      ^                        ^</span><br><span class="line">0x0   0x80000000                0xffffffdf80000000      0xffffffdf90000000       0xffffffe000000000</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="用户栈与内核栈"><a href="#用户栈与内核栈" class="headerlink" title="用户栈与内核栈"></a>用户栈与内核栈</h4><p>用户态程序与内核并不共用栈，因此内核的实现需要区分用户态栈和内核态栈，这就带来一个问题，即在异常处理的过程中需要对栈进行切换。</p>
+<p>从用户态进入内核态时，即发生中断或异常时，需要切换用户栈为内核栈，一种实现方式是，访问进程控制结构中的内核栈数据，我们可以使用sscratch来保存当前进程task struct的地址。为实现这一功能，当异常发生时需要首先取出sscratch的内容，方便在后续的逻辑中直接访问task struct中的内容，同样的，在退出异常时，需要再将task struct的地址存回到sscratch中。</p>
+<p>另外一种思路是，在用户态下，使用sscratch来直接保存指向内核栈的指针，使用逻辑与上面类似，不再赘述。同时，在进程的调度过程中，同学们也需要根据自己的实现为进程的sscratch、sepc、scause等必要的特权寄存器内容进行切换。</p>
+<h3 id="4-4-用户态测试程序"><a href="#4-4-用户态测试程序" class="headerlink" title="4.4 用户态测试程序"></a>4.4 用户态测试程序</h3><p>由于内核和用户态程序的功能不同，以及为了兼容将来文件系统等功能，本次实验中所使用的用户态程序需要额外进行编译。同学们在实验的过程中可以选择自行编译用户态程序或者使用仓库中提供的二进制镜像。下面对加载二进制镜像的操作进行讲解，我们使用qemu的initrd选项来加载用户态程序。这里实验仓库中提供的用户态程序是一段经过处理的二进制镜像，同学们在使用下面的命令加载时，实际上是把该段镜像以initfs的形式加载到内存0x84000000处，那么只需要在运行时将此页代码映射至用户空间即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-system-riscv64 -nographic -machine virt -kernel vmlinux -initrd hello.bin</span><br></pre></td></tr></table></figure>
+
+<p><code>hello.bin</code> 未经裁切前的内容如下所示，可以看到测试程序在main中执行了一次172号调用来获得进程pid，程序在printf中还调用了64号系统调用来打印字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">0000000000000004 &lt;main&gt;:</span><br><span class="line">   4:   fd010113                addi    sp,sp,-48</span><br><span class="line">   8:   02113423                sd      ra,40(sp)</span><br><span class="line">   c:   02813023                sd      s0,32(sp)</span><br><span class="line">  10:   00913c23                sd      s1,24(sp)</span><br><span class="line">  14:   01213823                sd      s2,16(sp)</span><br><span class="line">  18:   01313423                sd      s3,8(sp)</span><br><span class="line">  1c:   00010993                mv      s3,sp</span><br><span class="line">  20:   00000917                auipc   s2,0x0</span><br><span class="line">  24:   3b890913                addi    s2,s2,952 # 3d8 &lt;printf+0x358&gt;</span><br><span class="line">  28:   fff00493                li      s1,-1</span><br><span class="line">  2c:   0ac00893                li      a7,172</span><br><span class="line">  30:   00000073                ecall</span><br><span class="line">  34:   00050413                mv      s0,a0</span><br><span class="line">  38:   00098613                mv      a2,s3</span><br><span class="line">  3c:   00040593                mv      a1,s0</span><br><span class="line">  40:   00090513                mv      a0,s2</span><br><span class="line">  44:   03c000ef                jal     ra,80 &lt;printf&gt;</span><br><span class="line">  48:   00048793                mv      a5,s1</span><br><span class="line">  4c:   fff7879b                addiw   a5,a5,-1</span><br><span class="line">  50:   fe079ee3                bnez    a5,4c &lt;main+0x48&gt;</span><br><span class="line">  54:   fd9ff06f                j       2c &lt;main+0x28&gt;</span><br><span class="line"></span><br><span class="line">000000000000004c &lt;printf&gt;:</span><br><span class="line">  ...</span><br><span class="line"> 380:   04000893                li      a7,64</span><br><span class="line"> 384:   00078513                li      a0,1</span><br><span class="line"> 388:   00070593                mv      a1,a4 # buf</span><br><span class="line"> 38c:   00068613                mv      a2,a3 # count</span><br><span class="line"> 390:   00000073                ecall</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-编译及测试"><a href="#4-5-编译及测试" class="headerlink" title="4.5 编译及测试"></a>4.5 编译及测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ZJU OS LAB 5             STUDEDNT-ID&#x2F;GROUP-ID</span><br><span class="line">[PID &#x3D; 1] Process Create Successfully! counter &#x3D; 5</span><br><span class="line">[PID &#x3D; 2] Process Create Successfully! counter &#x3D; 5</span><br><span class="line">[PID &#x3D; 3] Process Create Successfully! counter &#x3D; 5</span><br><span class="line">[PID &#x3D; 4] Process Create Successfully! counter &#x3D; 5</span><br><span class="line">[!] Switch from task 0[0xffffffe000006030] to task 4[0xffffffe000006310], prio: 5, counter: 5</span><br><span class="line">[User] pid: 4</span><br><span class="line">[!] Switch from task 4[0xffffffe000006310] to task 3[0xffffffe000006258], prio: 5, counter: 5</span><br><span class="line">[User] pid: 3</span><br><span class="line">[!] Switch from task 3[0xffffffe000006258] to task 2[0xffffffe0000061a0], prio: 5, counter: 5</span><br><span class="line">[User] pid: 2</span><br><span class="line">[!] Switch from task 2[0xffffffe0000061a0] to task 1[0xffffffe0000060e8], prio: 5, counter: 5</span><br><span class="line">[User] pid: 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-实验任务与要求"><a href="#5-实验任务与要求" class="headerlink" title="5 实验任务与要求"></a>5 实验任务与要求</h2><p>  请仔细阅读背景知识，理解如何建立页表映射，并按照实验步骤完成实验，撰写实验报告，需提交实验报告以及整个工程的压缩包。</p>
+<ul>
+<li>实验报告：<ul>
+<li>各实验步骤截图以及结果分析</li>
+<li>实验结束后心得体会</li>
+<li>对实验指导的建议（可选）</li>
+</ul>
+</li>
+<li>工程文件<ul>
+<li>所有source code（确保make clean）</li>
+</ul>
+</li>
+<li>最终目录<ul>
+<li>将lab5_319010XXXX目录压缩并打包（若分组，则一组只需要一位同学提交）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">lab5_319010XXXX</span><br><span class="line">├── arch</span><br><span class="line">│   └── ...</span><br><span class="line">├── include</span><br><span class="line">│   ├── ...</span><br><span class="line">├── init</span><br><span class="line">│   ├── ...</span><br><span class="line">├── lib</span><br><span class="line">│   ├── ...</span><br><span class="line">├── Makefile</span><br><span class="line">└── report</span><br><span class="line">    └── 319010XXXX.pdf</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">oslab</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/11/lab5-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-lab4-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -157,7 +291,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/11/lab4-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">lab4-实验报告</a>
+      <a class="article-title" href="/2020/12/11/lab4-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab4</a>
     </h1>
   
 
@@ -170,7 +304,130 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="Lab-4-RISC-V-虚拟内存管理"><a href="#Lab-4-RISC-V-虚拟内存管理" class="headerlink" title="Lab 4: RISC-V 虚拟内存管理"></a>Lab 4: RISC-V 虚拟内存管理</h1><h2 id="1-实验简介"><a href="#1-实验简介" class="headerlink" title="1. 实验简介"></a>1. 实验简介</h2><ul>
+<li>结合课堂学习的页式内存管理以及虚拟内存的相关知识，尝试在已有的程序上开启 MMU 并实现页映射，保证之前的进程调度能在虚拟内存下正常运行 </li>
+</ul>
+<h2 id="2-实验环境"><a href="#2-实验环境" class="headerlink" title="2. 实验环境"></a>2. 实验环境</h2><ul>
+<li>在实验 3 的基础上进行（Docker Image）</li>
+</ul>
+<h2 id="3-背景知识"><a href="#3-背景知识" class="headerlink" title="3. 背景知识"></a>3. 背景知识</h2><h3 id="3-1-虚拟内存"><a href="#3-1-虚拟内存" class="headerlink" title="3.1 虚拟内存"></a>3.1 虚拟内存</h3><p>&emsp;&emsp;MMU（Memory Management Unit），负责<code>虚拟地址</code>到<code>物理地址</code>的转换。程序在cpu上运行时，他使用的虚拟地址会由MMU进行翻译。为了加速地址翻译的过程，现代cpu都引入了TLB（Translation Lookaside Buffer）。<br>&emsp;&emsp;分页机制的基本思想是将程序的虚拟地址空间划分为连续的，等长的虚拟页。<code>虚拟页和物理页的页长固定且相等</code>（一般情况下为4kb），从而操作系统可以方便的为每个程序构造页表，即虚拟页到物理页的映射关系。<br>&emsp;&emsp;逻辑上，该机制下的虚拟地址有两个部分组成：<code>1.虚拟页号</code>；<code>2.页内偏移</code>；在具体的翻译过程中，MMU首先解析得到虚拟地址中的虚拟页号，并通过虚拟页号查找到对应的物理页，最终用该物理页的起始地址加上页内偏移得到最终的物理地址。</p>
+<h3 id="3-2-RISC-V-Virtual-Memory-System-Sv39"><a href="#3-2-RISC-V-Virtual-Memory-System-Sv39" class="headerlink" title="3.2 RISC-V Virtual-Memory System (Sv39)"></a>3.2 RISC-V Virtual-Memory System (Sv39)</h3><h4 id="3-2-1-RISC-V-satp-Register（Supervisor-Address-Translation-and-Protection-Register）"><a href="#3-2-1-RISC-V-satp-Register（Supervisor-Address-Translation-and-Protection-Register）" class="headerlink" title="3.2.1 RISC-V satp Register（Supervisor Address Translation and Protection Register）"></a>3.2.1 RISC-V <code>satp</code> Register（Supervisor Address Translation and Protection Register）</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">63</span>      <span class="number">60</span> <span class="number">59</span>                  <span class="number">44</span> <span class="number">43</span>                              <span class="number">0</span></span><br><span class="line"> -------------------------------------------------------------------</span><br><span class="line">|   MODE   |         ASID         |                PPN              |</span><br><span class="line"> -------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>MODE 字段的取值如下图：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">                         RV <span class="number">64</span></span><br><span class="line"> ----------------------------------------------------------</span><br><span class="line">|  Value  |  Name  |  Description                          |</span><br><span class="line">|----------------------------------------------------------|</span><br><span class="line">|    <span class="number">0</span>    | Bare   | No translation <span class="keyword">or</span> protection          |</span><br><span class="line">|  <span class="number">1</span> - <span class="number">7</span>  | ---    | Reserved <span class="keyword">for</span> standard use             |</span><br><span class="line">|    <span class="number">8</span>    | Sv39   | Page-based <span class="number">39</span> bit <span class="keyword">virtual</span> addressing  | &lt;-- 我们使用的mode</span><br><span class="line">|    <span class="number">9</span>    | Sv48   | Page-based <span class="number">48</span> bit <span class="keyword">virtual</span> addressing  |</span><br><span class="line">|    <span class="number">10</span>   | Sv57   | Page-based <span class="number">57</span> bit <span class="keyword">virtual</span> addressing  |</span><br><span class="line">|    <span class="number">11</span>   | Sv64   | Page-based <span class="number">64</span> bit <span class="keyword">virtual</span> addressing  |</span><br><span class="line">| <span class="number">12</span> - <span class="number">13</span> | ---    | Reserved <span class="keyword">for</span> standard use             |</span><br><span class="line">| <span class="number">14</span> - <span class="number">15</span> | ---    | Reserved <span class="keyword">for</span> standard use             |</span><br><span class="line"> -----------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ASID (Address Space Identifier) ： 用来区分不同的地址空间，此次实验中直接置0即可。</li>
+<li>PPN (Physical Page Number) ：顶级页表的物理页号，通常 <code>PPN = physical address &gt;&gt; 12</code>。</li>
+</ul>
+<h4 id="3-2-2-RISC-V-Sv39-Virtual-Address-and-Physical-Address"><a href="#3-2-2-RISC-V-Sv39-Virtual-Address-and-Physical-Address" class="headerlink" title="3.2.2 RISC-V Sv39 Virtual Address and Physical Address"></a>3.2.2 RISC-V Sv39 Virtual Address and Physical Address</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">38</span>        <span class="number">30</span> <span class="number">29</span>        <span class="number">21</span> <span class="number">20</span>        <span class="number">12</span> <span class="number">11</span>                         <span class="number">0</span></span><br><span class="line"> -------------------------------------------------------------------</span><br><span class="line">|   VPN[<span class="number">2</span>]   |   VPN[<span class="number">1</span>]   |   VPN[<span class="number">0</span>]   |          page offset       |</span><br><span class="line"> -------------------------------------------------------------------</span><br><span class="line">                            Sv39 <span class="keyword">virtual</span> address</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">55</span>               <span class="number">30</span> <span class="number">29</span>        <span class="number">21</span> <span class="number">20</span>        <span class="number">12</span> <span class="number">11</span>                  <span class="number">0</span></span><br><span class="line"> -------------------------------------------------------------------</span><br><span class="line">|       PPN[<span class="number">2</span>]      |   PPN[<span class="number">1</span>]   |   PPN[<span class="number">0</span>]   |        page offset  |</span><br><span class="line"> -------------------------------------------------------------------</span><br><span class="line">                            Sv39 physical address</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;Sv39模式定义物理地址有56位，虚拟地址有64位。但是，虚拟地址的64位只有39位有效，63-39位在本次实验中（高地址映射）需要为1保证地址有效。Sv39支持三级页表结构，VPN[2-0](Virtual Page Number)分别代表每级页表的<code>虚拟页号</code>，PPN[2-0](Physical Page Number)分别代表每级页表的<code>物理页号</code>。物理地址和虚拟地址的低12位表示页内偏移（page offset）。</p>
+<h4 id="3-2-3-RISC-V-Sv39-Page-Table-Entry"><a href="#3-2-3-RISC-V-Sv39-Page-Table-Entry" class="headerlink" title="3.2.3 RISC-V Sv39 Page Table Entry"></a>3.2.3 RISC-V Sv39 Page Table Entry</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">63</span>       <span class="number">54</span> <span class="number">53</span>    <span class="number">28</span> <span class="number">27</span>      <span class="number">19</span> <span class="number">18</span>      <span class="number">10</span> <span class="number">9</span>   <span class="number">8</span> <span class="number">7</span> <span class="number">6</span> <span class="number">5</span> <span class="number">4</span> <span class="number">3</span> <span class="number">2</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line"> ---------------------------------------------------------------</span><br><span class="line">| Reserved | PPN[<span class="number">2</span>] |  PPN[<span class="number">1</span>]  |  PPN[<span class="number">0</span>]  | RSW |D|A|G|U|X|W|R|V| </span><br><span class="line"> ---------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"> -----------------------------------------</span><br><span class="line">|   RSW   | D | A | G | U | X | W | R | V | </span><br><span class="line"> -----------------------------------------</span><br><span class="line">     |      |   |   |   |   |   |   |   |</span><br><span class="line">     |      |   |   |   |   |   |   |   `---- V - Valid</span><br><span class="line">     |      |   |   |   |   |   |   `------ R - Readable</span><br><span class="line">     |      |   |   |   |   |   `-------- W - Writable</span><br><span class="line">     |      |   |   |   |   `---------- X - Executable</span><br><span class="line">     |      |   |   |   `------------ U - User</span><br><span class="line">     |      |   |   `-------------- G - Global</span><br><span class="line">     |      |   `---------------- A - Accessed</span><br><span class="line">     |      `------------------ D - Dirty (<span class="number">0</span> in page directory)</span><br><span class="line">     `---------------------- Reserved <span class="keyword">for</span> supervisor software</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>0 ～ 9 bit: protection bits<ul>
+<li>V: 有效位，当 V = 0, 访问该PTE会产生Pagefault。</li>
+<li>R: R = 1 该页可读。</li>
+<li>W: W = 1 该页可写。</li>
+<li>X: X = 1 该页可执行。</li>
+<li>U,G,A,D,RSW本次实验中设置为0即可。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-2-4-RISC-V-Address-Translation-Details"><a href="#3-2-4-RISC-V-Address-Translation-Details" class="headerlink" title="3.2.4 RISC-V Address Translation Details"></a>3.2.4 RISC-V Address Translation Details</h4><p><img src="/2020/12/11/lab4-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/1.png"></p>
+<ul>
+<li>1.从satp的<code>PPN</code>中获取根页表的物理地址。</li>
+<li>2.通过pagetable中的VPN段,获取PTE。(可以把pagetable看成一个数组，VPN看成下标。PAGE_SIZE为4KB，PTE为64bit(8B), 所以一页中有4KB/8B=512个PTE，而每级VPN刚好有9位，与512个PTE一一对应)。</li>
+<li>3.检查PTE的 <code>V bit</code>，如果不合法，应该产生page fault异常。</li>
+<li>4.检查PTE的<code>RWX</code>bits,如果全部为0，则从PTE中的PPN[2-0]得到的是下一级页表的物理地址，则回到第二步。否则当前为最后一级页表，PPN[2-0]得到的是最终物理页的地址。</li>
+<li>5.将得到最终的物理页地址，与偏移地址相加，得到最终的物理地址。<br>(以上为简要的地址翻译过程，完整过程<a target="_blank" rel="noopener" href="http://www.five-embeddev.com/riscv-isa-manual/latest/supervisor.html#sv32algorithm">参考这里</a>)</li>
+</ul>
+<h2 id="4-实验步骤"><a href="#4-实验步骤" class="headerlink" title="4. 实验步骤"></a>4. 实验步骤</h2><h3 id="4-1-环境搭建"><a href="#4-1-环境搭建" class="headerlink" title="4.1 环境搭建"></a>4.1 环境搭建</h3><h4 id="4-1-1-建立映射"><a href="#4-1-1-建立映射" class="headerlink" title="4.1.1 建立映射"></a>4.1.1 建立映射</h4><p>同lab3的文件夹映射方法，目录名为lab4。</p>
+<h4 id="4-1-2-组织文件结构"><a href="#4-1-2-组织文件结构" class="headerlink" title="4.1.2 组织文件结构"></a>4.1.2 组织文件结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">lab4</span><br><span class="line">├── arch</span><br><span class="line">│   └── riscv</span><br><span class="line">│       ├── include</span><br><span class="line">│       │   ├── put.h</span><br><span class="line">│       │   ├── sched.h</span><br><span class="line">│       │   └── vm.h</span><br><span class="line">│       ├── kernel</span><br><span class="line">│       │   ├── entry.S</span><br><span class="line">│       │   ├── head.S</span><br><span class="line">│       │   ├── Makefile</span><br><span class="line">│       │   ├── sched.c</span><br><span class="line">│       │   ├── strap.c</span><br><span class="line">│       │   ├── vm.c</span><br><span class="line">│       │   └── vmlinux.lds</span><br><span class="line">│       └── Makefile</span><br><span class="line">├── include</span><br><span class="line">│   ├── put.h</span><br><span class="line">│   ├── rand.h</span><br><span class="line">│   └── test.h</span><br><span class="line">├── init</span><br><span class="line">│   ├── main.c</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   └── test.c</span><br><span class="line">├── lib</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   ├── put.c</span><br><span class="line">│   └── rand.c</span><br><span class="line">└── Makefile</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>vmlinux.lds</code>会提供给同学们。</p>
+<h3 id="4-2-创建映射"><a href="#4-2-创建映射" class="headerlink" title="4.2 创建映射"></a>4.2 创建映射</h3><ul>
+<li><p>本次实验使用Sv39分配方案，支持3级页表映射</p>
+</li>
+<li><p>在<code>vm.c</code>中编写函数<code>create_mapping(uint64 *pgtbl, uint64 va, uint64 pa, uint64 sz, int perm)</code>，用作页表映射的统一接口，其中参数作用如下：</p>
+<ul>
+<li><code>pgtbl</code>为根页表的基地址</li>
+<li><code>va</code>, <code>pa</code>分别为需要映射的虚拟、物理地址的基地址</li>
+<li><code>sz</code>为映射的大小</li>
+<li><code>perm</code>为映射的读写权限</li>
+<li>函数中，若需要为页表空间分配物理页，可以自由管理分配<code>end</code>之后的物理内存</li>
+</ul>
+</li>
+<li><p>在<code>vm.c</code>中编写<code>paging_init</code>函数，调用<code>create_mapping</code>函数将内核起始（0x80000000）的16MB空间映射到高地址（以<code>0xffffffe000000000</code>为起始地址），同时也进行等值映射。将必要的硬件地址（如UART）进行等值映射，无偏移</p>
+</li>
+<li><p>映射图如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Physical Address</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">|  |UART|     |   Kernel 16MB   |</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">   ^          ^</span><br><span class="line">0x10000000   0x80000000</span><br><span class="line">   |          ├───────────────────────────────────┐</span><br><span class="line">   |          |                                   |</span><br><span class="line">VA ↓          ↓                                   ↓</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">   |UART|     |   Kernel 16MB   |                 | Kernel 16MB |</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">   ^          ^                                   ^     0x10000000   0x80000000                     0xffffffe000000000</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-3-修改head-S"><a href="#4-3-修改head-S" class="headerlink" title="4.3 修改head.S"></a>4.3 修改head.S</h3><h4 id="4-3-1-修改系统启动部分代码"><a href="#4-3-1-修改系统启动部分代码" class="headerlink" title="4.3.1 修改系统启动部分代码"></a>4.3.1 修改系统启动部分代码</h4><ul>
+<li>在<code>_start</code>开头先设置<code>satp</code>寄存器为0，暂时关闭MMU</li>
+<li>进入S模式后，在适当位置调用<code>paging_init</code>函数进行映射</li>
+<li>设置<code>satp</code>的值以打开MMU<ul>
+<li>注意<code>satp</code>中的PPN字段以4KB为单位</li>
+</ul>
+</li>
+<li>设置<code>stvec</code>为异常处理函数<code>trap_s</code>在<strong>虚拟地址空间下</strong>的地址</li>
+<li>设置<code>sp</code>的值为虚拟地址空间下的<code>init_stack_top</code></li>
+<li>跳转到虚拟地址下的<code>start_kernel</code>，并在虚拟地址空间中执行后续语句与进程调度<ul>
+<li>可以先将<code>start_kernel</code>的虚拟地址装载在寄存器中，并使用<code>jr</code>指令进行跳转</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-3-2-修改M模式下异常处理代码"><a href="#4-3-2-修改M模式下异常处理代码" class="headerlink" title="4.3.2 修改M模式下异常处理代码"></a>4.3.2 修改M模式下异常处理代码</h4><ul>
+<li>由于M模式下依然使用物理地址，使用虚拟地址将导致内存访问错误。因此，需要保留一片物理地址区域用于异常处理前保存所有寄存器的值</li>
+<li><code>mscratch</code>寄存器是M mode下专用的临时寄存器。通常，它就用于保存M mode下上下文物理空间的地址。lds文件中分配出了1个page的空间用于储存进程上下文，其顶部标记为<code>stack_top</code>，请在head.S进入S mode之前的适当位置，将<code>mscratch</code>寄存器设置为<code>stack_top</code>的物理地址。</li>
+<li>在M mode异常处理函数<code>trap_m</code>的开头，将<code>mscratch</code>与<code>sp</code>寄存器的值交换（hint: 使用<code>csrrw</code>指令），使用上下文空间作为<code>trap_m</code>的栈并保存<code>x1-x31</code>寄存器</li>
+<li>在<code>trap_m</code>返回前将<code>mscratch</code>与<code>sp</code>寄存器的值重新交换回来</li>
+</ul>
+<h3 id="4-4-修改进程调度相关代码sched-c"><a href="#4-4-修改进程调度相关代码sched-c" class="headerlink" title="4.4 修改进程调度相关代码sched.c"></a>4.4 修改进程调度相关代码sched.c</h3><h4 id="4-4-1-修改task-init-调整为虚拟地址"><a href="#4-4-1-修改task-init-调整为虚拟地址" class="headerlink" title="4.4.1 修改task_init()调整为虚拟地址"></a>4.4.1 修改task_init()调整为虚拟地址</h4><ul>
+<li>由于开启了MMU，因此我们需要修改进程相关代码，确保将<code>task_struct</code>以及各进程的地址划分到虚拟地址空间。</li>
+</ul>
+<h4 id="4-4-2-在进程调度时打印task-struct地址"><a href="#4-4-2-在进程调度时打印task-struct地址" class="headerlink" title="4.4.2 在进程调度时打印task_struct地址"></a>4.4.2 在进程调度时打印task_struct地址</h4><ul>
+<li>修改<code>schedule()</code>函数在调度时的打印输出，要求打印出<code>current</code>和<code>task[next]</code>的地址以及进程栈顶<code>sp</code>的值</li>
+</ul>
+<h3 id="4-5-完成对不同section的保护"><a href="#4-5-完成对不同section的保护" class="headerlink" title="4.5 完成对不同section的保护"></a>4.5 完成对不同section的保护</h3><ul>
+<li>通过修改调用<code>create_mapping</code>时的<code>perm</code>参数，修改对不同section所在页属性的设置，完成对不同section的保护<ul>
+<li>包括：text r-x, rodata r–, other rw-</li>
+<li><strong>思考题：如何验证这些属性是否成功被保护</strong></li>
+</ul>
+</li>
+<li>在<code>head.S</code>中，通过修改<code>medeleg</code>寄存器，将instruction/load/store page fault托管到S模式下</li>
+<li>修改<code>strap.c</code>中的handler，添加对page fault的打印</li>
+</ul>
+<h3 id="4-6-编译及测试"><a href="#4-6-编译及测试" class="headerlink" title="4.6 编译及测试"></a>4.6 编译及测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ZJU OS LAB 4             GROUP-XX</span><br><span class="line">[PID &#x3D; 1] Process Create Successfully! counter &#x3D; 7 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 2] Process Create Successfully! counter &#x3D; 6 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 3] Process Create Successfully! counter &#x3D; 5 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 4] Process Create Successfully! counter &#x3D; 4 priority &#x3D; 5</span><br><span class="line">[!] Switch from task 0 [task struct: 0xffffffe000ff2000, sp: 0xffffffe000ff3000] to task 4 [task struct: 0xffffffe000fee000, sp: 0xffffffe000fef000], prio: 5, counter: 4</span><br><span class="line">tasks&#39; priority changed</span><br><span class="line">[PID &#x3D; 1] counter &#x3D; 7 priority &#x3D; 1</span><br><span class="line">[PID &#x3D; 2] counter &#x3D; 6 priority &#x3D; 4</span><br><span class="line">[PID &#x3D; 3] counter &#x3D; 5 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 4] counter &#x3D; 4 priority &#x3D; 4</span><br><span class="line">[!] Switch from task 4 [task struct: 0xffffffe000fee000, sp: 0xffffffe000fef000] to task 1 [task struct: 0xffffffe000ff1000, sp: 0xffffffe000ff2000], prio: 1, counter: 7</span><br><span class="line">tasks&#39; priority changed</span><br><span class="line">[PID &#x3D; 1] counter &#x3D; 7 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 2] counter &#x3D; 6 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 3] counter &#x3D; 5 priority &#x3D; 5</span><br><span class="line">[PID &#x3D; 4] counter &#x3D; 3 priority &#x3D; 2</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-实验任务与要求"><a href="#5-实验任务与要求" class="headerlink" title="5. 实验任务与要求"></a>5. 实验任务与要求</h2><p>&emsp;&emsp;请仔细阅读背景知识，理解如何建立页表映射，并按照实验步骤完成实验，撰写实验报告，需提交实验报告以及整个工程的压缩包。</p>
+<ul>
+<li>实验报告：<ul>
+<li>各实验步骤截图以及结果分析</li>
+<li>回答思考题</li>
+<li>实验结束后心得体会</li>
+<li>对实验指导的建议（可选）</li>
+</ul>
+</li>
+<li>工程文件    <ul>
+<li>所有source code（确保make clean）</li>
+</ul>
+</li>
+<li>最终目录<ul>
+<li>将Lab4_319010XXXX目录压缩并打包（若分组，则一组只需要一位同学提交）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">lab4_319010XXXX</span><br><span class="line">├── arch</span><br><span class="line">│   └── riscv</span><br><span class="line">│       ├── include</span><br><span class="line">│       │   ├── put.h</span><br><span class="line">│       │   ├── sched.h</span><br><span class="line">│       │   └── vm.h</span><br><span class="line">│       ├── kernel</span><br><span class="line">│       │   ├── entry.S</span><br><span class="line">│       │   ├── head.S</span><br><span class="line">│       │   ├── Makefile</span><br><span class="line">│       │   ├── sched.c</span><br><span class="line">│       │   ├── strap.c</span><br><span class="line">│       │   ├── vm.c</span><br><span class="line">│       │   └── vmlinux.lds</span><br><span class="line">│       └── Makefile</span><br><span class="line">├── include</span><br><span class="line">│   ├── put.h</span><br><span class="line">│   ├── rand.h</span><br><span class="line">│   └── test.h</span><br><span class="line">├── init</span><br><span class="line">│   ├── main.c</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   └── test.c</span><br><span class="line">├── lib</span><br><span class="line">│   ├── Makefile</span><br><span class="line">│   ├── put.c</span><br><span class="line">│   └── rand.c</span><br><span class="line">├── Makefile</span><br><span class="line">└── report</span><br><span class="line">    └── 319010XXXX.pdf</span><br></pre></td></tr></table></figure>
+
+
       
 
       
@@ -178,6 +435,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -822,85 +1090,6 @@
 
 
   
-    <article id="post-ds读书笔记2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/13/ds%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">ds读书笔记2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/13/ds%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
-  	<time datetime="2020-11-13T11:49:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第四章-树"><a href="#第四章-树" class="headerlink" title="第四章 树"></a>第四章 树</h1><p><strong>本章重点：</strong></p>
-<ul>
-<li>了解树是如何用于实现几个流行的操作系统中的文件系统的</li>
-<li>看到树如何能够用来计算算术表达式的值</li>
-<li>指出如何利用树支持以O（logN）平均时间进行的各种搜索操作，已经如何细化以得到最坏情况时间界O(logN)。</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ds</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/13/ds%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页;</a>
@@ -1019,6 +1208,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">oslab</a>
               </li>
              
               <li class="article-tag-list-item">
