@@ -8,16 +8,17 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>ds-week11 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6-1 Strongly Connected Components (15分)">
+  <meta name="description" content="6-1 Strongly Connected Components (15分)Write a program to find the strongly connected components in a digraph.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ds-week11">
 <meta property="og:url" content="http://example.com/2020/12/10/ds-week11/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="6-1 Strongly Connected Components (15分)">
+<meta property="og:description" content="6-1 Strongly Connected Components (15分)Write a program to find the strongly connected components in a digraph.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images.ptausercontent.com/39">
+<meta property="og:image" content="https://img-blog.csdn.net/20180804114243574?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNzEyNDYy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="article:published_time" content="2020-12-10T09:01:38.000Z">
-<meta property="article:modified_time" content="2020-12-10T09:02:17.732Z">
+<meta property="article:modified_time" content="2020-12-10T09:21:09.054Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="PTA">
 <meta name="twitter:card" content="summary">
@@ -173,9 +174,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-1-Strongly-Connected-Components-15分"><a href="#6-1-Strongly-Connected-Components-15分" class="headerlink" title="6-1 Strongly Connected Components (15分)"></a>6-1 Strongly Connected Components (15分)</h1><a id="more"></a>
+        <h1 id="6-1-Strongly-Connected-Components-15分"><a href="#6-1-Strongly-Connected-Components-15分" class="headerlink" title="6-1 Strongly Connected Components (15分)"></a>6-1 Strongly Connected Components (15分)</h1><p>Write a program to find the strongly connected components in a digraph.</p>
+<a id="more"></a>
 
-<p>Write a program to find the strongly connected components in a digraph.</p>
 <h3 id="Format-of-functions"><a href="#Format-of-functions" class="headerlink" title="Format of functions:"></a>Format of functions:</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StronglyConnectedComponents</span><span class="params">( Graph G, <span class="keyword">void</span> (*visit)(Vertex V) )</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p>where <code>Graph</code> is defined as the following:</p>
@@ -193,6 +194,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 1 2 </span><br><span class="line">3 </span><br></pre></td></tr></table></figure>
 
 <p>is also considered correct.</p>
+<h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><h4 id="What-is-strongly-connected-components"><a href="#What-is-strongly-connected-components" class="headerlink" title="What is strongly connected components?"></a>What is <u><em>strongly connected components</em></u>?</h4><p>在有向图G中，如果两个顶点vi,vj间（vi&gt;vj）有一条从vi到vj的有向路径，同时还有一条从vj到vi的有向路径，则称两个顶点强连通(strongly connected)。</p>
+<p><img src="https://img-blog.csdn.net/20180804114243574?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNzEyNDYy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"></p>
+<p>{1,2,3,4}{5}{6} are strongly connected components.</p>
+<h4 id="Complete-codeReadG"><a href="#Complete-codeReadG" class="headerlink" title="Complete codeReadG()"></a>Complete code<code>ReadG()</code></h4><p><a target="_blank" rel="noopener" href="http://www.mamicode.com/info-detail-2915642.html">copy</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Graph <span class="title">ReadG</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a, b;</span><br><span class="line">    Graph G = (Graph)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Graph));</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;G-&gt;NumOfVertices, &amp;G-&gt;NumOfEdges);</span><br><span class="line">    G-&gt;Array = (PtrToVNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PtrToVNode) * G-&gt;NumOfVertices);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; G-&gt;NumOfVertices; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        G-&gt;Array[i] = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; G-&gt;NumOfEdges; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;a,&amp;b);</span><br><span class="line">        PtrToVNode p = (PtrToVNode)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PtrToVNode));</span><br><span class="line">        p-&gt;Vert = b;</span><br><span class="line">        p-&gt;Next = G-&gt;Array[a];</span><br><span class="line">        G-&gt;Array[a] = p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> G;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -297,6 +304,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2020/12/11/lab4-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          lab4-实验报告
+        
+      </div>
+    </a>
+  
   
     <a href="/2020/12/06/ds-week10/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">ds-week10</div>
@@ -326,7 +342,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-1-Strongly-Connected-Components-15%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">6-1 Strongly Connected Components (15分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.0.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.0.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-for-the-graph-shown-in-the-figure"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input (for the graph shown in the figure):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-1-Strongly-Connected-Components-15%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">6-1 Strongly Connected Components (15分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.0.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.0.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-for-the-graph-shown-in-the-figure"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input (for the graph shown in the figure):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-number">1.0.5.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#What-is-strongly-connected-components"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">What is strongly connected components?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Complete-codeReadG"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">Complete codeReadG()</span></a></li></ol></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
