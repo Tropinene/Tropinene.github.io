@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>ds-week6 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6-1 Percolate Up and Down (7分)Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.">
+  <meta name="description" content="PTA 数据结构第六周 6-1 Percolate Up and Down (7分) 7-1 Complete Binary Search Tree (10分)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ds-week6">
 <meta property="og:url" content="http://example.com/2020/11/12/ds-week6/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="6-1 Percolate Up and Down (7分)Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.">
+<meta property="og:description" content="PTA 数据结构第六周 6-1 Percolate Up and Down (7分) 7-1 Complete Binary Search Tree (10分)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-11T16:23:41.000Z">
-<meta property="article:modified_time" content="2020-11-11T16:27:47.128Z">
+<meta property="article:modified_time" content="2020-12-20T03:18:57.421Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="PTA">
 <meta name="twitter:card" content="summary">
@@ -171,9 +171,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-1-Percolate-Up-and-Down-7分"><a href="#6-1-Percolate-Up-and-Down-7分" class="headerlink" title="6-1 Percolate Up and Down (7分)"></a>6-1 Percolate Up and Down (7分)</h1><p>Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.</p>
+        <h1 id="PTA-数据结构第六周"><a href="#PTA-数据结构第六周" class="headerlink" title="PTA 数据结构第六周"></a>PTA 数据结构第六周</h1><ul>
+<li>6-1 Percolate Up and Down (7分)</li>
+<li>7-1 Complete Binary Search Tree (10分)</li>
+</ul>
 <a id="more"></a>
 
+<h2 id="6-1-Percolate-Up-and-Down-7分"><a href="#6-1-Percolate-Up-and-Down-7分" class="headerlink" title="6-1 Percolate Up and Down (7分)"></a>6-1 Percolate Up and Down (7分)</h2><p>Write the routines to do a “percolate up” and a “percolate down” in a binary min-heap.</p>
 <h3 id="Format-of-functions"><a href="#Format-of-functions" class="headerlink" title="Format of functions:"></a>Format of functions:</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateUp</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercolateDown</span><span class="params">( <span class="keyword">int</span> p, PriorityQueue H )</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p>where <code>int p</code> is the position of the element, and <code>PriorityQueue</code> is defined as the following:</p>
@@ -189,7 +193,7 @@
 
 
 
-<h1 id="7-1-Complete-Binary-Search-Tree-10分"><a href="#7-1-Complete-Binary-Search-Tree-10分" class="headerlink" title="7-1 Complete Binary Search Tree (10分)"></a>7-1 Complete Binary Search Tree (10分)</h1><p>A Binary Search Tree (BST) is recursively defined as a binary tree which has the following properties:</p>
+<h2 id="7-1-Complete-Binary-Search-Tree-10分"><a href="#7-1-Complete-Binary-Search-Tree-10分" class="headerlink" title="7-1 Complete Binary Search Tree (10分)"></a>7-1 Complete Binary Search Tree (10分)</h2><p>A Binary Search Tree (BST) is recursively defined as a binary tree which has the following properties:</p>
 <p>The left subtree of a node contains only nodes with keys less than the node’s key.</p>
 <p>The right subtree of a node contains only nodes with keys greater than or equal to the node’s key.</p>
 <p>Both the left and right subtrees must also be binary search trees.</p>
@@ -345,7 +349,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-1-Percolate-Up-and-Down-7%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">6-1 Percolate Up and Down (7分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.0.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.0.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C"><span class="toc-number">1.0.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-1-Complete-Binary-Search-Tree-10%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">7-1 Complete Binary Search Tree (10分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-Specification"><span class="toc-number">2.0.1.</span> <span class="toc-text">Input Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Specification"><span class="toc-number">2.0.2.</span> <span class="toc-text">Output Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">2.0.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">2.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C-1"><span class="toc-number">2.0.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PTA-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E5%85%AD%E5%91%A8"><span class="toc-number">1.</span> <span class="toc-text">PTA 数据结构第六周</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-Percolate-Up-and-Down-7%E5%88%86"><span class="toc-number">1.1.</span> <span class="toc-text">6-1 Percolate Up and Down (7分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.1.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.1.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">1.1.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.1.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C"><span class="toc-number">1.1.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-Complete-Binary-Search-Tree-10%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">7-1 Complete Binary Search Tree (10分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-Specification"><span class="toc-number">1.2.1.</span> <span class="toc-text">Input Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-Specification"><span class="toc-number">1.2.2.</span> <span class="toc-text">Output Specification:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">Sample Input:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-C-1"><span class="toc-number">1.2.5.</span> <span class="toc-text">Code(C):</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>

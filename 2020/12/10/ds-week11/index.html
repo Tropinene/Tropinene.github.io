@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>ds-week11 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6-1 Strongly Connected Components (15分)Write a program to find the strongly connected components in a digraph.">
+  <meta name="description" content="PTA 数据结构第十一周 6-1 Strongly Connected Components (15分)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ds-week11">
 <meta property="og:url" content="http://example.com/2020/12/10/ds-week11/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="6-1 Strongly Connected Components (15分)Write a program to find the strongly connected components in a digraph.">
+<meta property="og:description" content="PTA 数据结构第十一周 6-1 Strongly Connected Components (15分)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images.ptausercontent.com/39">
 <meta property="og:image" content="https://img-blog.csdn.net/20180804114243574?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNzEyNDYy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="article:published_time" content="2020-12-10T09:01:38.000Z">
-<meta property="article:modified_time" content="2020-12-12T13:51:55.934Z">
+<meta property="article:modified_time" content="2020-12-20T03:22:53.714Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="PTA">
 <meta name="twitter:card" content="summary">
@@ -174,9 +174,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-1-Strongly-Connected-Components-15分"><a href="#6-1-Strongly-Connected-Components-15分" class="headerlink" title="6-1 Strongly Connected Components (15分)"></a>6-1 Strongly Connected Components (15分)</h1><p>Write a program to find the strongly connected components in a digraph.</p>
+        <h1 id="PTA-数据结构第十一周"><a href="#PTA-数据结构第十一周" class="headerlink" title="PTA 数据结构第十一周"></a>PTA 数据结构第十一周</h1><ul>
+<li>6-1 Strongly Connected Components (15分)</li>
+</ul>
 <a id="more"></a>
 
+<h2 id="6-1-Strongly-Connected-Components-15分"><a href="#6-1-Strongly-Connected-Components-15分" class="headerlink" title="6-1 Strongly Connected Components (15分)"></a>6-1 Strongly Connected Components (15分)</h2><p>Write a program to find the strongly connected components in a digraph.</p>
 <h3 id="Format-of-functions"><a href="#Format-of-functions" class="headerlink" title="Format of functions:"></a>Format of functions:</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StronglyConnectedComponents</span><span class="params">( Graph G, <span class="keyword">void</span> (*visit)(Vertex V) )</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p>where <code>Graph</code> is defined as the following:</p>
@@ -344,7 +347,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-1-Strongly-Connected-Components-15%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">6-1 Strongly Connected Components (15分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.0.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.0.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-for-the-graph-shown-in-the-figure"><span class="toc-number">1.0.3.</span> <span class="toc-text">Sample Input (for the graph shown in the figure):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-number">1.0.5.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#What-is-strongly-connected-components"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">What is strongly connected components?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Complete-codeReadG"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">Complete codeReadG()</span></a></li></ol></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PTA-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E5%8D%81%E4%B8%80%E5%91%A8"><span class="toc-number">1.</span> <span class="toc-text">PTA 数据结构第十一周</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-Strongly-Connected-Components-15%E5%88%86"><span class="toc-number">1.1.</span> <span class="toc-text">6-1 Strongly Connected Components (15分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Format-of-functions"><span class="toc-number">1.1.1.</span> <span class="toc-text">Format of functions:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-program-of-judge"><span class="toc-number">1.1.2.</span> <span class="toc-text">Sample program of judge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-for-the-graph-shown-in-the-figure"><span class="toc-number">1.1.3.</span> <span class="toc-text">Sample Input (for the graph shown in the figure):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.1.4.</span> <span class="toc-text">Sample Output:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-number">1.1.5.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#What-is-strongly-connected-components"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">What is strongly connected components?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Complete-codeReadG"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">Complete codeReadG()</span></a></li></ol></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
