@@ -6,17 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>小歪的博客</title>
+  <title>Tarjan算法详解 | 小歪的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按时营业，好好吃饭。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="http://example.com/page/3/index.html">
+  <meta name="description" content="Tarjan算法详解Tarjan算法是由Robert Tarjan发明的一种基于DFS的图论算法，他可以用来求解有向图的强联通分量或者求解无向图的中的割点和桥等，可以说是图论算法中的基本算法之一。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tarjan算法详解">
+<meta property="og:url" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="按时营业，好好吃饭。">
+<meta property="og:description" content="Tarjan算法详解Tarjan算法是由Robert Tarjan发明的一种基于DFS的图论算法，他可以用来求解有向图的强联通分量或者求解无向图的中的割点和桥等，可以说是图论算法中的基本算法之一。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/0.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/1.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/2.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/3.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/4.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/5.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/6.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/8.png">
+<meta property="article:published_time" content="2020-12-20T06:17:59.000Z">
+<meta property="article:modified_time" content="2020-12-20T08:55:21.232Z">
 <meta property="article:author" content="崖鸥">
+<meta property="article:tag" content="杂">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/0.png">
   
     <link rel="alternative" href="/atom.xml" title="小歪的博客" type="application/atom+xml">
   
@@ -148,427 +160,100 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-os读书笔记4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Tarjjan算法详解" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/">os读书笔记4</a>
+    <h1 class="article-title" itemprop="name">
+      Tarjan算法详解
     </h1>
   
 
         
-        <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/" class="archive-article-date">
-  	<time datetime="2020-11-10T04:57:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
+        <a href="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
+  	<time datetime="2020-12-20T06:17:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="第五章-进程调度"><a href="#第五章-进程调度" class="headerlink" title="第五章 进程调度"></a>第五章 进程调度</h1><p><strong>本章目标：</strong></p>
+        <h2 id="Tarjan算法详解"><a href="#Tarjan算法详解" class="headerlink" title="Tarjan算法详解"></a>Tarjan算法详解</h2><p><code>Tarjan算法</code>是由<code>Robert Tarjan</code>发明的一种基于<code>DFS</code>的图论算法，他可以用来求解有向图的强联通分量或者求解无向图的中的割点和桥等，可以说是图论算法中的基本算法之一。</p>
+<a id="more"></a>
+
+<h3 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h3><p><strong>强连通(strongly connected)：</strong> 在一个<code>有向图G</code>里，设两个点 <code>a</code> <code>b</code> 发现，由<code>a</code>有一条路可以走到<code>b</code>，由<code>b</code>又有一条路可以走到<code>a</code>，我们就叫这两个顶点<code>（a，b）</code>强连通。</p>
+<p><strong>强连通图：</strong> 如果在一个有向图G中，<strong>每两个点都强连通</strong>，我们就叫这个图为强连通图。</p>
+<p><strong>强连通分量(strongly connected components)：</strong>在一个有向图G中，有一个子图，这个子图每2个点都满足强连通，我们就叫这个子图叫做强连通分量 。</p>
+<h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/0.png"></p>
 <ul>
-<li>引入CPU调度，这是多道程序操作系统的基础</li>
-<li>描述各种CPU调度算法</li>
-<li>讨论为特定系统选择CPU调度算法的评估标准</li>
-<li>分析多个操作系统的调度算法</li>
+<li>点<code>1</code>与点<code>2</code>互相都有路径到达对方，所以它们<strong>强连通</strong>。</li>
+<li>点<code>1 2 3</code>组成的这个子图，是整个有向图中的<strong>强连通分量</strong>。</li>
 </ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B04/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">os读书笔记3</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/" class="archive-article-date">
-  	<time datetime="2020-11-10T02:55:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第四章-多线程编程"><a href="#第四章-多线程编程" class="headerlink" title="第四章 多线程编程"></a>第四章 多线程编程</h1><p>本章目标：</p>
+<h3 id="Tarjan算法思路"><a href="#Tarjan算法思路" class="headerlink" title="Tarjan算法思路"></a>Tarjan算法思路</h3><ul>
+<li><p>Tarjan算法实现需要两个数组，dfn数组和low数组：</p>
 <ul>
-<li>引入线程概念，即CPU使用的基本单元。</li>
-<li>探讨多种策略以便提供隐式线程</li>
-<li>讨论多线程编程相关的问题</li>
+<li>dfn数组：用来记录每个节点在dfs遍历树中的顺序，即判断该节点实在dfs中是第几个节点被遍历到的。</li>
+<li>low数组：记录该节点能够到达的未被找到强联通分量的结点的dfn值，其中初始化时和dfn值相等，并且最后dfs值相同的结点在一个强联通分量中。</li>
+<li>trace：是一个栈，每访问一个节点便入栈</li>
 </ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/10/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">os读书笔记2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="archive-article-date">
-  	<time datetime="2020-11-08T07:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第三章-进程"><a href="#第三章-进程" class="headerlink" title="第三章 进程"></a>第三章 进程</h1><p><strong>本章目标：</strong></p>
+</li>
+<li><p>算法步骤<br>其中橙色节点表示<strong>当前访问</strong>的结点，灰色节点表示<strong>已经找到</strong>强联通分量的结点，绿色节点表示当前节点<strong>能够到达</strong>的low值最小的节点。</p>
 <ul>
-<li>引入进程概念</li>
-<li>讨论进程的各类特性，包括调度、创建和终止</li>
-<li>探讨通过共享内存和消息传递的进程间通信</li>
-<li>讨论客户机与服务器系统间的通信</li>
+<li>访问节点<code>1</code>，初始时将<code>dfn[1]=low[1]=1</code>，将该节点加入栈中</li>
 </ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lab3-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab3</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-08T06:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="实验-3：RISC-V64简单的进程调度实现"><a href="#实验-3：RISC-V64简单的进程调度实现" class="headerlink" title="实验 3：RISC-V64简单的进程调度实现"></a>实验 3：RISC-V64简单的进程调度实现</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/lab3-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">os读书笔记1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/" class="archive-article-date">
-  	<time datetime="2020-11-07T16:11:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第二章-操作系统结构"><a href="#第二章-操作系统结构" class="headerlink" title="第二章 操作系统结构"></a>第二章 操作系统结构</h1><p><strong>本章目标：</strong></p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/1.png"></p>
 <ul>
-<li>描述操作系统为用户、进程和其它系统提供的服务。</li>
-<li>讨论构建操作系统的各种方式。</li>
-<li>解释如何安装与定制操作系统以及如何启动操作系统。</li>
+<li>访问节点<code>2</code>，<code>dfn[2]=low[2]=2</code>，将该节点加入栈</li>
 </ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/08/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ds-week7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/07/ds-week7/">ds-week7</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/07/ds-week7/" class="archive-article-date">
-  	<time datetime="2020-11-07T05:17:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>PTA 数据结构第七周</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/2.png"></p>
 <ul>
-<li>7-1 File Transfer </li>
+<li>访问节点<code>4</code>，<code>dfn[4]=low[4]=3</code>，将该节点加入栈</li>
 </ul>
-        
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/3.png"></p>
+<ul>
+<li>访问节点<code>6</code>，<code>dfn[6]=low[6]=4</code>，此时节点<code>6</code>没有其他的邻接节点，故判<code>dfn[6]==low[6]</code>成立，则该节点为一个强联通分量的根。将<code>6</code>出栈并且加到结果中。</li>
+</ul>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/4.png"></p>
+<ul>
+<li>将<code>6</code>出栈后，会将其low值设为所有dfn值中的最大值+1，此时相当于对该节点已经寻找强联通分量完毕做一个记号，也可以采用一个新的数组来标记，效果是一样的。并回溯到节点<code>4</code>。</li>
+</ul>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/5.png"></p>
+<ul>
+<li>节点<code>4</code>的所有孩子结点都被访问完毕，并且<code>dfn[4]==low[4]</code>成立，此时相当于又找到一个强联通分量的根节点。</li>
+</ul>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/6.png"></p>
+<ul>
+<li>回退到j节点<code>2</code>。由于节点<code>4</code>的low值大节点的low值，故不用更新（每次回退会检查更新），此时节点<code>2</code>的邻接节点<code>5</code>结点未被访问，便访问结点<code>5</code>，<code>dfn[5]=low[5]=5</code>；</li>
+</ul>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/8.png"></p>
+</li>
+</ul>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>博主太懒了，没放二维码<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -579,7 +264,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PTA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">杂</a>
         		</li>
       		
 		</ul>
@@ -588,16 +273,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/07/ds-week7/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/12/20/Dijkstra%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Dijkstra算法详解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -612,313 +356,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-常见指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">hexo</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-06T11:21:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="hexo-常用指令"><a href="#hexo-常用指令" class="headerlink" title="hexo 常用指令"></a>hexo 常用指令</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/06/hexo-%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Tarjan算法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">几个概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-number">1.2.</span> <span class="toc-text">举个栗子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.3.</span> <span class="toc-text">Tarjan算法思路</span></a></li></ol></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-lab2-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-05T05:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Lab-2-RISC-V64-时钟中断处理"><a href="#Lab-2-RISC-V64-时钟中断处理" class="headerlink" title="Lab 2: RISC-V64 时钟中断处理"></a>Lab 2: RISC-V64 时钟中断处理</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/05/lab2-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lab1-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T17:17:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="lab-1：RISC-V移植-实验报告"><a href="#lab-1：RISC-V移植-实验报告" class="headerlink" title="lab 1：RISC-V移植 实验报告"></a>lab 1：RISC-V移植 实验报告</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/05/lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lab0-实验报告" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">操作系统实验---lab0</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="archive-article-date">
-  	<time datetime="2020-11-04T15:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="lab0-实验报告"><a href="#lab0-实验报告" class="headerlink" title="lab0 实验报告"></a>lab0 实验报告</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">lab-os</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/04/lab0-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -941,8 +404,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
