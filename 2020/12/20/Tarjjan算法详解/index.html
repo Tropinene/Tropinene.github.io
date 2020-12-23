@@ -23,8 +23,13 @@
 <meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/5.png">
 <meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/6.png">
 <meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/8.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/9.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/10.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/11.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/12.png">
+<meta property="og:image" content="http://example.com/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/13.png">
 <meta property="article:published_time" content="2020-12-20T06:17:59.000Z">
-<meta property="article:modified_time" content="2020-12-20T08:55:21.232Z">
+<meta property="article:modified_time" content="2020-12-23T17:19:03.190Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="杂">
 <meta name="twitter:card" content="summary">
@@ -201,35 +206,88 @@
 </li>
 <li><p>算法步骤<br>其中橙色节点表示<strong>当前访问</strong>的结点，灰色节点表示<strong>已经找到</strong>强联通分量的结点，绿色节点表示当前节点<strong>能够到达</strong>的low值最小的节点。</p>
 <ul>
-<li>访问节点<code>1</code>，初始时将<code>dfn[1]=low[1]=1</code>，将该节点加入栈中</li>
+<li>访问节点<code>1</code>，初始时将<code>dfn[1] = low[1] = 1</code>，将该节点加入栈中</li>
+</ul>
+</li>
+<li><p>栈：1</p>
+</li>
 </ul>
 <p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/1.png"></p>
 <ul>
-<li>访问节点<code>2</code>，<code>dfn[2]=low[2]=2</code>，将该节点加入栈</li>
+<li><p>访问节点<code>2</code>，<code>dfn[2] = low[2] = 2</code>，将该节点加入栈</p>
+<ul>
+<li>栈：1  2</li>
 </ul>
 <p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/2.png"></p>
 <ul>
-<li>访问节点<code>4</code>，<code>dfn[4]=low[4]=3</code>，将该节点加入栈</li>
+<li>访问节点<code>4</code>，<code>dfn[4] = low[4] = 3</code>，将该节点加入栈</li>
+</ul>
+</li>
+<li><p>栈：1  2  4</p>
+</li>
 </ul>
 <p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/3.png"></p>
 <ul>
-<li>访问节点<code>6</code>，<code>dfn[6]=low[6]=4</code>，此时节点<code>6</code>没有其他的邻接节点，故判<code>dfn[6]==low[6]</code>成立，则该节点为一个强联通分量的根。将<code>6</code>出栈并且加到结果中。</li>
+<li><p>访问节点<code>6</code>，<code>dfn[6] = low[6] = 4</code>，此时节点<code>6</code>没有其他的邻接节点，故判<code>dfn[6] == low[6]</code>成立，则该节点为一个强联通分量的根。将<code>6</code>出栈并且加到结果中。</p>
+<ul>
+<li>栈：1  2  4  6</li>
 </ul>
 <p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/4.png"></p>
 <ul>
 <li>将<code>6</code>出栈后，会将其low值设为所有dfn值中的最大值+1，此时相当于对该节点已经寻找强联通分量完毕做一个记号，也可以采用一个新的数组来标记，效果是一样的。并回溯到节点<code>4</code>。</li>
 </ul>
-<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/5.png"></p>
-<ul>
-<li>节点<code>4</code>的所有孩子结点都被访问完毕，并且<code>dfn[4]==low[4]</code>成立，此时相当于又找到一个强联通分量的根节点。</li>
-</ul>
-<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/6.png"></p>
-<ul>
-<li>回退到j节点<code>2</code>。由于节点<code>4</code>的low值大节点的low值，故不用更新（每次回退会检查更新），此时节点<code>2</code>的邻接节点<code>5</code>结点未被访问，便访问结点<code>5</code>，<code>dfn[5]=low[5]=5</code>；</li>
-</ul>
-<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/8.png"></p>
+</li>
+<li><p>栈：1  2  4</p>
 </li>
 </ul>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/5.png"></p>
+<ul>
+<li><p>节点<code>4</code>的所有孩子结点都被访问完毕，并且<code>dfn[4] == low[4]</code>成立，此时相当于又找到一个强联通分量的根节点。</p>
+</li>
+<li><p>栈：1  2</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/6.png"></p>
+</li>
+<li><p>回退到j节点<code>2</code>。由于节点<code>4</code>的low值大节点的low值，故不用更新（每次回退会检查更新），此时节点<code>2</code>的邻接节点<code>5</code>结点未被访问，便访问结点<code>5</code>，<code>dfn[5] = low[5] = 5</code>；</p>
+</li>
+<li><p>栈：1  2  5</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/8.png"></p>
+</li>
+<li><p>节点<code>5</code>的所有邻接节点都被访问，但是节点<code>1</code>还在栈中（没有找到节点<code>1</code>相关的强联通分量），并且<code>low[1] = 1,low[5] &gt; low[1]</code>,便将<code>low[5]</code>更新为1.</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/9.png"></p>
+</li>
+<li><p>然后回退到节点<code>2</code>，并且更新low值为节点<code>5</code>的low值（每次回退会检查更新）</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/10.png"></p>
+</li>
+<li><p>回退到节点<code>1</code>，并发现结点<code>1</code>的邻接节点<code>3</code>未被访问，访问节点<code>3</code>，并且<code>dfs[3] = low[3] = 6</code>。</p>
+</li>
+<li><p>栈：1  2  5  3</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/11.png"></p>
+</li>
+<li><p>结点<code>3</code>的所有邻接节点都被访问过，更新其low值为所有邻接节点中的最小的low值</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/12.png"></p>
+</li>
+<li><p>回退到结点<code>1</code>，并且结点<code>1</code>的所有邻接节点都被访问，并且<code>low[1] == dfn[1]</code>，表示又找到一个联通分量。</p>
+</li>
+<li><p>全部出栈，即为连通分量</p>
+<p><img src="/2020/12/20/Tarjjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/13.png"></p>
+</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>每个节点初始化时dfn值和low值都是一样的并且都为<code>++count</code>。</li>
+<li>当访问该节点v的邻接节点w时，如果没被访问过，便dfs递归访问w，如果w已经被访问过便更新<code>low[v] = min(low[v], low[w])</code>。</li>
+<li>每次节点w访问完毕，回退到递归树的父节点v的时候，会检查更新其<code>low[v] = min(low[v], low[w])</code></li>
+<li>当该节点v的所有邻接节点都访问完毕时，并且<code>low[v] == dfn[v]</code>时，v就是一个强联通分量的根节点。</li>
+</ul>
+<h3 id="代码（C）"><a href="#代码（C）" class="headerlink" title="代码（C）"></a>代码（C）</h3><p><strong>Input</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">6 8</span><br><span class="line">1 3</span><br><span class="line">1 2</span><br><span class="line">2 4</span><br><span class="line">3 4</span><br><span class="line">3 5</span><br><span class="line">4 6</span><br><span class="line">4 1</span><br><span class="line">5 6</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">6</span><br><span class="line">5</span><br><span class="line">3 4 2 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Code</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> v,next;</span><br><span class="line">&#125;edge[<span class="number">1001</span>];</span><br><span class="line"><span class="keyword">int</span> DFN[<span class="number">1001</span>],LOW[<span class="number">1001</span>];</span><br><span class="line"><span class="keyword">int</span> <span class="built_in">stack</span>[<span class="number">1001</span>],heads[<span class="number">1001</span>],visit[<span class="number">1001</span>],cnt,tot,index;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[++cnt].next=heads[x];</span><br><span class="line">    edge[cnt].v = y;</span><br><span class="line">    heads[x]=cnt;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> x)</span><span class="comment">//代表第几个点在处理。递归的是点。</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DFN[x]=LOW[x]=++tot;<span class="comment">// 新进点的初始化。</span></span><br><span class="line">    <span class="built_in">stack</span>[++index]=x;<span class="comment">//进站</span></span><br><span class="line">    visit[x]=<span class="number">1</span>;<span class="comment">//表示在栈里</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=heads[x];i!=<span class="number">-1</span>;i=edge[i].next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!DFN[edge[i].v]) &#123;<span class="comment">//如果没访问过</span></span><br><span class="line">            tarjan(edge[i].v);<span class="comment">//往下进行延伸，开始递归</span></span><br><span class="line">            LOW[x]=min(LOW[x],LOW[edge[i].v]);<span class="comment">//递归出来，比较谁是谁的儿子／父亲，就是树的对应关系，涉及到强连通分量子树最小根的事情。</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(visit[edge[i].v ])&#123;  <span class="comment">//如果访问过，并且还在栈里。</span></span><br><span class="line">            LOW[x]=min(LOW[x],DFN[edge[i].v]);<span class="comment">//比较谁是谁的儿子／父亲。就是链接对应关系</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(LOW[x]==DFN[x]) <span class="comment">//发现是整个强连通分量子树里的最小根。</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,<span class="built_in">stack</span>[index]);</span><br><span class="line">            visit[<span class="built_in">stack</span>[index]]=<span class="number">0</span>;</span><br><span class="line">            index--;</span><br><span class="line">        &#125;<span class="keyword">while</span>(x!=<span class="built_in">stack</span>[index+<span class="number">1</span>]);<span class="comment">//出栈，并且输出。</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(heads,<span class="number">-1</span>,<span class="keyword">sizeof</span>(heads));</span><br><span class="line">    <span class="keyword">int</span> n,m;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;m);</span><br><span class="line">    <span class="keyword">int</span> x,y;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;x,&amp;y);</span><br><span class="line">        add(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">         <span class="keyword">if</span>(!DFN[i])  tarjan(<span class="number">1</span>);<span class="comment">//当这个点没有访问过，就从此点开始。防止图没走完</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -363,7 +421,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Tarjan算法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">几个概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-number">1.2.</span> <span class="toc-text">举个栗子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.3.</span> <span class="toc-text">Tarjan算法思路</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Tarjan算法详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">几个概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-number">1.2.</span> <span class="toc-text">举个栗子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tarjan%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.3.</span> <span class="toc-text">Tarjan算法思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%88C%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">代码（C）</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
