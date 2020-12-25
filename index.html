@@ -150,6 +150,202 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Memory-Management" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/25/Memory-Management/">Memory Management</a>
+    </h1>
+  
+
+        
+        <a href="/2020/12/25/Memory-Management/" class="archive-article-date">
+  	<time datetime="2020-12-25T00:43:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="内存保护"><a href="#内存保护" class="headerlink" title="内存保护"></a>内存保护</h3><ul>
+<li>在cpu中设置一对<strong>上下限寄存器</strong>，存放进程的上下限地址。进程的指令要访问某个地址时，cpu检查是否越界。</li>
+</ul>
+<p><img src="/2020/12/25/Memory-Management/0.jpg"></p>
+<ul>
+<li>使用重定位寄存器和界地址寄存器进行越界检查，其实就类似逻辑地址和物理地址的概念。</li>
+</ul>
+<p><img src="/2020/12/25/Memory-Management/1.png"></p>
+<h3 id="关于碎片"><a href="#关于碎片" class="headerlink" title="关于碎片"></a>关于碎片</h3><p><strong>内部碎片</strong>：分配给某进程的内存区域中，如果有些部分没有用上。</p>
+<p><strong>外部碎片</strong>：是指内存中的某些空闲分区由于太小而难以利用。</p>
+<p>举一个形象的例子：</p>
+<ul>
+<li><p><strong>外部碎片</strong>：<br>是由于大量信息由于先后写入、置换、删除而形成的空间碎片。为了便于理解，我们将信息比作货物，将存储空间比作仓库来举例子。假设，我们有编号为1、2、3、4、5、6的6间仓库库房，前天送来了一大宗货，依次装入了1、2、3、4、5号仓库，昨天又因故将4号库房的货物运走了，那么数值上说我们还有两间空仓库的空间，但是如果这时候送来两间仓库容量的货物但要求必须连续存放的话，我们实际上是装不下的。这时的4、6号仓库，就成为一种空间的碎片。由于这样的原因形成的空间碎片，我们称之为外部碎片。从上面的例子我们可以理解，外部碎片是可以通过一些措施来改善或者解决的。对于在硬盘上的外部碎片，我们通常用磁盘碎片整理来解决，对应上面的例子，就是将5号仓库的货物及时移动到新腾出的4号仓库，这样，1-4号仓库都是满的，而5、6号仓库则形成了有效的、连续的空间，能够适应新的应用要求了；对于内存中的外部碎片，我们内存管理中常用的页面管理形式，就是为了解决这个问题的。这里就不详述了。</p>
+</li>
+<li><p><strong>内部碎片</strong>：<br>是由于存量信息容量与最小存储空间单位不完全相符而造成的空间碎片。还是沿用上面的例子，这次我们的6间仓库目前都是空置的，但是假设我们管理仓库的最小空间单位是间，今天运来了容量为2.5间仓库的货物，那也要占用我们1-3号3间仓库，尽管3号仓库还闲置着一半的空间，但是这半间仓库已经不能再利用了（因为是以间为最小单位么）；这时，我们的仓库中就形成了半间仓库的空间碎片，仓库的有效容量只剩下3间仓库了。</p>
+</li>
+</ul>
+<p>解决碎片的方法：</p>
+<ul>
+<li><strong>紧缩</strong>（compaction）：移动内存内容，以便所有空闲空间合并成一整块。</li>
+<li><strong>允许物理地址为非连续的</strong>：这样只要有物理内存就可以为进程分配。</li>
+</ul>
+<h3 id="连续内存分配管理"><a href="#连续内存分配管理" class="headerlink" title="连续内存分配管理"></a>连续内存分配管理</h3><h4 id="单一连续分配"><a href="#单一连续分配" class="headerlink" title="单一连续分配"></a>单一连续分配</h4><p>在单一连续分配方式中，内存被分为系统区和用户区。系统区通常位于内存的低地址部分，用于存放操作系统相关数据；用户区用于存放进程相关数据。</p>
+<p><strong>内存中只能有一道用户程序，</strong>用户程序独占整个用户区空间（即不支持并发）</p>
+<p>优点：实现简单；<strong>无外部碎片</strong>；可以采用覆盖技术扩充内存；不一定需要内存保护。</p>
+<p>缺点：只能用于单用户单任务的操作系统当中，有<strong>内部碎片（比如分配给某个进程一片内存，但是却有部分没有用上，这部分就叫做内存碎片）</strong>，存储器利用率极低。因为比如整个内存区都是分配给这一个用户进程，可是它却只使用了一小部分，所以存储器利用率极低。</p>
+<p><img src="/2020/12/25/Memory-Management/2.png"></p>
+<h4 id="固定分区分配"><a href="#固定分区分配" class="headerlink" title="固定分区分配"></a>固定分区分配</h4><p>将整个用户空间划分为<strong>若干个固定大小的分区</strong>，在<strong>每个分区中只装入一道作业</strong></p>
+<ul>
+<li><strong>分区大小相等</strong>：缺乏灵活性，但是很适合用于一台计算机控制多个相同对象的场合</li>
+<li><strong>分区大小不等</strong>：增加了灵活性，可以满足不同大小的进程需求。根据常在系统中运行的作业大小情况进行划分（比如多个小分区、适量中等分区、大量大分区）</li>
+</ul>
+<p>优点：实现简单，<strong>无外部碎片</strong>。</p>
+<p>缺点：</p>
+<ul>
+<li>当用户程序太大时，可能所有分区都不能满足需求，此时不得不采用覆盖技术来解决，但这又会降低性能</li>
+<li>会产生内部碎片，内存利用率低。（比如进程需要10M内存，这里合适的只有12M内存，那么那2M内存只能浪费了）</li>
+</ul>
+<p>此时需要一个分区表来记录内存分区的分配：</p>
+<table>
+<thead>
+<tr>
+<th align="center">分区号</th>
+<th align="center">大小</th>
+<th align="center">起始地址</th>
+<th align="center">状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">2MB</td>
+<td align="center">0</td>
+<td align="center">已分配</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">8MB</td>
+<td align="center">2</td>
+<td align="center">已分配</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">8MB</td>
+<td align="center">10</td>
+<td align="center">未分配</td>
+</tr>
+</tbody></table>
+<h4 id="动态分区分配"><a href="#动态分区分配" class="headerlink" title="动态分区分配"></a>动态分区分配</h4><p><strong>动态分区分配不会预先划分内存分区</strong>，而是在进程装入内存时，<strong>根据进程大小动态地建立分区</strong>，并使分区的大小正好合适进程的需要。因此系统分区的大小和数目是可变的。</p>
+<p><img src="/2020/12/25/Memory-Management/3.png"></p>
+<p>显然的是，动态分区分配<strong>没有内部碎片</strong>，但是<strong>有外部碎片</strong>。</p>
+<p>动态分区分配的四种分配算法：（晚上回去再补充）</p>
+<ul>
+<li>首次适应算法(First in)：</li>
+<li>最佳适应算法：</li>
+<li>最坏适应算法：</li>
+</ul>
+<h3 id="非连续分配方法"><a href="#非连续分配方法" class="headerlink" title="非连续分配方法"></a>非连续分配方法</h3><h4 id="一个简单的引语"><a href="#一个简单的引语" class="headerlink" title="一个简单的引语"></a>一个简单的引语</h4><p>假设进程A大小为<code>23MB</code>，但是每个分区大小只有<code>10MB</code>，如果进程只能占用一个分区，那显然放不下。</p>
+<p>解决：如果允许进程占用多个分区，那么可以把进程拆分成<code>10MB+10MB+3MB</code>三个部分，再把这三个部分分别放到三个分区中(这些分区不要求连续）。</p>
+<p>存在的问题：进程A的最后一个部分是<code>3MB</code>，放入分区后会产生<code>7MB</code>的内部碎片。</p>
+<p>思考：如果每个分区大小为<code>2MB</code>，那么进程A可以拆分成<code>11* 2MB +1MB</code>共12个部分，只有最后一部分<code>1MB</code>占不满分区，会产生<code>1MB</code>的内部碎片。显然，如果把分区大小设置的更小一些，内部碎片会更小，内存利用率会更高。</p>
+<h4 id="基本分段储存方法"><a href="#基本分段储存方法" class="headerlink" title="基本分段储存方法"></a>基本分段储存方法</h4><ul>
+<li><p>将<strong>进程的地址空间</strong>按照程序<strong>自身的逻辑关系</strong>划分为<strong>若干个段</strong>，每个段都有一个段名，<strong>每段从0开始编址</strong></p>
+</li>
+<li><p>以段为单位进行分配，<strong>每个段在内存中占据连续空间，但各段之间可以不相邻。</strong></p>
+</li>
+</ul>
+<p><img src="/2020/12/25/Memory-Management/4.jpg"></p>
+<p>分段系统的逻辑地址结构由段号（段名）和段内地址（段内偏移量）所组成：</p>
+<ul>
+<li><p><strong>段号的位数决定了每个进程最多可以分多少个段。</strong></p>
+</li>
+<li><p><strong>段内地址位数决定了每个段的最大长度是多少。</strong></p>
+</li>
+</ul>
+<p>为了保证程序能正常运行，就必须从物理内存中找到各个逻辑段的存放位置，为此，需要为每个进程建立一张段映射表，简称“<strong>段表</strong>”。</p>
+<p><img src="/2020/12/25/Memory-Management/6.jpg"></p>
+<p><img src="/2020/12/25/Memory-Management/5.jpg"></p>
+<h4 id="基本分页储存方法"><a href="#基本分页储存方法" class="headerlink" title="基本分页储存方法"></a>基本分页储存方法</h4><p>将进程分成多个4KB大小的区域，装入内存中的空闲的页中。与分段相比，分页把内存储存空间也化成一块一块的，能避免外部碎片的产生（显然内部碎片不可避免）。</p>
+<p><img src="/2020/12/25/Memory-Management/7.jpg"></p>
+<p>各个页面不必连续存放，也不必按先后顺序来，可以放到不相邻的页框中。</p>
+<p><img src="/2020/12/25/Memory-Management/8.jpg"></p>
+<ul>
+<li>一个进程对应一张页表。</li>
+<li>进程的每一页对应一个页表项。</li>
+<li>每一个页表项由“页号”和“块号”组成</li>
+<li>页表记录进程页面和实际存放的内存块之间的对应关系。</li>
+</ul>
+<h3 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h3><p><strong>时间局部性</strong>：如果执行了程序中的某条指令，那么<strong>不久后</strong>这条指令很有可能再次被执行；如果某个数据被访问过，不就之后该数据很有可能再次被访问。（因为程序中存在大量的循环）</p>
+<p><strong>空间局部性</strong>：一旦程序访问了某个存户单元，在不久之后，其<strong>附近</strong>的存储单元也很有可能被访问。（因为很多数据在内存中都是连续存放的）。</p>
+<h3 id="分段和分页的对比"><a href="#分段和分页的对比" class="headerlink" title="分段和分页的对比"></a>分段和分页的对比</h3><ul>
+<li><p><strong>页</strong>是<strong>信息的物理单位</strong>，分页的主要目的是为了实现离散分配，提高内存利用率。分页仅仅是系统管理上的需要，完全是系统的行为，<strong>对用户是不可见的</strong>。</p>
+</li>
+<li><p><strong>段</strong>是<strong>信息的逻辑单位</strong>。分段的主要目的是更好地满足用户需求。一个段通常包含一组属于一个逻辑模块的信息。<strong>分段对用户是可见的</strong>，用户编程时需要显式地给出段名。</p>
+</li>
+<li><p>页的大小固定且由系统决定。段的长度却不固定，决定于用户编写的程序。</p>
+</li>
+<li><p><strong>分页</strong>的用户进程<strong>地址空间是一维</strong>的，程序员只需要给出一个记忆符即可表示一个地址。</p>
+</li>
+<li><p><strong>分段</strong>的用户进程<strong>地址空间是二维</strong>的，程序员在标识一个地址时，既要给出段名，也要给出段内地址。</p>
+</li>
+<li><p><strong>分段</strong>比分页<strong>更容易实现信息的共享和保护</strong>。理解这个的关键在于，分段的话可以直接指示哪个段是可共享的，那么其它进程要共享此段只需要在段表中加个指向即可。而分页是固定大小，不够灵活，这样就会导致可共享和不可共享的的代码在同一页面内，那么由于此页面有不可共享代码，所以不能使此页面共享。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/25/Memory-Management/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Tarjjan算法详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -803,84 +999,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/12/06/ds-week10/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-os读书笔记7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/">os读书笔记7</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/" class="archive-article-date">
-  	<time datetime="2020-12-04T11:28:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="第八章-内存管理策略"><a href="#第八章-内存管理策略" class="headerlink" title="第八章 内存管理策略"></a>第八章 内存管理策略</h1><ul>
-<li>详细描述内存硬件的各种组织方法</li>
-<li>探讨进程内存分配的各种技术</li>
-<li>详细讨论现代计算机系统的分页如何工作</li>
-</ul>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">operating system</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/04/os%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B07/">展开全文 >></a>
         </p>
       
 
