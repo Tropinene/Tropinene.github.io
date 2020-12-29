@@ -22,11 +22,12 @@
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/4.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/6.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/5.jpg">
+<meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/10.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/7.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/8.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/9.png">
 <meta property="article:published_time" content="2020-12-25T00:43:37.000Z">
-<meta property="article:modified_time" content="2020-12-26T03:06:25.039Z">
+<meta property="article:modified_time" content="2020-12-29T04:38:35.610Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="operating system">
 <meta name="twitter:card" content="summary">
@@ -288,6 +289,8 @@
 <p><img src="/2020/12/25/Memory-Management/6.jpg"></p>
 <p><img src="/2020/12/25/Memory-Management/5.jpg"></p>
 <p><strong>基本分页储存方法：</strong></p>
+<p>分页 (paging) 内存管理方案允许进程的<strong>物理地址空间</strong>可以是<strong>非连续</strong>的，让逻辑地址连续。所以分页的重要特点是<strong>用户视角的内存和实际的物理内存的分离</strong>。用户程序将内存作为一整块来处理，而且它只包括这一个进程。事实上，一个用户程序与其他程序一起，分布在物理内存上。</p>
+<p><img src="/2020/12/25/Memory-Management/10.jpg"></p>
 <p>将进程分成多个4KB大小的区域，装入内存中的空闲的页中。与分段相比，分页把内存储存空间也化成一块一块的，能避免外部碎片的产生（显然内部碎片不可避免）。</p>
 <p><img src="/2020/12/25/Memory-Management/7.jpg"></p>
 <p>各个页面不必连续存放，也不必按先后顺序来，可以放到不相邻的页框中。</p>
@@ -441,7 +444,7 @@
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          bonus
+          ds-Bonus
         
       </div>
     </a>
