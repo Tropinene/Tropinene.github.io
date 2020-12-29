@@ -25,9 +25,10 @@
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/10.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/7.jpg">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/8.jpg">
+<meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/11.png">
 <meta property="og:image" content="http://example.com/2020/12/25/Memory-Management/9.png">
 <meta property="article:published_time" content="2020-12-25T00:43:37.000Z">
-<meta property="article:modified_time" content="2020-12-29T04:38:35.610Z">
+<meta property="article:modified_time" content="2020-12-29T05:07:40.670Z">
 <meta property="article:author" content="崖鸥">
 <meta property="article:tag" content="operating system">
 <meta name="twitter:card" content="summary">
@@ -301,25 +302,21 @@
 <li>每一个页表项由“页号”和“块号”组成</li>
 <li>页表记录进程页面和实际存放的内存块之间的对应关系。</li>
 </ul>
+<p><img src="/2020/12/25/Memory-Management/11.png"></p>
 <h3 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h3><p><strong>时间局部性</strong>：如果执行了程序中的某条指令，那么<strong>不久后</strong>这条指令很有可能再次被执行；如果某个数据被访问过，不就之后该数据很有可能再次被访问。（因为程序中存在大量的循环）</p>
 <p><strong>空间局部性</strong>：一旦程序访问了某个存户单元，在不久之后，其<strong>附近</strong>的存储单元也很有可能被访问。（因为很多数据在内存中都是连续存放的）。</p>
 <h3 id="分段和分页的对比"><a href="#分段和分页的对比" class="headerlink" title="分段和分页的对比"></a>分段和分页的对比</h3><ul>
-<li><p><strong>页</strong>是<strong>信息的物理单位</strong>，分页的主要目的是为了实现离散分配，提高内存利用率。分页仅仅是系统管理上的需要，完全是系统的行为，<strong>对用户是不可见的</strong>。</p>
-</li>
-<li><p><strong>段</strong>是<strong>信息的逻辑单位</strong>。分段的主要目的是更好地满足用户需求。一个段通常包含一组属于一个逻辑模块的信息。<strong>分段对用户是可见的</strong>，用户编程时需要显式地给出段名。</p>
-</li>
-<li><p>页的大小固定且由系统决定。段的长度却不固定，决定于用户编写的程序。</p>
-</li>
-<li><p><strong>分页</strong>的用户进程<strong>地址空间是一维</strong>的，程序员只需要给出一个记忆符即可表示一个地址。</p>
-</li>
-<li><p><strong>分段</strong>的用户进程<strong>地址空间是二维</strong>的，程序员在标识一个地址时，既要给出段名，也要给出段内地址。</p>
-</li>
-<li><p><strong>分段</strong>比分页<strong>更容易实现信息的共享和保护</strong>。理解这个的关键在于，分段的话可以直接指示哪个段是可共享的，那么其它进程要共享此段只需要在段表中加个指向即可。而分页是固定大小，不够灵活，这样就会导致可共享和不可共享的的代码在同一页面内，那么由于此页面有不可共享代码，所以不能使此页面共享。</p>
-</li>
+<li><strong>页</strong>是<strong>信息的物理单位</strong>，分页的主要目的是为了实现离散分配，提高内存利用率。分页仅仅是系统管理上的需要，完全是系统的行为，<strong>对用户是不可见的</strong>。</li>
+<li><strong>段</strong>是<strong>信息的逻辑单位</strong>。分段的主要目的是更好地满足用户需求。一个段通常包含一组属于一个逻辑模块的信息。<strong>分段对用户是可见的</strong>，用户编程时需要显式地给出段名。</li>
+<li>分页是出于系统管理的需要，分段是出于用户应用的需要。因此，一条指令或一个操作数可能会跨越两个页的分界处，而不会跨越两个段的分界处。</li>
+<li>页的大小固定且由系统决定。段的长度却不固定，决定于用户编写的程序。</li>
+<li><strong>分页</strong>的用户进程<strong>地址空间是一维</strong>的，程序员只需要给出一个记忆符即可表示一个地址。</li>
+<li><strong>分段</strong>的用户进程<strong>地址空间是二维</strong>的，程序员在标识一个地址时，既要给出段名，也要给出段内地址。</li>
+<li><strong>分段</strong>比分页<strong>更容易实现信息的共享和保护</strong>。理解这个的关键在于，分段的话可以直接指示哪个段是可共享的，那么其它进程要共享此段只需要在段表中加个指向即可。而分页是固定大小，不够灵活，这样就会导致可共享和不可共享的的代码在同一页面内，那么由于此页面有不可共享代码，所以不能使此页面共享。</li>
 </ul>
 <h3 id="TLB的引入"><a href="#TLB的引入" class="headerlink" title="TLB的引入"></a>TLB的引入</h3><p>​        CPU执行指令时，直接访问的是虚拟地址，若想获取到内存的真实数据时，需要先将虚拟地址转化为物理地址，然后由CPU访问物理地址指向的内存空间，读取内存数据。</p>
 <p><img src="/2020/12/25/Memory-Management/9.png"></p>
-<p>​        可以看出，二级页表想要获得物理地址需要对内存进行两次访问，这个开销是十分巨大的。于是我们引入TLB（translation lookaside buffer）来减少多级页表对内存的访问。对TLB的介绍如下：</p>
+<p>​        按照给定逻辑地址进行读写操作时，至少访问两次主存：一次访问页面，另一个根据物理地址访问指令或数据。这样，内存访问的速度就减半。在绝大多数情况下，这种延迟是无法忍受的。<strong>为了提高速度</strong>，对这一问题的解决方案是设置了小但专用且快速的硬件缓冲，这种缓冲称为转换表缓冲区( translation look-aside buffer, TLB )。TLB是关联的快速内存。 TLB 条目由两部分组成：键(标签)和值。当关联内存根据给定值查找时，它会同时与所有键进行比较。如果找到条目，那么就得到相应的值域。这种查找方式比较快，不过硬件也比较昂贵。对TLB的介绍如下：</p>
 <ul>
 <li>TLB是关联的快速内存。TLB条目由两部分组成：键（标签）和值。当关联内存根据给定值查找时，它会同时与所有键进行比较。</li>
 <li>TLB是MMU中的一块高速缓存，其中存储了当前最可能被访问到的页表项，其内容是部分页表项的一个副本。只有在TLB无法完成地址翻译任务时，才会到内存中查询页表，执行Translation Table Walk，这样就减少了页表查询导致的处理器性能下降。</li>
@@ -336,6 +333,12 @@
 <h3 id="ASID的引入与作用"><a href="#ASID的引入与作用" class="headerlink" title="ASID的引入与作用"></a>ASID的引入与作用</h3><p>有的TLB在每个TLB条目中还保存地址空间标识码（address-space identifier，ASID）。</p>
 <p>ASID可用来<strong>唯一标识进程</strong>，并为进程<strong>提供地址空间保护</strong>。当TLB试图解析虚拟页号时，它确保当前运行进程的ASID与虚拟页相关的ASID相匹配。如果不匹配，那么就作为TLB失效。</p>
 <p>除了提供地址空间保护外，ASID允许TLB同时包含多个进程的条目。如果TLB不支持独立的ASID，每次选择一个页表时（例如，上下文切换时），TLB就必须被冲刷（flushed）或删除，以确保下一个进程不会使用错误的地址转换。</p>
+<h3 id="有效内存访问时间"><a href="#有效内存访问时间" class="headerlink" title="有效内存访问时间"></a>有效内存访问时间</h3><p>​        页号在 TLB 中被查找到的百分比称为命中率<code>a</code>。假如查找TLB需要e单位时间，访问内存需要1单位时间。</p>
+<ul>
+<li>TLB中能找到：<code>1+e</code></li>
+<li>TLB中无法找到：<code>2+e</code></li>
+</ul>
+<p>则，有效访问时间（Effective Access Time）：<code>EAT = （1+e）* a + （2+e）*（1-a）</code></p>
 
       
 
@@ -478,7 +481,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BF%9D%E6%8A%A4"><span class="toc-number">1.</span> <span class="toc-text">内存保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%A2%8E%E7%89%87"><span class="toc-number">2.</span> <span class="toc-text">关于碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">连续内存分配管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">非连续分配方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">局部性原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%92%8C%E5%88%86%E9%A1%B5%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">6.</span> <span class="toc-text">分段和分页的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-number">7.</span> <span class="toc-text">TLB的引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB%E6%9C%BA%E5%88%B6%E4%B8%8B%E7%9A%84%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE"><span class="toc-number">8.</span> <span class="toc-text">TLB机制下的地址访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASID%E7%9A%84%E5%BC%95%E5%85%A5%E4%B8%8E%E4%BD%9C%E7%94%A8"><span class="toc-number">9.</span> <span class="toc-text">ASID的引入与作用</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BF%9D%E6%8A%A4"><span class="toc-number">1.</span> <span class="toc-text">内存保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%A2%8E%E7%89%87"><span class="toc-number">2.</span> <span class="toc-text">关于碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">连续内存分配管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">非连续分配方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">局部性原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%92%8C%E5%88%86%E9%A1%B5%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">6.</span> <span class="toc-text">分段和分页的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-number">7.</span> <span class="toc-text">TLB的引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB%E6%9C%BA%E5%88%B6%E4%B8%8B%E7%9A%84%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE"><span class="toc-number">8.</span> <span class="toc-text">TLB机制下的地址访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASID%E7%9A%84%E5%BC%95%E5%85%A5%E4%B8%8E%E4%BD%9C%E7%94%A8"><span class="toc-number">9.</span> <span class="toc-text">ASID的引入与作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%95%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E6%97%B6%E9%97%B4"><span class="toc-number">10.</span> <span class="toc-text">有效内存访问时间</span></a></li></ol>
                     </div>
                 </span>
             </div>
