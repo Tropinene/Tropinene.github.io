@@ -219,7 +219,7 @@
 <h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>再处理 $p(\theta)$​</p>
 <p>原作者大胆使用了贝叶斯假设，即这个概率分布符合正太分布，且对应的均值是0，协方差矩阵是 $\sum_{\theta}$</p>
 <p><img src="/2021/08/11/BPR%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/10.png" alt="10" style="zoom:50%;"></p>
-<p>我们令 $\sum<em>{\theta} = \lambda</em>\theta I$，那么原先的优化问题就转换为</p>
+<p>我们令 $\sum_{\theta} = \lambda_\theta I$，那么原先的优化问题就转换为</p>
 <p><img src="/2021/08/11/BPR%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/11.png" alt="11" style="zoom: 50%;"></p>
 <p>其中 $\lambda_\theta||\theta||^2$ 就是正则化系数。根据上面提出的BPR-OPT指标，我们采用梯度下降的算法。对BPR-OPT指标求导：</p>
 <p><img src="/2021/08/11/BPR%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/12.png" alt="12"></p>

@@ -367,8 +367,8 @@
 <p>这样计算结果就是：$P(u_k)$ = $\frac{(1000<em>(3.5+0.5) + 30</em>(2.4+0.2))}{1000+30}$​ = 3.96</p>
 <h1 id="两极-Slope-One-方案"><a href="#两极-Slope-One-方案" class="headerlink" title="两极 Slope One 方案"></a>两极 Slope One 方案</h1><p>在上面这个例子我们发现频繁出现的部分对于预测的影响过于强大。我们将使用新的方法把数据集分成两个部分：</p>
 <ul>
-<li>用户喜欢的：$S^{like}(u) = \left{i \in S(u) | u_i &gt; \overline{u}\right}$</li>
-<li>用户不喜欢的：$S^{dislike}(u) = \left{i \in S(u) | u_i &lt; \overline{u}\right}$</li>
+<li>用户喜欢的：$S^{like}(u) = \left\{i \in S(u) | u_i &gt; \overline{u}\right\}$</li>
+<li>用户不喜欢的：$S^{dislike}(u) = \left\{i \in S(u) | u_i &lt; \overline{u}\right\}$</li>
 </ul>
 <p>我们认为，只有两个用户对某物品的评分一致的时候，这个评分才是有效的（两个用户对同一物品的评价都是喜欢或者都是不喜欢的时候）。其实这个时候我们开始简单地考虑了用户之间的相似度（都喜欢或者都不喜欢同一物品可以侧面反映用户的相似度）。</p>
 <p>我们还是以之前的数据集为例：</p>
@@ -436,8 +436,8 @@
 </div>
 <p>对于用户 $A$ 来说:</p>
 <ul>
-<li>$S^{like} = \left{i, m\right}$​</li>
-<li>$S^{dislike} = \left{j, k, l\right}$</li>
+<li>$S^{like} = \left\{i, m\right\}$​</li>
+<li>$S^{dislike} = \left\{j, k, l\right\}$</li>
 </ul>
 <p>所以我们可以把物品的评分合集划分成两个部分：</p>
 <p><img src="/2021/07/27/Slope-One%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/7.png" alt="7"></p>
